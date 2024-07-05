@@ -6,7 +6,7 @@ import svgrPlugin from "vite-plugin-svgr";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), svgrPlugin()],
-  server: {
+  server: { //use when backend connect
     port: 3000,
   },
   resolve: {

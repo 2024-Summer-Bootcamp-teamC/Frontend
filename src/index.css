@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Song+Myung&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-    @apply bg-custom-background bg-cover bg-center min-h-screen;
+    @apply min-h-screen bg-center bg-cover bg-custom-background;
 }
+

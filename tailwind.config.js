@@ -6,6 +6,9 @@ module.exports = {
       backgroundImage: {
         'custom-background': "url('/images/background.png')",
       },
+      fontFamily: {
+        songmyung: ['Song Myung', 'serif'],
+      },
     },
   },
   plugins: [],

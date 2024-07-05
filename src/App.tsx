@@ -7,11 +7,7 @@ import GreatPageRight from './pages/GreatPageRight';
 function App() {
   const [count, setCount] = useState(0);
 
-  return (
-    <>
-      <GreatPageRight />
-    </>
-  );
+  return <></>;
 }
 
 export default App;

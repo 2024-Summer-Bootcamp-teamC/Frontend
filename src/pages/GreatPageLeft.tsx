@@ -8,15 +8,17 @@ import Back from '../assets/images/Back.png';
 const GreatPageLeft: React.FC = () => {
   const [progress, setProgress] = useState<number>(0);
   const [puzzle, setPuzzle] = useState<number>(0);
+  const [key, setKey] = useState<number>(Date.now());
 
   useEffect(() => {
     // 외부 데이터에서 가져온 값
     const totalPieces = 4;
-    const piecesToFill = 3;
+    const piecesToFill = 2;
     // 진행 상태 계산
     const calc = (piecesToFill / totalPieces) * 100;
     setProgress(calc);
     setPuzzle(piecesToFill + 1);
+    setKey(Date.now());
   }, []);
 
   return (
@@ -30,8 +32,9 @@ const GreatPageLeft: React.FC = () => {
             <div style={{ gridColumn: `${puzzle}` }} className="relative">
               <img
                 src={Puzzle}
-                alt="임시 이미지"
-                className="absolute left-[-1.5rem] top-[-4rem] opacity-0 transition-opacity"
+                alt="퍼즐 이미지"
+                key={key}
+                className="absolute left-[-1.5rem] top-[-4rem]  transition-opacity duration-[5000ms] opacity-0"
                 style={{ opacity: 1 }}
               />
             </div>

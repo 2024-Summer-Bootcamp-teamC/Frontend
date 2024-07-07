@@ -41,7 +41,7 @@ const GreatPageLeft: React.FC = () => {
           </div>
           <ProgressBar completed={progress} bgColor="white" height="15px" baseBgColor="#88634A" />
           {/* 프로그레스 바 라벨 */}
-          <div className="flex text-[#88634A] font-songmyung text-[2rem] justify-between mt-4">
+          <div className="flex text-[#88634A] text-[2rem] justify-between mt-4">
             <span>0</span>
             <span>1</span>
             <span>2</span>

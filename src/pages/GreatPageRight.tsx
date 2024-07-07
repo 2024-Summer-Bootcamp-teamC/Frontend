@@ -5,7 +5,7 @@ import VerticalBtn from '../assets/images/GreatPageVerticalBtn.png';
 
 const GreatPageRight = () => {
   return (
-    <div className="flex flex-col items-center font-songmyung">
+    <div className="flex flex-col items-center">
       <button
         className="fixed w-[3%] h-[150px] border-none text-white text-xs text-center bg-cover right-[30rem]"
         style={{ backgroundImage: `url(${VerticalBtn})`, writingMode: 'vertical-lr' }}

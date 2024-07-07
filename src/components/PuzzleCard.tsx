@@ -5,15 +5,24 @@ import BlueBtn from '../assets/images/PuzzleCardBlueBtn.png';
 
 const PuzzleCard: React.FC = () => {
   return (
-    <div className="flex flex-col items-center justify-center">
-      <h1 className="text-4xl font-bold mb-4">퍼즐 획득!</h1>
-      <div className="relative mb-6">
-        <img src={imageSrc} alt="세종대왕" className="w-48 h-64" />
+    <div className="bg-white bg-opacity-40 w-4/5 mx-auto p-6 rounded-lg shadow-lg">
+      <h1 className="text-5xl text-center">퍼즐획득!</h1>
+      <div className="flex relative mb-6 justify-center">
+        <img src={imageSrc} alt="세종대왕" className="my-10"></img>
       </div>
-      <div className="flex space-x-10">
-        {/* 사진 css 수정하기 */}
-        <button style={{ backgroundImage: `url(${RedBtn})` }}>이어서 풀기</button>
-        <button style={{ backgroundImage: `url(${BlueBtn})` }}>카드 보기</button>
+      <div className="text-center">
+        <button
+          className="mx-4 text-2xl bg-no-repeat bg-center bg-cover text-white font-bold w-52 h-20"
+          style={{ backgroundImage: `url(${RedBtn})` }}
+        >
+          이어서 풀기
+        </button>
+        <button
+          className="mx-4 text-2xl bg-no-repeat bg-center bg-cover text-white font-bold w-52 h-20"
+          style={{ backgroundImage: `url(${BlueBtn})` }}
+        >
+          카드 보러가기
+        </button>
       </div>
     </div>
   );

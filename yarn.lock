@@ -458,6 +458,11 @@
   resolved "https://registry.yarnpkg.com/@pkgjs/parseargs/-/parseargs-0.11.0.tgz#a77ea742fab25775145434eb1d2328cf5013ac33"
   integrity sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==
 
+"@ramonak/react-progress-bar@^5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@ramonak/react-progress-bar/-/react-progress-bar-5.2.0.tgz#30d72850b0f2f5020d59d5bcc94d54f8f2393aec"
+  integrity sha512-hgsn1YSXzDplCVNJ/YiCM0nVbVHKu7+2OHlj3kr2wU9ELPa9A/qj+c+GKGKqzJullsofRJV5yMN/Y/jL9aE4/Q==
+
 "@remix-run/router@1.17.1":
   version "1.17.1"
   resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.17.1.tgz#bf93997beb81863fde042ebd05013a2618471362"
@@ -2348,6 +2353,11 @@ react-dom@^18.3.1:
   dependencies:
     loose-envify "^1.1.0"
     scheduler "^0.23.2"
+
+react-progress-bar@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/react-progress-bar/-/react-progress-bar-0.1.0.tgz#9f85c3b2a66f145256415793fc4e1c004d6a205e"
+  integrity sha512-ZlZE+6PsIAeI6KjPJ4M2YMkByqLpTvw3Nqi+6izISDzl2++laeCIYKUaOtgMa7WpG+uXDvBjV5blt61P3LPvZQ==
 
 react-refresh@^0.14.2:
   version "0.14.2"

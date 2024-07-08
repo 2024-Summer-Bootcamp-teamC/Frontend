@@ -5,7 +5,7 @@ import BlueTapeRow from '../assets/images/BlueTapeRow.png';
 const DetailModal: React.FC = () => {
   return (
     <div className="w-[100%] h-[100%] flex justify-center items-center">
-      <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-20 backdrop-blur-sm" />
+      <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-40 backdrop-blur-sm" />
       <div
         className="w-[30%] h-[700px] bg-no-repeat bg-cover relative"
         style={{ backgroundImage: `url(${BiographyBg})` }}

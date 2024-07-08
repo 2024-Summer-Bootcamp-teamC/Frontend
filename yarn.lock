@@ -1718,6 +1718,21 @@ hasown@^2.0.0, hasown@^2.0.1, hasown@^2.0.2:
   dependencies:
     function-bind "^1.1.2"
 
+highcharts-drilldown@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/highcharts-drilldown/-/highcharts-drilldown-0.1.7.tgz#49fe6238b8ae1671e038d6071ccf3344fbb89d27"
+  integrity sha512-eM6bqYLyJ97OrdBQcBOE4PabKAfqHgOVmE7eDd6HW5q9WmIuNJdLQEKA/nja7mPm/FKLpSRsCIRKTaI1YOeA3g==
+
+highcharts-react-official@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/highcharts-react-official/-/highcharts-react-official-3.2.1.tgz#4b62a7af2969bdebde6b338d36f6b9bf1f1029bc"
+  integrity sha512-hyQTX7ezCxl7JqumaWiGsroGWalzh24GedQIgO3vJbkGOZ6ySRAltIYjfxhrq4HszJOySZegotEF7v+haQ75UA==
+
+highcharts@^11.4.5:
+  version "11.4.5"
+  resolved "https://registry.yarnpkg.com/highcharts/-/highcharts-11.4.5.tgz#a46dd1f54d093f31f0ea631207ff329fd61abbcb"
+  integrity sha512-jUkojddxLFhyfZ+naLsRtYv/NjXEptcZ0/8bqSSS2aoz9sU80rb4LBJlYfyRFHBGw5sMkUqeaXsv66J49O8n7A==
+
 ignore@^5.2.0, ignore@^5.3.1:
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.3.1.tgz#5073e554cd42c5b33b394375f538b8593e34d4ef"

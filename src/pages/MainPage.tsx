@@ -1,18 +1,12 @@
 import React from 'react';
-import '../index.css'; // Tailwind CSS가 적용된 CSS 파일
 import BookImage from '../assets/Book.png'; // 책 이미지 경로 설정
 import BookmarkImage from '../assets/Bookmark.png'; // 북마크 이미지 경로 설정
-import Bg from '../assets/Bg.png'; // 배경 이미지 경로 설정
 
 const MainPage: React.FC = () => {
   const currentYear = new Date().getFullYear(); 
   const years = Array.from({ length: currentYear - 1999 + 1 }, (_, i) => 1999 + i);
 
   return (
-    <div
-      className="flex items-center justify-center h-screen bg-gray-100"
-      style={{ backgroundImage: `url(${Bg})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' }}
-    >
       <div className="flex items-center">
         {/* 왼쪽 컨텐츠 */}
         <div className="w-5/6 pr-24 text-center">
@@ -49,7 +43,6 @@ const MainPage: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 

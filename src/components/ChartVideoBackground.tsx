@@ -2,7 +2,7 @@ import React from 'react';
 import BlueTape from '../assets/images/BlueTape.png';
 import ChartVideoBg from '../assets/images/ChartVideoBg.png';
 
-const ChartVideoBackground = () => {
+const ChartVideoBackground: React.FC = () => {
   return (
     <div
       className="w-[80%] h-[700px] bg-no-repeat bg-cover relative"

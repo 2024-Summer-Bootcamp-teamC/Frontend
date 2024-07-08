@@ -1,12 +1,14 @@
 // src/App.tsx
 import React from 'react';
 import './index.css';
-import GreatChatPageRight from './pages/GreatChatPageRight';
+import NavBar from './components/NavBar';
+import GreatPage from './pages/GreatPage';
 
 const App: React.FC = () => {
   return (
-    <div className="flex items-center justify-center min-h-screen font-songmyung">
-      <GreatChatPageRight></GreatChatPageRight>
+    <div className="flex flex-col items-center justify-center min-h-screen font-songmyung">
+      <NavBar />
+      <div className="content"> main 입니당 ~?? </div>
     </div>
   );
 };

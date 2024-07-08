@@ -4,11 +4,7 @@ import './index.css';
 import ChartVideoBackground from './components/ChartVideoBackground';
 
 const App: React.FC = () => {
-  return (
-    <div className="flex items-center justify-center min-h-screen font-songmyung">
-      <ChartVideoBackground />
-    </div>
-  );
+  return <div className="flex items-center justify-center min-h-screen font-songmyung"></div>;
 };
 
 export default App;

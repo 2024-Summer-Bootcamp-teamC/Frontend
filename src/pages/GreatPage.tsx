@@ -1,10 +1,10 @@
 import React from 'react';
-import CardFrontImage from "../assets/images/CardFrontImage.png";
 import CardFront from "../components/CardFront";
+import CardBack from '../components/CardBack';
 
 const GreatPage: React.FC = () => {
     return (
-        <CardFront />
+        <CardBack />
     );
 };
 

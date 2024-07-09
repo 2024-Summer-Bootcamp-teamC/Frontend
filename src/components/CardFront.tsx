@@ -20,7 +20,7 @@ const CardFront: React.FC = () => {
                 <img 
                     className="w-[154.336px] h-[200.652px] object-cover rounded-lg"
                     src={Rectangle} 
-                    alt='Front Of Card' 
+                    alt='Great Card' 
                 />
             </div>
             <div className="absolute flex flex-col items-center text-black transform rotate-180 bottom-4 right-4"> {/* transform rotation으로 회전! */}

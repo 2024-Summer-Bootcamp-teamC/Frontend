@@ -7,8 +7,8 @@ const NavBar: React.FC = () => {
     }
 
     return (
-        <div className="fixed left-0 right-0 top-14 " style={{ width: 'full', height: '1px' }}> {/* 헤더 프레임 설정 */}
-            <nav className="border-b border-black"> {/* 네비게이션 바 하단에 선추가*/}
+        <div className="fixed left-0 right-0 top-14 " style={{ width: 'full', height: '1px' }}> {/* 헤더 프레임 */}
+            <nav className="border-b border-black">
                 <div className ="container mx-auto">
                         <div className="fixed top-2 left-6 flex items-center gap-2.5" onClick={handleClick}>
                             <img src={Pin} alt="PinImage" />

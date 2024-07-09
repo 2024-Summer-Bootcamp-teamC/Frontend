@@ -23,8 +23,9 @@ const GreatPageLeft: React.FC = () => {
 
   return (
     <>
-      <img src={Clip} className="fixed left-[13rem] top-[5rem]" alt="클립 이미지" />
       <div className="flex flex-col items-center justify-center w-[80%]">
+      {/* <img src={Clip} className="fixed left-[5em] top-[-2rem]" alt="클립 이미지" /> */}
+
         <img src={TmpImg} className="mb-[6rem] w-[40%]" alt="임시 이미지" />
         <div className="w-[80%]">
           {/* 프로그레스 바 */}

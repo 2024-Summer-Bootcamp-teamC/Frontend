@@ -10,14 +10,14 @@ const GreatChatPageLeft: React.FC = () => {
   const puzzleCount = 2;
   return (
     <>
-      <img src={Clip} className="fixed left-[13rem] top-[5rem]" alt="클립 이미지" />
+      {/* <img src={Clip} className="fixed left-[13rem] top-[5rem]" alt="클립 이미지" /> */}
       <div className="flex flex-col items-center justify-center w-[80%]">
         <div className="flex">
           {[...Array(4)].map((_, index) => (
             <img
               key={index}
               src={index < puzzleCount ? FilledPuzzle : EmptyPuzzle}
-              className="mb-24 mx-1 w-10 h-10"
+              className="w-10 h-10 mx-1 mb-24"
               alt="퍼즐 조각"
             />
           ))}

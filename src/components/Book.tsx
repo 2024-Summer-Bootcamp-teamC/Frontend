@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import FlipPage from 'react-flip-page';
 
 import Bg from '../assets/images/BookBg.png'; // 배경 이미지 경로 설정
@@ -8,9 +8,26 @@ import LeftPage from '../assets/images/BookLeftBg.png'; // 왼쪽 페이지 배�
 import RightPage from '../assets/images/BookRightBg.png'; // 오른쪽 페이지 배경 이미지 경로 설정
 
 const Book: React.FC = () => {
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+
+  useEffect(() => {
+    const updateDimensions = () => {
+      const width = window.innerWidth * 0.8; // 70vw
+      const height = window.innerHeight * 0.78; // 60vh
+      setDimensions({ width, height });
+    };
+
+    window.addEventListener('resize', updateDimensions);
+    updateDimensions();
+
+    return () => {
+      window.removeEventListener('resize', updateDimensions);
+    };
+  }, []);
+
   return (
     <div
-      className="flex items-center justify-center w-[80%] h-[800px]"
+      className="flex items-center justify-center w-[82vw] h-[100vh] mt-10"
       style={{
         backgroundImage: `url(${Bg})`,
         backgroundSize: 'contain', // 이미지가 컨테이너에 맞게 조절
@@ -19,7 +36,12 @@ const Book: React.FC = () => {
       }}
     >
       <div className="overflow-hidden rounded-lg ">
-        <FlipPage width={1350} height={730} orientation="horizontal" className="bg-white rounded-lg">
+        <FlipPage
+          width={dimensions.width}
+          height={dimensions.height}
+          orientation="horizontal"
+          className="bg-white rounded-lg"
+        >
           {/* 표지 페이지 */}
           <article
             className="flex items-center justify-center w-full h-full bg-center bg-cover rounded-lg"

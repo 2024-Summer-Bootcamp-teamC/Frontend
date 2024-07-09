@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import FlipPage from 'react-flip-page';
-
 import Bg from '../assets/images/BookBg.png'; // 배경 이미지 경로 설정
 import CoverPage from '../assets/Book.png'; // 표지 이미지 경로 설정
 import Page from '../assets/images/PageBg.png';
-import LeftPage from '../assets/images/BookLeftBg.png'; // 왼쪽 페이지 배경 이미지 경로 설정
-import RightPage from '../assets/images/BookRightBg.png'; // 오른쪽 페이지 배경 이미지 경로 설정
 
 const Book: React.FC = () => {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const flipPageRef = useRef<any>(null);
+  const [currentPage, setCurrentPage] = useState<number>(0); // 현재 페이지 인덱스
 
   useEffect(() => {
     const updateDimensions = () => {
-      const width = window.innerWidth * 0.8; // 70vw
-      const height = window.innerHeight * 0.78; // 60vh
+      const width = window.innerWidth * 0.8; // 80vw
+      const height = window.innerHeight * 0.78; // 78vh
       setDimensions({ width, height });
     };
 
@@ -25,6 +24,45 @@ const Book: React.FC = () => {
     };
   }, []);
 
+  const nextPage = () => {
+    if (flipPageRef.current && flipPageRef.current.gotoNextPage) {
+      flipPageRef.current.gotoNextPage();
+      setCurrentPage((prev) => prev + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (flipPageRef.current && flipPageRef.current.gotoPreviousPage) {
+      flipPageRef.current.gotoPreviousPage();
+      setCurrentPage((prev) => prev - 1);
+    }
+  };
+
+  const goPage = (pageIndex: number) => {
+    if (flipPageRef.current) {
+      const currentIndex = flipPageRef.current.state.page;
+
+      if (pageIndex > currentIndex) {
+        for (let i = currentIndex; i < pageIndex; i++) {
+          setTimeout(() => {
+            flipPageRef.current.gotoNextPage();
+            setCurrentPage((prev) => prev + 1);
+          }, i * 300); // 1초마다 페이지 넘기기 (예: i * 1000)
+        }
+      } else if (pageIndex < currentIndex) {
+        for (let i = currentIndex; i > pageIndex; i--) {
+          setTimeout(
+            () => {
+              flipPageRef.current.gotoPreviousPage();
+              setCurrentPage((prev) => prev - 1);
+            },
+            (currentIndex - i) * 300,
+          ); // 1초마다 페이지 넘기기 (예: (currentIndex - i) * 1000)
+        }
+      }
+    }
+  };
+
   return (
     <div
       className="flex items-center justify-center w-[82vw] h-[100vh] mt-10"
@@ -35,8 +73,9 @@ const Book: React.FC = () => {
         backgroundPosition: 'center',
       }}
     >
-      <div className="overflow-hidden rounded-lg ">
+      <div className="overflow-hidden rounded-lg">
         <FlipPage
+          ref={flipPageRef}
           width={dimensions.width}
           height={dimensions.height}
           orientation="horizontal"
@@ -78,6 +117,14 @@ const Book: React.FC = () => {
             <h1 className="text-white">네 번째 페이지</h1>
           </article>
         </FlipPage>
+      </div>
+      <div className="fixed flex flex-col top-[10rem] left-[5%] text-[1.2rem]">
+        <button onClick={() => goPage(4)} className="bg-red-400">
+          4페이지로
+        </button>
+        <button onClick={() => goPage(1)} className="mt-3 bg-blue-400">
+          1페이지로
+        </button>
       </div>
     </div>
   );

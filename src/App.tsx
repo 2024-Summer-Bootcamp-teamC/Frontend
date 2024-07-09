@@ -7,9 +7,7 @@ import Book from './components/Book';
 const App: React.FC = () => {
   return (
     <div className="flex items-center justify-center min-h-screen font-songmyung">
-      <div className="App">
-        <NavBar />
-      </div>
+      <NavBar />
       <Book />
     </div>
   );

@@ -601,6 +601,11 @@
   resolved "https://registry.yarnpkg.com/@types/openlayers/-/openlayers-4.6.23.tgz#583fba48d304ecdcc06fad311b8b511fdb83bdee"
   integrity sha512-7jCPIa4D4LV03Rttae1AEqvkIN0+nc6Snz4IgA/IjsJD5O3ONxpscqIOdp1qAGuAsikR/ZC9vrPF9np8JRc6ig==
 
+"@types/page-flip@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@types/page-flip/-/page-flip-2.0.3.tgz#c4ef5a70c914ccec2938e69d4dca11d8f2b3cdb4"
+  integrity sha512-3scLJ0AqpEtp7JWkmRjkwFTR+4O5cy9imX8K12+t5p8HVfFCN2GUhGDT+yqOV5lqcMkST2qgwzWF25GYp1Sf5A==
+
 "@types/prop-types@*":
   version "15.7.12"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.12.tgz#12bb1e2be27293c1406acb6af1c3f3a1481d98c6"
@@ -2380,6 +2385,11 @@ package-json-from-dist@^1.0.0:
   resolved "https://registry.yarnpkg.com/package-json-from-dist/-/package-json-from-dist-1.0.0.tgz#e501cd3094b278495eb4258d4c9f6d5ac3019f00"
   integrity sha512-dATvCeZN/8wQsGywez1mzHtTlP22H8OEfPrVMLNr4/eGa+ijtLn/6M5f0dY8UKNrC2O9UCU6SSoG3qRKnt7STw==
 
+page-flip@^2.0.7, page-flip@latest:
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/page-flip/-/page-flip-2.0.7.tgz#b6eaf9dac78fd1dceeb7cb4d0e2eeb203591ea1e"
+  integrity sha512-96lQFUUz7r/LZzEUZJ3yBIMEKU9+m8HMFDzTvTdD6P7Ag/wXINjp9n0W7b4wanwnDbQETo4uNUoL3zMqpFxwGA==
+
 pako@^2.0.4:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/pako/-/pako-2.1.0.tgz#266cc37f98c7d883545d11335c00fbd4062c9a86"
@@ -2526,7 +2536,7 @@ prettier@^3.3.2:
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.3.2.tgz#03ff86dc7c835f2d2559ee76876a3914cec4a90a"
   integrity sha512-rAVeHYMcv8ATV5d508CFdn+8/pHPpXeIid1DdrPwXnaAdH7cqjVbpJaT5eq4yRAFU/lsbwYwSF/n5iNrdJHPQA==
 
-prop-types@^15.8.1:
+prop-types@^15.6.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -2572,6 +2582,16 @@ rbush@^3.0.1:
   dependencies:
     quickselect "^2.0.0"
 
+react-dom@^16.8.4:
+  version "16.14.0"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.14.0.tgz#7ad838ec29a777fb3c75c3a190f661cf92ab8b89"
+  integrity sha512-1gCeQXDLoIqMgqD3IO2Ah9bnf0w9kzhwN5q4FGnHZ67hBm9yePzB5JJAIQCc8x3pFnNlwFq4RidZggNAAkzWWw==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.2"
+    scheduler "^0.19.1"
+
 react-dom@^18.3.1:
   version "18.3.1"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.3.1.tgz#c2265d79511b57d479b3dd3fdfa51536494c5cb4"
@@ -2580,10 +2600,26 @@ react-dom@^18.3.1:
     loose-envify "^1.1.0"
     scheduler "^0.23.2"
 
+react-flip-page@^1.6.4:
+  version "1.6.4"
+  resolved "https://registry.yarnpkg.com/react-flip-page/-/react-flip-page-1.6.4.tgz#9bf7828299e46122ca2024b945dc14f40fb7b3db"
+  integrity sha512-8FFyFdcVgT1B6nsGB4WewcooTFEz/WHXVHzFdrgN66bD+4njwjwD6b/sL+fkwlou///bNeQsIv7q9rZ5y8Soxg==
+  dependencies:
+    prop-types "^15.6.2"
+    react "^16.8.4"
+    react-dom "^16.8.4"
+
 react-is@^16.13.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
+
+react-pageflip@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/react-pageflip/-/react-pageflip-2.0.3.tgz#b7b8ff3cab77fc749c27f43362a35f7a59aabbbd"
+  integrity sha512-k81mHhRvUM52y8jyzTCh5t4O0lepkLhp+XGSUzq2C3uD+iW99Cv0jfRlqFCjZbD5N3jKkIFr7/3giucoXKDP3Q==
+  dependencies:
+    page-flip latest
 
 react-progress-bar@^0.1.0:
   version "0.1.0"
@@ -2619,6 +2655,15 @@ react-simple-maps@^3.0.0:
     d3-selection "^2.0.0"
     d3-zoom "^2.0.0"
     topojson-client "^3.1.0"
+
+react@^16.8.4:
+  version "16.14.0"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.14.0.tgz#94d776ddd0aaa37da3eda8fc5b6b18a4c9a3114d"
+  integrity sha512-0X2CImDkJGApiAlcf0ODKIneSwBPhqJawOa5wCtKbu7ZECrmS26NvtSILynQ66cgkT/RJ4LidJOc3bUESwmU8g==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.2"
 
 react@^18.3.1:
   version "18.3.1"
@@ -2727,6 +2772,14 @@ safe-regex-test@^1.0.3:
     call-bind "^1.0.6"
     es-errors "^1.3.0"
     is-regex "^1.1.4"
+
+scheduler@^0.19.1:
+  version "0.19.1"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.19.1.tgz#4f3e2ed2c1a7d65681f4c854fa8c5a1ccb40f196"
+  integrity sha512-n/zwRWRYSUj0/3g/otKDRPMh6qv2SYMWNq85IEa8iZyAv8od9zDYpGSnpBEjNgcMNq6Scbu5KfIPxNF72R/2EA==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
 
 scheduler@^0.23.2:
   version "0.23.2"

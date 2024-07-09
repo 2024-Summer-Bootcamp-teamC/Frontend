@@ -3,6 +3,8 @@ import FlipPage from 'react-flip-page';
 import Bg from '../assets/images/BookBg.png'; // 배경 이미지 경로 설정
 import CoverPage from '../assets/Book.png'; // 표지 이미지 경로 설정
 import Page from '../assets/images/PageBg.png';
+import CountryIndex from '../assets/images/CountryIndex.png';
+import FiledIndex from '../assets/images/FiledIndex.png';
 
 const Book: React.FC = () => {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
@@ -65,7 +67,7 @@ const Book: React.FC = () => {
 
   return (
     <div
-      className="flex items-center justify-center w-[82vw] h-[100vh] mt-10"
+      className="flex items-center justify-center w-[82vw] h-[100vh] mt-[3%]"
       style={{
         backgroundImage: `url(${Bg})`,
         backgroundSize: 'contain', // 이미지가 컨테이너에 맞게 조절
@@ -118,11 +120,19 @@ const Book: React.FC = () => {
           </article>
         </FlipPage>
       </div>
-      <div className="fixed flex flex-col top-[10rem] left-[5%] text-[1.2rem]">
-        <button onClick={() => goPage(4)} className="bg-red-400">
+      <div className="fixed flex flex-col top-[10rem] left-[3.4%] text-[1.2rem]">
+        <button
+          onClick={() => goPage(4)}
+          className="w-[7rem] h-[3rem] bg-cover"
+          style={{ backgroundImage: `url(${CountryIndex})` }}
+        >
           4페이지로
         </button>
-        <button onClick={() => goPage(1)} className="mt-3 bg-blue-400">
+        <button
+          onClick={() => goPage(1)}
+          className=" w-[7rem] h-[3rem] mt-3 bg-cover"
+          style={{ backgroundImage: `url(${FiledIndex})` }}
+        >
           1페이지로
         </button>
       </div>

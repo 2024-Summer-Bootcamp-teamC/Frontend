@@ -57,7 +57,7 @@ function Book(props: {}) {
       </div>
 
       <HTMLFlipBook
-        width={1200}
+        width={700}
         height={1350}
         size="stretch"
         minWidth={400}

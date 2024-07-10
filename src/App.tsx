@@ -6,7 +6,7 @@ import Book from './components/Book';
 
 const App: React.FC = () => {
   return (
-    <div className="flex items-center justify-center min-h-screen font-songmyung">
+    <div className="w-full min-h-screen font-songmyung overflow-hidden">
       <NavBar />
       <Book />
     </div>

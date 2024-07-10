@@ -103,7 +103,7 @@ function Book(props: {}) {
           <GreatPageLeft />
         </Page>
         <Page number={4}>
-          <GreatPageRight goToPage={goPage} /> {/* goToPage 함수를 전달 */}
+          <GreatPageRight goPage={goPage} /> {/* goToPage 함수를 전달 */}
         </Page>
         <Page number={5}>
           <GreatChatPageLeft />

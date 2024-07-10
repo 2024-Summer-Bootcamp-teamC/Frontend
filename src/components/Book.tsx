@@ -1,6 +1,12 @@
 import React, { useRef, useState } from 'react';
 import HTMLFlipBook from 'react-pageflip';
 import GreatChatPageRight from '../pages/GreatChatPageRight';
+import GreatPageLeft from '../pages/GreatPageLeft';
+import GreatPageRight from '../pages/GreatPageRight';
+import GreatChatPageLeft from '../pages/GreatChatPageLeft';
+import GreatQuizPageLeft from '../pages/GreatQuizPageLeft';
+import GreatQuizPageRight from '../pages/GreatQuizPageRight';
+import MapPage from '../pages/MapPage';
 import MainPage from '../pages/MainPage';
 
 interface PageCoverProps {
@@ -49,12 +55,14 @@ function Book(props: {}) {
       bookRef.current.pageFlip().flipPrev();
     }
   };
+
   const goPage = (pageNumber: number) => {
     if (bookRef.current) {
       bookRef.current.pageFlip().flip(pageNumber);
       bookRef.current.pageFlip().flipNext();
     }
   };
+
   return (
     <div className="flex flex-col items-center justify-center mt-[100px]">
       <HTMLFlipBook
@@ -74,6 +82,7 @@ function Book(props: {}) {
         autoSize={true}
         maxShadowOpacity={0.5}
         showCover={true}
+        showCover={true}
         mobileScrollSupport={true}
         clickEventForward={true}
         useMouseEvents={false}
@@ -86,14 +95,28 @@ function Book(props: {}) {
         }}
       >
         <PageCover></PageCover>
-        <Page number={1}></Page>
-        <Page number={2}>
-          <div>
-            <GreatChatPageRight />
-          </div>
+        <Page number={1}>
         </Page>
-        <Page number={3}>페이지 내용</Page>
-        <Page number={4}>페이지 내용</Page>
+        <Page number={2}>
+        </Page>
+        <Page number={3}>
+          <GreatPageLeft />
+        </Page>
+        <Page number={4}>
+          <GreatPageRight goToPage={goPage} /> {/* goToPage 함수를 전달 */}
+        </Page>
+        <Page number={5}>
+          <GreatChatPageLeft />
+        </Page>
+        <Page number={6}>
+          <GreatChatPageRight />
+        </Page>
+        <Page number={7}>
+          <GreatQuizPageLeft />
+        </Page>
+        <Page number={8}>
+          <GreatQuizPageRight />
+        </Page>
       </HTMLFlipBook>
 
       {curPage == 0 && (
@@ -117,6 +140,10 @@ function Book(props: {}) {
           </button>
         </div>
       )}
+      <div>
+        <button onClick={prevPage}>이전 페이지</button>
+        <button onClick={nextPage}>다음 페이지</button>
+      </div>
     </div>
   );
 }

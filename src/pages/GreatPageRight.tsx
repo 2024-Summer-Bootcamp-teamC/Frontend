@@ -3,7 +3,11 @@ import RedBtn from '../assets/images/GreatPageRedBtn.png';
 import BlueBtn from '../assets/images/GreatPageBlueBtn.png';
 import VerticalBtn from '../assets/images/GreatPageVerticalBtn.png';
 
-const GreatPageRight = () => {
+interface GreatPageRightProps {
+  goToPage: (pageNumber: number) => void;
+}
+
+const GreatPageRight: React.FC<GreatPageRightProps> = ({ goToPage }) => {
   return (
     <div className="flex flex-col items-center">
       <button
@@ -17,12 +21,14 @@ const GreatPageRight = () => {
       <button
         className="w-1/5 h-15 border-none text-white text-lg text-center leading-[60px] bg-cover mb-5 font-semibold"
         style={{ backgroundImage: `url(${RedBtn})` }}
+        onClick={() => goToPage(5)} // 클릭 시 5페이지로 이동
       >
         대화하기
       </button>
       <button
         className="w-1/5 h-15 border-none text-white text-lg text-center leading-[60px] bg-cover font-semibold"
         style={{ backgroundImage: `url(${BlueBtn})` }}
+        onClick={() => goToPage(7)} // 클릭 시 7페이지로 이동
       >
         퀴즈풀기
       </button>

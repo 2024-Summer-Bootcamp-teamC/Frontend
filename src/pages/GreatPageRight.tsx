@@ -21,14 +21,14 @@ const GreatPageRight: React.FC<GreatPageRightProps> = ({ goPage }) => {
       <button
         className="w-1/5 h-15 border-none text-white text-lg text-center leading-[60px] bg-cover mb-5 font-semibold"
         style={{ backgroundImage: `url(${RedBtn})` }}
-        onClick={() => goPage(5)} 
+        onClick={() => goPage(4)} 
       >
         대화하기
       </button>
       <button
         className="w-1/5 h-15 border-none text-white text-lg text-center leading-[60px] bg-cover font-semibold"
         style={{ backgroundImage: `url(${BlueBtn})` }}
-        onClick={() => goPage(7)} 
+        onClick={() => goPage(6)} 
       >
         퀴즈풀기
       </button>

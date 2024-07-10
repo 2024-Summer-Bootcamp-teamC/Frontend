@@ -4,7 +4,12 @@ import CardBack from '../components/CardBack';
 
 const GreatListPage: React.FC = () => {
     return (
-        <CardBack />
+        <div className='flex flex-row justify-center space-x-1'>
+            <span><CardFront /> </span>
+            <span><CardFront /> </span>
+            <span><CardFront /> </span>
+            <span><CardFront /> </span>
+        </div>
     );
 };
 

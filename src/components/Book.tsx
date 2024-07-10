@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useImperativeHandle, forwardRef } from 'react';
 import HTMLFlipBook from 'react-pageflip';
 import GreatChatPageRight from '../pages/GreatChatPageRight';
 import GreatPageLeft from '../pages/GreatPageLeft';
@@ -8,12 +8,13 @@ import GreatQuizPageLeft from '../pages/GreatQuizPageLeft';
 import GreatQuizPageRight from '../pages/GreatQuizPageRight';
 import MapPage from '../pages/MapPage';
 import MainPage from '../pages/MainPage';
+import ChartPage from '../pages/ChartPage';
 
 interface PageCoverProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
-const PageCover = React.forwardRef<HTMLDivElement, PageCoverProps>((props, ref) => {
+const PageCover = forwardRef<HTMLDivElement, PageCoverProps>((props, ref) => {
   return (
     <div className="bg-teal-500" ref={ref}>
       <div className="page-content">
@@ -26,10 +27,10 @@ const PageCover = React.forwardRef<HTMLDivElement, PageCoverProps>((props, ref) 
 
 interface PageProps {
   number: number;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
-const Page = React.forwardRef<HTMLDivElement, PageProps & { number: number }>((props, ref) => {
+const Page = forwardRef<HTMLDivElement, PageProps & { number: number }>((props, ref) => {
   const imageSource = props.number % 2 === 0 ? 'images/BookRightBg.png' : 'images/BookLeftBg.png';
 
   return (
@@ -40,9 +41,17 @@ const Page = React.forwardRef<HTMLDivElement, PageProps & { number: number }>((p
   );
 });
 
-function Book(props: {}) {
+const Book = forwardRef((props, ref) => {
   const bookRef = useRef<HTMLFlipBook>(null);
   const [curPage, setCurPage] = useState(0);
+
+  useImperativeHandle(ref, () => ({
+    goPage(pageNumber: number) {
+      if (bookRef.current) {
+        bookRef.current.pageFlip().flip(pageNumber);
+      }
+    }
+  }));
 
   const nextPage = () => {
     if (bookRef.current) {
@@ -53,13 +62,6 @@ function Book(props: {}) {
   const prevPage = () => {
     if (bookRef.current) {
       bookRef.current.pageFlip().flipPrev();
-    }
-  };
-
-  const goPage = (pageNumber: number) => {
-    if (bookRef.current) {
-      bookRef.current.pageFlip().flip(pageNumber);
-      bookRef.current.pageFlip().flipNext();
     }
   };
 
@@ -82,7 +84,6 @@ function Book(props: {}) {
         autoSize={true}
         maxShadowOpacity={0.5}
         showCover={true}
-        showCover={true}
         mobileScrollSupport={true}
         clickEventForward={true}
         useMouseEvents={false}
@@ -95,15 +96,13 @@ function Book(props: {}) {
         }}
       >
         <PageCover></PageCover>
-        <Page number={1}>
-        </Page>
-        <Page number={2}>
-        </Page>
+        <Page number={1}></Page>
+        <Page number={2}></Page>
         <Page number={3}>
           <GreatPageLeft />
         </Page>
         <Page number={4}>
-          <GreatPageRight goPage={goPage} /> {/* goToPage 함수를 전달 */}
+          <GreatPageRight />
         </Page>
         <Page number={5}>
           <GreatChatPageLeft />
@@ -117,9 +116,12 @@ function Book(props: {}) {
         <Page number={8}>
           <GreatQuizPageRight />
         </Page>
+        <Page number={9}>
+          <ChartPage />
+        </Page>
       </HTMLFlipBook>
 
-      {curPage == 0 && (
+      {curPage === 0 && (
         <div className="fixed left-[25%]">
           <MainPage next={nextPage} />
         </div>
@@ -146,6 +148,6 @@ function Book(props: {}) {
       </div>
     </div>
   );
-}
+});
 
 export default Book;

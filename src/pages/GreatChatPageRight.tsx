@@ -70,7 +70,7 @@ const GreatChatPageRight: React.FC = () => {
 
         <div ref={messagesEndRef} />
       </div>
-      <div className="flex mt-4 justify-end">
+      <div className="flex justify-end mt-4">
         <input
           type="text"
           value={input}
@@ -78,7 +78,7 @@ const GreatChatPageRight: React.FC = () => {
           className="p-2 border border-gray-300 rounded-l-lg"
           placeholder="메시지를 입력하세요."
         />
-        <button onClick={handleSendMessage} className="p-2 bg-blue-500 text-white rounded-r-lg">
+        <button onClick={handleSendMessage} className="p-2 text-white bg-blue-500 rounded-r-lg">
           전송
         </button>
       </div>

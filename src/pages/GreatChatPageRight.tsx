@@ -1,9 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Sejong from '../assets/images/MiniSejong.png';
 import '../index.css';
 
+// Message 타입 정의
+interface Message {
+  id: number;
+  sender: string;
+  text: string;
+}
+
+// Message 컴포넌트 분리
+const MessageComponent: React.FC<{ message: Message }> = ({ message }) => (
+  <div className={`flex ${message.sender === '' ? 'justify-end' : 'justify-start'} items-start mb-2`}>
+    <div className="flex items-start">
+      {message.sender === '세종대왕' && <img src={Sejong} alt="세종대왕" className="w-10 h-10 rounded-full" />}
+      <div>
+        {message.sender && <span className="ml-2">{message.sender}</span>}
+        <div
+          className={`ml-2 mb-4 p-2 rounded-lg leading-tight max-w-xs break-words ${message.sender === '' ? 'bg-white' : 'bg-white'}`}
+        >
+          <div>{message.text}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
 const GreatChatPageRight: React.FC = () => {
-  const [messages, setMessages] = useState([
+  const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
       sender: '세종대왕',
@@ -19,6 +43,7 @@ const GreatChatPageRight: React.FC = () => {
   ]);
 
   const [input, setInput] = useState('');
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const handleSendMessage = () => {
     if (input.trim() !== '') {
@@ -27,28 +52,23 @@ const GreatChatPageRight: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages]);
+
   return (
-    <div className="flex-grow max-w-2xl">
-      <div className="mb-4 text-center">---------------- 2024년 06월 03일 ----------------</div>
-      <div className="mb-4">
-        {messages.map((messages) => (
-          <div
-            key={messages.id}
-            className={`flex ${messages.sender === '' ? 'justify-end' : 'justify-start'} items-start mb-2`}
-          >
-            <div className="flex items-start">
-              {messages.sender === '세종대왕' && <img src={Sejong} alt="세종대왕" className="w-10 h-10 rounded-full" />}
-              <div>
-                {messages.sender && <span className="ml-2">{messages.sender}</span>}
-                <div
-                  className={`ml-2 mb-4 p-2 rounded-lg leading-tight max-w-xs break-words ${messages.sender === '' ? 'bg-white' : 'bg-white'}`}
-                >
-                  <div>{messages.text}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
+    <div className="flex-grow max-w-2xl m-4">
+      <div className="mt-4 mb-4 text-[20px] text-center">---------------- 2024년 06월 03일 ----------------</div>
+      <div className="mb-4 h-[570px] overflow-y-auto">
+        <div className="mr-4">
+          {messages.map((message) => (
+            <MessageComponent key={message.id} message={message} />
+          ))}
+        </div>
+
+        <div ref={messagesEndRef} />
       </div>
       <div className="flex mt-4 justify-end">
         <input

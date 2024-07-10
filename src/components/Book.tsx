@@ -11,7 +11,7 @@ const PageCover = React.forwardRef<HTMLDivElement, PageCoverProps>((props, ref) 
     <div className="bg-teal-500" ref={ref}>
       <div className="page-content">
         <h2>{props.children}</h2>
-        <img src="../assets/images/PageBg.png" alt="" className="w-[100px] h-[100px]" />
+        <img src="images/Book.png" alt="" className="w-[600px] h-[700px]" />
       </div>
     </div>
   );
@@ -25,11 +25,7 @@ interface PageProps {
 const Page = React.forwardRef<HTMLDivElement, PageProps>((props, ref) => {
   return (
     <div className="bg-gray-100" ref={ref}>
-      <h1>페이지 헤더</h1>
       <p>{props.children}</p>
-      <p>페이지 번호: {props.number}</p>
-      <button onClick={() => console.log('버튼 클릭됨')}>클릭하기</button>
-      <input></input>
     </div>
   );
 });
@@ -53,14 +49,14 @@ function Book(props: {}) {
     <div className="flex flex-col items-center justify-center mt-[100px]">
       <HTMLFlipBook
         width={600}
-        height={800}
+        height={700}
         size="stretch"
         minWidth={200}
         maxWidth={600}
         minHeight={300}
         maxHeight={800}
         drawShadow={true}
-        flippingTime={1000}
+        flippingTime={100}
         className="book-theme"
         startPage={0}
         usePortrait={true}
@@ -77,11 +73,12 @@ function Book(props: {}) {
         ref={bookRef}
         onFlip={(e) => console.log('Current page: ', e.data)}
       >
-        <PageCover>책 제목</PageCover>
-        <Page number={1}>
+        <PageCover></PageCover>
+        <Page number={1}></Page>
+        <Page number={2}>
+          {' '}
           <GreatChatPageRight />
         </Page>
-        <Page number={2}>페이지 내용</Page>
         <Page number={3}>페이지 내용</Page>
         <Page number={4}>페이지 내용</Page>
       </HTMLFlipBook>

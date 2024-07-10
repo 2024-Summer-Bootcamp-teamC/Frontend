@@ -50,20 +50,15 @@ function Book(props: {}) {
   };
 
   return (
-    <div>
-      <div>
-        <button onClick={prevPage}>이전 페이지</button>
-        <button onClick={nextPage}>다음 페이지</button>
-      </div>
-
+    <div className="flex flex-col items-center justify-center mt-[100px]">
       <HTMLFlipBook
-        width={700}
-        height={1350}
+        width={600}
+        height={800}
         size="stretch"
-        minWidth={400}
-        maxWidth={1200}
-        minHeight={600}
-        maxHeight={1180}
+        minWidth={200}
+        maxWidth={600}
+        minHeight={300}
+        maxHeight={800}
         drawShadow={true}
         flippingTime={1000}
         className="book-theme"
@@ -75,11 +70,10 @@ function Book(props: {}) {
         showCover={true} // showCover를 true로 설정합니다.
         mobileScrollSupport={true}
         clickEventForward={true}
-        useMouseEvents={true}
+        useMouseEvents={false}
         swipeDistance={3}
         showPageCorners={true}
         disableFlipByClick={false}
-        style={{}}
         ref={bookRef}
         onFlip={(e) => console.log('Current page: ', e.data)}
       >
@@ -91,6 +85,10 @@ function Book(props: {}) {
         <Page number={3}>페이지 내용</Page>
         <Page number={4}>페이지 내용</Page>
       </HTMLFlipBook>
+      <div>
+        <button onClick={prevPage}>이전 페이지</button>
+        <button onClick={nextPage}>다음 페이지</button>
+      </div>
     </div>
   );
 }

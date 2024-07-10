@@ -82,7 +82,6 @@ function Book(props: {}) {
         autoSize={true}
         maxShadowOpacity={0.5}
         showCover={true}
-        showCover={true}
         mobileScrollSupport={true}
         clickEventForward={true}
         useMouseEvents={false}
@@ -95,10 +94,8 @@ function Book(props: {}) {
         }}
       >
         <PageCover></PageCover>
-        <Page number={1}>
-        </Page>
-        <Page number={2}>
-        </Page>
+        <Page number={1}></Page>
+        <Page number={2}></Page>
         <Page number={3}>
           <GreatPageLeft />
         </Page>

@@ -1,6 +1,7 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import HTMLFlipBook from 'react-pageflip';
 import GreatChatPageRight from '../pages/GreatChatPageRight';
+import MainPage from '../pages/MainPage';
 
 interface PageCoverProps {
   children: React.ReactNode;
@@ -22,16 +23,20 @@ interface PageProps {
   children: React.ReactNode;
 }
 
-const Page = React.forwardRef<HTMLDivElement, PageProps>((props, ref) => {
+const Page = React.forwardRef<HTMLDivElement, PageProps & { number: number }>((props, ref) => {
+  const imageSource = props.number % 2 === 0 ? 'images/BookRightBg.png' : 'images/BookLeftBg.png';
+
   return (
     <div className="bg-gray-100" ref={ref}>
-      <p>{props.children}</p>
+      <img src={imageSource} alt="" className="w-[600px] h-[700px] fixed -z-10" />
+      <div className="z-10">{props.children}</div>
     </div>
   );
 });
 
 function Book(props: {}) {
   const bookRef = useRef<HTMLFlipBook>(null);
+  const [curPage, setCurPage] = useState(0);
 
   const nextPage = () => {
     if (bookRef.current) {
@@ -44,7 +49,12 @@ function Book(props: {}) {
       bookRef.current.pageFlip().flipPrev();
     }
   };
-
+  const goPage = (pageNumber: number) => {
+    if (bookRef.current) {
+      bookRef.current.pageFlip().flip(pageNumber);
+      bookRef.current.pageFlip().flipNext();
+    }
+  };
   return (
     <div className="flex flex-col items-center justify-center mt-[100px]">
       <HTMLFlipBook
@@ -56,14 +66,14 @@ function Book(props: {}) {
         minHeight={300}
         maxHeight={800}
         drawShadow={true}
-        flippingTime={100}
+        flippingTime={1000}
         className="book-theme"
         startPage={0}
         usePortrait={true}
         startZIndex={30}
         autoSize={true}
         maxShadowOpacity={0.5}
-        showCover={true} // showCover를 true로 설정합니다.
+        showCover={true}
         mobileScrollSupport={true}
         clickEventForward={true}
         useMouseEvents={false}
@@ -71,21 +81,42 @@ function Book(props: {}) {
         showPageCorners={true}
         disableFlipByClick={false}
         ref={bookRef}
-        onFlip={(e) => console.log('Current page: ', e.data)}
+        onFlip={(e) => {
+          setCurPage(e.data);
+        }}
       >
         <PageCover></PageCover>
         <Page number={1}></Page>
         <Page number={2}>
-          {' '}
-          <GreatChatPageRight />
+          <div>
+            <GreatChatPageRight />
+          </div>
         </Page>
         <Page number={3}>페이지 내용</Page>
         <Page number={4}>페이지 내용</Page>
       </HTMLFlipBook>
-      <div>
-        <button onClick={prevPage}>이전 페이지</button>
-        <button onClick={nextPage}>다음 페이지</button>
-      </div>
+
+      {curPage == 0 && (
+        <div className="fixed left-[25%]">
+          <MainPage next={nextPage} />
+        </div>
+      )}
+      {curPage !== 0 && (
+        <div className="fixed flex flex-col left-[2.2%] top-[15%]">
+          <button
+            onClick={() => goPage(2)}
+            className="bg-[url('assets/images/CountryIndex.png')] bg-cover w-[100px] h-[40px] mb-3"
+          >
+            나라별
+          </button>
+          <button
+            onClick={() => goPage(2)}
+            className="bg-[url('assets/images/FiledIndex.png')] bg-cover w-[100px] h-[40px]"
+          >
+            분야별
+          </button>
+        </div>
+      )}
     </div>
   );
 }

@@ -57,17 +57,31 @@ function Book(props: {}) {
       </div>
 
       <HTMLFlipBook
-        width={600}
-        height={500}
-        minWidth={315}
-        maxWidth={1000}
-        minHeight={400}
-        maxHeight={1533}
-        maxShadowOpacity={0.5}
-        ref={bookRef}
-        useMouseEvents={false}
-        showCover={true}
+        width={1200}
+        height={1350}
         size="stretch"
+        minWidth={400}
+        maxWidth={1200}
+        minHeight={600}
+        maxHeight={1180}
+        drawShadow={true}
+        flippingTime={1000}
+        className="book-theme"
+        startPage={0}
+        usePortrait={true}
+        startZIndex={30}
+        autoSize={true}
+        maxShadowOpacity={0.5}
+        showCover={true} // showCover를 true로 설정합니다.
+        mobileScrollSupport={true}
+        clickEventForward={true}
+        useMouseEvents={true}
+        swipeDistance={3}
+        showPageCorners={true}
+        disableFlipByClick={false}
+        style={{}}
+        ref={bookRef}
+        onFlip={(e) => console.log('Current page: ', e.data)}
       >
         <PageCover>책 제목</PageCover>
         <Page number={1}>

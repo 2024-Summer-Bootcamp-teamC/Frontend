@@ -2,13 +2,13 @@ import React from 'react';
 import CardFront from "../components/CardFront";
 import CardBack from '../components/CardBack';
 
-const GreatPage: React.FC = () => {
+const GreatListPage: React.FC = () => {
     return (
         <CardBack />
     );
 };
 
-export default GreatPage;
+export default GreatListPage;
 
 
 // GreatPage를 적용한 App.tsx

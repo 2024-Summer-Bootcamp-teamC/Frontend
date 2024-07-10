@@ -5,6 +5,7 @@ import Rectangle from "../assets/images/Rectangle.png";
 const CardFront: React.FC = () => {
     return (
         <div className="relative flex-shrink-0 w-[237.298px] h-[366.962px]">
+            {/* 카드 앞면 템플릿 */}
             <img 
                 className="w-full h-full"
                 src={CardFrontImage} 
@@ -23,7 +24,7 @@ const CardFront: React.FC = () => {
                     alt='Great Card' 
                 />
             </div>
-            <div className="absolute flex flex-col items-center text-black transform rotate-180 bottom-4 right-4"> {/* transform rotation으로 회전! */}
+            <div className="absolute flex flex-col items-center text-black transform rotate-180 bottom-4 right-4">
                 <span className="text-lg">세</span>
                 <span className="text-lg">종</span>
                 <span className="text-lg">대</span>

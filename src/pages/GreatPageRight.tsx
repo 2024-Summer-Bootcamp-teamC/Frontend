@@ -4,10 +4,10 @@ import BlueBtn from '../assets/images/GreatPageBlueBtn.png';
 import VerticalBtn from '../assets/images/GreatPageVerticalBtn.png';
 
 interface GreatPageRightProps {
-  goPage: (pageNumber: number) => void;
+  movePage: (pageNumber: number) => void;
 }
 
-const GreatPageRight: React.FC<GreatPageRightProps> = ({ goPage }) => {
+const GreatPageRight: React.FC<GreatPageRightProps> = ({ movePage }) => {
   return (
     <div className="flex flex-col items-center">
       <button
@@ -21,14 +21,14 @@ const GreatPageRight: React.FC<GreatPageRightProps> = ({ goPage }) => {
       <button
         className="w-1/5 h-15 border-none text-white text-lg text-center leading-[60px] bg-cover mb-5 font-semibold"
         style={{ backgroundImage: `url(${RedBtn})` }}
-        onClick={() => goPage(4)} 
+        onClick={() => movePage(9)}
       >
         대화하기
       </button>
       <button
         className="w-1/5 h-15 border-none text-white text-lg text-center leading-[60px] bg-cover font-semibold"
         style={{ backgroundImage: `url(${BlueBtn})` }}
-        onClick={() => goPage(6)} 
+        onClick={() => movePage(11)}
       >
         퀴즈풀기
       </button>

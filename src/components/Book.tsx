@@ -9,6 +9,7 @@ import GreatQuizPageRight from '../pages/GreatQuizPageRight';
 import MapPage from '../pages/MapPage';
 import MainPage from '../pages/MainPage';
 import ChartPage from '../pages/ChartPage';
+import GreatListPage from '../pages/GreatListPage';
 
 interface PageCoverProps {
   children?: React.ReactNode;
@@ -50,8 +51,14 @@ const Book = forwardRef((props, ref) => {
       if (bookRef.current) {
         bookRef.current.pageFlip().flip(pageNumber);
       }
-    }
+    },
   }));
+
+  const movePage = (pageNumber: number) => {
+    if (bookRef.current) {
+      bookRef.current.pageFlip().flip(pageNumber);
+    }
+  };
 
   const nextPage = () => {
     if (bookRef.current) {
@@ -96,29 +103,64 @@ const Book = forwardRef((props, ref) => {
         }}
       >
         <PageCover></PageCover>
-        <Page number={1}></Page>
+
+        {/* 지도 모달 */}
+        <Page number={1}>
+          <MapPage></MapPage>
+        </Page>
         <Page number={2}></Page>
-        <Page number={3}>
+
+        {/* 분야 모달 */}
+        <Page number={3}></Page>
+        <Page number={4}></Page>
+
+        {/* 인물 카드 리스트 */}
+        <Page number={5}>
+          <GreatListPage></GreatListPage>
+        </Page>
+        <Page number={6}></Page>
+
+        {/* 인물 프로필 */}
+        <Page number={7}>
           <GreatPageLeft />
         </Page>
-        <Page number={4}>
+        <Page number={8}>
           <GreatPageRight />
         </Page>
-        <Page number={5}>
+
+        {/* 인물 대화 창 */}
+        <Page number={9}>
           <GreatChatPageLeft />
         </Page>
-        <Page number={6}>
+        <Page number={10}>
           <GreatChatPageRight />
         </Page>
-        <Page number={7}>
-          <GreatQuizPageLeft />
+
+        {/* 인물 퀴즈 페이지 11 ~ 16 */}
+        <Page number={11}>
+          <GreatQuizPageLeft></GreatQuizPageLeft>
         </Page>
-        <Page number={8}>
-          <GreatQuizPageRight />
+        <Page number={12}>
+          <GreatQuizPageRight></GreatQuizPageRight>
         </Page>
-        <Page number={9}>
+        <Page number={13}>
+          <GreatQuizPageRight></GreatQuizPageRight>
+        </Page>
+        <Page number={14}>
+          <GreatQuizPageRight></GreatQuizPageRight>
+        </Page>
+        <Page number={15}>
+          <GreatQuizPageRight></GreatQuizPageRight>
+        </Page>
+        <Page number={16}>
+          <GreatQuizPageRight></GreatQuizPageRight>
+        </Page>
+
+        {/* 차트 페이지 */}
+        <Page number={17}>
           <ChartPage />
         </Page>
+        <Page number={18}></Page>
       </HTMLFlipBook>
 
       {curPage === 0 && (
@@ -129,13 +171,13 @@ const Book = forwardRef((props, ref) => {
       {curPage !== 0 && (
         <div className="fixed flex flex-col left-[2.2%] top-[15%]">
           <button
-            onClick={() => goPage(2)}
+            onClick={() => movePage(1)}
             className="bg-[url('assets/images/CountryIndex.png')] bg-cover w-[100px] h-[40px] mb-3"
           >
             나라별
           </button>
           <button
-            onClick={() => goPage(2)}
+            onClick={() => movePage(3)}
             className="bg-[url('assets/images/FiledIndex.png')] bg-cover w-[100px] h-[40px]"
           >
             분야별

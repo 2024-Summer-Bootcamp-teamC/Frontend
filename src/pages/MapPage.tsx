@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps';
 
 const geoUrl = '../../public/features.json';
@@ -16,9 +16,10 @@ const markers = [
 
 interface MapPageProps {
   part: string;
+  move: (pageNum: number) => void;
 }
 
-const MapPage: React.FC<MapPageProps> = ({ part }) => {
+const MapPage: React.FC<MapPageProps> = ({ part, move }) => {
   const [hoveredMarker, setHoveredMarker] = useState<string | null>(null);
 
   const handleMarkerMouseEnter = (markerName: string) => {
@@ -29,13 +30,12 @@ const MapPage: React.FC<MapPageProps> = ({ part }) => {
     setHoveredMarker(null);
   };
 
-  // part가 'right'일 때 오른쪽으로, 'left'일 때 왼쪽으로 이동시킬 스타일 설정
   const containerStyle = {
     display: 'flex',
     justifyContent: part === 'right' ? 'flex-end' : part === 'left' ? 'flex-start' : 'center',
     overflow: 'hidden',
-    width: '200%', // 넓은 영역을 가지도록 설정
-    transform: part === 'right' ? 'translateX(-50%)' : part === 'left' ? 'translateX(0)' : 'none', // 오른쪽 또는 왼쪽으로 이동
+    width: '200%',
+    transform: part === 'right' ? 'translateX(-50%)' : part === 'left' ? 'translateX(0)' : 'none',
     marginTop: '20px',
     translate: '-[8.5%]',
   };
@@ -66,13 +66,15 @@ const MapPage: React.FC<MapPageProps> = ({ part }) => {
               strokeLinecap="round"
               strokeLinejoin="round"
               transform="translate(-12, -24)"
+              onClick={() => move(5)}
+              className="cursor-pointer"
             >
               <circle cx="12" cy="10" r="3" />
               <path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 6.9 8 11.7z" />
             </g>
             {hoveredMarker === name && (
               <text
-                textAnchor="middle"
+                textAnchor="right"
                 y={markerOffset}
                 style={{ fontFamily: 'font-songmyung', fill: '#ffffff', fontSize: '0.8rem' }}
               >

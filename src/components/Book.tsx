@@ -8,8 +8,9 @@ import GreatQuizPageLeft from '../pages/GreatQuizPageLeft';
 import GreatQuizPageRight from '../pages/GreatQuizPageRight';
 import MapPage from '../pages/MapPage';
 import MainPage from '../pages/MainPage';
-import ChartPage from '../pages/ChartPage';
 import GreatListPage from '../pages/GreatListPage';
+import ChartPageLeft from '../pages/ChartPageLeft';
+import ChartPageRight from '../pages/ChartPageRight';
 
 interface PageCoverProps {
   children?: React.ReactNode;
@@ -38,6 +39,7 @@ const Page = forwardRef<HTMLDivElement, PageProps & { number: number }>((props, 
     <div className="bg-gray-100" ref={ref}>
       <img src={imageSource} alt="" className="w-[600px] h-[700px] fixed -z-10" />
       <div className="z-10">{props.children}</div>
+      {props.number % 2 === 1 && <div></div>}
     </div>
   );
 });
@@ -107,12 +109,12 @@ const Book = forwardRef((props, ref) => {
         {/* 지도 모달 */}
         <Page number={1}>
           <div className="relative overflow-hidden">
-            <MapPage part="left" />
+            <MapPage part="left" move={movePage} />
           </div>
         </Page>
         <Page number={2}>
           <div className="relative overflow-hidden">
-            <MapPage part="right" />
+            <MapPage part="right" move={movePage} />
           </div>
         </Page>
 
@@ -164,15 +166,12 @@ const Book = forwardRef((props, ref) => {
 
         {/* 차트 페이지 */}
         <Page number={17}>
-          <div className="relative overflow-hidden">
-            <ChartPage part="left" />
-          </div>
+          <ChartPageLeft />
         </Page>
         <Page number={18}>
-          <div className="relative overflow-hidden">
-            <ChartPage part="right" />
-          </div>
+          <ChartPageRight />
         </Page>
+        <PageCover></PageCover>
       </HTMLFlipBook>
 
       {curPage === 0 && (

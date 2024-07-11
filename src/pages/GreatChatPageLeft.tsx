@@ -3,7 +3,6 @@ import TmpImg from '../assets/images/Rectangle.png';
 import EmptyPuzzle from '../assets/images/EmptyPuzzle.png';
 import FilledPuzzle from '../assets/images/Puzzle.png';
 import Clip from '../assets/images/Clip.png';
-import Back from '../assets/images/Back.png';
 
 const GreatChatPageLeft: React.FC = () => {
   // 얻은 퍼즐 개수
@@ -25,7 +24,6 @@ const GreatChatPageLeft: React.FC = () => {
         <img src={TmpImg} className="mb-1 w-[40%]" alt="임시 이미지" />
         <div className="text-[26px] mt-2">세종대왕</div>
       </div>
-      <img src={Back} className="fixed bottom-0 left-0" alt="뒤로가기 이미지" />
     </>
   );
 };

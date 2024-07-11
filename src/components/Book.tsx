@@ -32,14 +32,16 @@ interface PageProps {
   children?: React.ReactNode;
 }
 
-const Page = forwardRef<HTMLDivElement, PageProps & { number: number }>((props, ref) => {
-  const imageSource = props.number % 2 === 0 ? 'images/BookRightBg.png' : 'images/BookLeftBg.png';
+const Page = forwardRef<HTMLDivElement, PageProps>((props, ref) => {
+  const imageSource = props.number % 2 === 0 ? 'images/tmpRight.png' : 'images/tmpLeft.png';
 
   return (
     <div className="bg-gray-100" ref={ref}>
       <img src={imageSource} alt="" className="w-[600px] h-[700px] fixed -z-10" />
       <div className="z-10">{props.children}</div>
-      {props.number % 2 === 1 && <div></div>}
+      {props.number % 2 === 1 && (
+        <img src={'images/Back.png'} className="fixed cursor-pointer bottom-4 left-4" alt="뒤로가기 이미지" />
+      )}
     </div>
   );
 });
@@ -47,6 +49,7 @@ const Page = forwardRef<HTMLDivElement, PageProps & { number: number }>((props, 
 const Book = forwardRef((props, ref) => {
   const bookRef = useRef<HTMLFlipBook>(null);
   const [curPage, setCurPage] = useState(0);
+  const [login, setLogin] = useState<boolean>(true);
 
   useImperativeHandle(ref, () => ({
     goPage(pageNumber: number) {
@@ -64,13 +67,13 @@ const Book = forwardRef((props, ref) => {
 
   const nextPage = () => {
     if (bookRef.current) {
-      bookRef.current.pageFlip().flipNext();
+      bookRef.current.pageFlip().flipNext('top');
     }
   };
 
   const prevPage = () => {
     if (bookRef.current) {
-      bookRef.current.pageFlip().flipPrev();
+      bookRef.current.pageFlip().flipPrev('top');
     }
   };
 
@@ -95,7 +98,6 @@ const Book = forwardRef((props, ref) => {
         showCover={true}
         mobileScrollSupport={true}
         clickEventForward={true}
-        useMouseEvents={false}
         swipeDistance={3}
         showPageCorners={true}
         disableFlipByClick={false}

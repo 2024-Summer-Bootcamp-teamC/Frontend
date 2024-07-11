@@ -17,7 +17,7 @@ interface PageCoverProps {
 
 const PageCover = forwardRef<HTMLDivElement, PageCoverProps>((props, ref) => {
   return (
-    <div className="bg-teal-500" ref={ref}>
+    <div ref={ref}>
       <div className="page-content">
         <h2>{props.children}</h2>
         <img src="images/Book.png" alt="" className="w-[600px] h-[700px]" />
@@ -106,9 +106,15 @@ const Book = forwardRef((props, ref) => {
 
         {/* 지도 모달 */}
         <Page number={1}>
-          <MapPage></MapPage>
+          <div className="relative overflow-hidden">
+            <MapPage part="left" />
+          </div>
         </Page>
-        <Page number={2}></Page>
+        <Page number={2}>
+          <div className="relative overflow-hidden">
+            <MapPage part="right" />
+          </div>
+        </Page>
 
         {/* 분야 모달 */}
         <Page number={3}></Page>
@@ -158,18 +164,37 @@ const Book = forwardRef((props, ref) => {
 
         {/* 차트 페이지 */}
         <Page number={17}>
-          <ChartPage />
+          <div className="relative overflow-hidden">
+            <ChartPage part="left" />
+          </div>
         </Page>
-        <Page number={18}></Page>
+        <Page number={18}>
+          <div className="relative overflow-hidden">
+            <ChartPage part="right" />
+          </div>
+        </Page>
       </HTMLFlipBook>
 
       {curPage === 0 && (
-        <div className="fixed left-[25%]">
+        <div className="fixed left-[25%] h-[600px]">
           <MainPage next={nextPage} />
         </div>
       )}
+
+      {/* {curPage === 1 && (
+        <div className="fixed top-3 z-9">
+          <MapPage />
+        </div>
+      )} */}
+
+      {/* {curPage === 17 && (
+        <div className="fixed top-3 left-[13%] w-[80%] z-9">
+          <ChartPage />
+        </div>
+      )} */}
+
       {curPage !== 0 && (
-        <div className="fixed flex flex-col left-[2.2%] top-[15%]">
+        <div className="fixed flex flex-col left-[2.2%] top-[15%] animate-slideInFromLeft">
           <button
             onClick={() => movePage(1)}
             className="bg-[url('assets/images/CountryIndex.png')] bg-cover w-[100px] h-[40px] mb-3"
@@ -184,7 +209,7 @@ const Book = forwardRef((props, ref) => {
           </button>
         </div>
       )}
-      <div>
+      <div className="z-10">
         <button onClick={prevPage}>이전 페이지</button>
         <button onClick={nextPage}>다음 페이지</button>
       </div>

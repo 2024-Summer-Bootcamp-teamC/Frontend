@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps';
 
 const geoUrl = '../../public/features.json';
@@ -10,15 +10,18 @@ const markers = [
     coordinates: [126.978, 37.5665],
   },
   { markerOffset: -30, name: '미국', coordinates: [-100.0369, 38.9072] },
-  { markerOffset: -30, name: '네덜란드', coordinates: [4.9041, 52.3676] },
-  { markerOffset: 15, name: '프랑스', coordinates: [2.3522, 45] },
+  { markerOffset: 15, name: '프랑스', coordinates: [5, 45] },
   { markerOffset: 15, name: '독일', coordinates: [13.405, 52.52] },
 ];
 
-const MapPage = () => {
-  const [hoveredMarker, setHoveredMarker] = useState(null);
+interface MapPageProps {
+  part: string;
+}
 
-  const handleMarkerMouseEnter = (markerName) => {
+const MapPage: React.FC<MapPageProps> = ({ part }) => {
+  const [hoveredMarker, setHoveredMarker] = useState<string | null>(null);
+
+  const handleMarkerMouseEnter = (markerName: string) => {
     setHoveredMarker(markerName);
   };
 
@@ -26,14 +29,25 @@ const MapPage = () => {
     setHoveredMarker(null);
   };
 
+  // part가 'right'일 때 오른쪽으로, 'left'일 때 왼쪽으로 이동시킬 스타일 설정
+  const containerStyle = {
+    display: 'flex',
+    justifyContent: part === 'right' ? 'flex-end' : part === 'left' ? 'flex-start' : 'center',
+    overflow: 'hidden',
+    width: '200%', // 넓은 영역을 가지도록 설정
+    transform: part === 'right' ? 'translateX(-50%)' : part === 'left' ? 'translateX(0)' : 'none', // 오른쪽 또는 왼쪽으로 이동
+    marginTop: '20px',
+    translate: '-[8.5%]',
+  };
+
   return (
-    <div className="flex items-center justify-center overflow-hidden">
+    <div className="flex items-center justify-center" style={containerStyle}>
       <ComposableMap
         projection="geoMercator"
         projectionConfig={{
           scale: 110,
         }}
-        style={{ width: '100%', height: '100vh', marginTop: '100px' }}
+        style={{ width: '100%', height: '100vh' }}
       >
         <Geographies geography={geoUrl}>
           {({ geographies }) => geographies.map((geo) => <Geography key={geo.rsmKey} geography={geo} fill="#594637" />)}
@@ -46,7 +60,7 @@ const MapPage = () => {
             onMouseLeave={handleMarkerMouseLeave}
           >
             <g
-              fill="none"
+              fill="rgba(255,255,255,0)"
               stroke="#cacaca"
               strokeWidth="2"
               strokeLinecap="round"

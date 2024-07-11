@@ -10,7 +10,7 @@ const options = {
     text: 'Growth of Internet Users Worldwide (logarithmic scale)',
   },
   chart: {
-    height: 300,
+    height: 250,
   },
   accessibility: {
     point: {
@@ -66,30 +66,40 @@ const options = {
   ],
 };
 
-const ChartPage: React.FC = () => {
+interface ChartPageProps {
+  part: string;
+}
+
+const ChartPage: React.FC<ChartPageProps> = ({ part }) => {
+  const containerStyle = {
+    display: 'flex',
+    justifyContent: part === 'right' ? 'flex-end' : part === 'left' ? 'flex-start' : 'center',
+    width: '200%', // 넓은 영역을 가지도록 설정
+    transform: part === 'right' ? 'translateX(-57%)' : part === 'left' ? 'translateX(-7%)' : 'none', // 오른쪽 또는 왼쪽으로 이동
+    marginTop: '20px',
+    translate: '-[8.5%]',
+    height: '700px',
+  };
   return (
     <>
-      <img src={Clip} className="fixed top-2 left-[4%]" alt="클립 이미지" />
-      <div className="w-[90%]">
-        <div className="text-[3rem] ml-[8%]">차트</div>
-        <ChartVideoBackground>
-          <div className="grid grid-cols-3 gap-2 p-[3rem]">
-            <div className="col-span-3">
-              <HighchartsReact highcharts={Highcharts} options={options} />
-            </div>
-            <div className="">
-              <HighchartsReact highcharts={Highcharts} options={options} />
-            </div>
-            <div className="">
-              <HighchartsReact highcharts={Highcharts} options={options} />
-            </div>
-            <div className="">
-              <HighchartsReact highcharts={Highcharts} options={options} />
-            </div>
+      <div className="w-[90%] " style={containerStyle}>
+        <div className="text-[3rem] ml-[10%] ">차트</div>
+
+        <div className="grid grid-cols-3 gap-5 p-[3rem] h-[500px] mt-10 ">
+          <div className="col-span-3">
+            <HighchartsReact highcharts={Highcharts} options={options} />
           </div>
-        </ChartVideoBackground>
+          <div className="">
+            <HighchartsReact highcharts={Highcharts} options={options} />
+          </div>
+          <div className="">
+            <HighchartsReact highcharts={Highcharts} options={options} />
+          </div>
+          <div className="">
+            <HighchartsReact highcharts={Highcharts} options={options} />
+          </div>
+        </div>
       </div>
-      <img src={Back} className="fixed bottom-0 left-0" alt="뒤로가기 이미지" />
     </>
   );
 };

@@ -47,7 +47,7 @@ const Book = forwardRef((props, ref) => {
   const [curPage, setCurPage] = useState(0);
 
   useImperativeHandle(ref, () => ({
-    goPage(pageNumber: number) {
+    movePage(pageNumber: number) {
       if (bookRef.current) {
         bookRef.current.pageFlip().flip(pageNumber);
       }
@@ -124,12 +124,16 @@ const Book = forwardRef((props, ref) => {
         {/* 인물 카드 리스트 */}
         <Page number={5}>
           <div className='absolute inset-0 flex items-center justify-center'>
+            <div className="flex items-center justify-center w-4/5 h-4/5">
               <GreatListPage />
+            </div>
           </div>
-         </Page>
+        </Page>
         <Page number={6}>
           <div className='absolute inset-0 flex items-center justify-center'>
-              <GreatListPage />
+            <div className="flex items-center justify-center w-4/5 h-4/5">
+                <GreatListPage />
+            </div>          
           </div>
         </Page>
 
@@ -159,27 +163,27 @@ const Book = forwardRef((props, ref) => {
         
         {/* 인물 퀴즈 페이지 11 ~ 16 */}
         <Page number={11}>
-        <div className='absolute inset-0 flex items-center justify-center'>
+          <div className='absolute inset-0 flex items-center justify-center'>
             <GreatQuizPageLeft />
           </div>
         </Page>
         <Page number={12}>
-        <div className='absolute inset-0 flex items-center justify-center'>
+          <div className='absolute inset-0 flex items-center justify-center'>
             <GreatQuizPageRight />
           </div>
         </Page>
         <Page number={13}>
-        <div className='absolute inset-0 flex items-center justify-center'>
+         <div className='absolute inset-0 flex items-center justify-center'>
             <GreatQuizPageRight />
           </div>
         </Page>
         <Page number={14}>
-        <div className='absolute inset-0 flex items-center justify-center'>
+         <div className='absolute inset-0 flex items-center justify-center'>
             <GreatQuizPageRight />
           </div>
         </Page>
         <Page number={15}>
-        <div className='absolute inset-0 flex items-center justify-center'>
+          <div className='absolute inset-0 flex items-center justify-center'>
             <GreatQuizPageRight />
           </div>
         </Page>

@@ -1,50 +1,62 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CardFront from "../components/CardFront";
 import CardBack from '../components/CardBack';
+import ReactCardFlip from 'react-card-flip';
 
 const GreatListPage: React.FC = () => {
+    const [isFlipped1, setIsFlipped1] = useState(false);
+    const [isFlipped2, setIsFlipped2] = useState(false);
+    const [isFlipped3, setIsFlipped3] = useState(false);
+    const [isFlipped4, setIsFlipped4] = useState(false);
+
     return (
-        <div className='flex flex-row justify-center space-x-1'>
-            <span><CardFront /> </span>
-            <span><CardFront /> </span>
-            <span><CardFront /> </span>
-            <span><CardFront /> </span>
+        <div className="flex flex-col items-center justify-center w-full h-full p-4 space-y-4">
+            <div className='flex flex-row justify-center w-full space-x-3'>
+                <div 
+                    className="flex-1 max-w-[237.298px] max-h-[366.962px]"
+                    onMouseEnter={() => setIsFlipped1(true)}
+                    onMouseLeave={() => setIsFlipped1(false)}
+                >
+                    <ReactCardFlip isFlipped={isFlipped1} flipDirection="horizontal">
+                        <CardFront key="front1" />
+                        <CardBack key="back1" />
+                    </ReactCardFlip>
+                </div>
+                <div 
+                    className="flex-1 max-w-[237.298px] max-h-[366.962px]"
+                    onMouseEnter={() => setIsFlipped2(true)}
+                    onMouseLeave={() => setIsFlipped2(false)}
+                >
+                    <ReactCardFlip isFlipped={isFlipped2} flipDirection="horizontal">
+                        <CardFront key="front2" />
+                        <CardBack key="back2" />
+                    </ReactCardFlip>
+                </div>
+            </div>
+            <div className='flex flex-row justify-center w-full space-x-1'>
+                <div 
+                    className="flex-1 max-w-[237.298px] max-h-[366.962px]"
+                    onMouseEnter={() => setIsFlipped3(true)}
+                    onMouseLeave={() => setIsFlipped3(false)}
+                >
+                    <ReactCardFlip isFlipped={isFlipped3} flipDirection="horizontal">
+                        <CardFront key="front3" />
+                        <CardBack key="back3" />
+                    </ReactCardFlip>
+                </div>
+                <div 
+                    className="flex-1 max-w-[237.298px] max-h-[366.962px]"
+                    onMouseEnter={() => setIsFlipped4(true)}
+                    onMouseLeave={() => setIsFlipped4(false)}
+                >
+                    <ReactCardFlip isFlipped={isFlipped4} flipDirection="horizontal">
+                        <CardFront key="front4" />
+                        <CardBack key="back4" />
+                    </ReactCardFlip>
+                </div>
+            </div>
         </div>
     );
 };
 
 export default GreatListPage;
-
-
-// GreatPage를 적용한 App.tsx
-
-// import React from 'react';
-// import './index.css';
-// import NavBar from './components/NavBar';
-// import GreatPage from './pages/GreatPage';
-
-// const App: React.FC = () => {
-//   return (
-//     <div className="flex flex-col items-center justify-center min-h-screen font-songmyung">
-//       <NavBar />
-//       <div className="mt-20 space-y-8">  {/* space-y, -x로 두행 사이의 간격을 조정 */}
-//         <div className="flex space-x-4"> 
-//           <GreatPage />
-//           <GreatPage />
-//           <GreatPage />
-//           <GreatPage />
-//           <GreatPage />
-//         </div>
-//         <div className="flex space-x-4"> 
-//           <GreatPage />
-//           <GreatPage />
-//           <GreatPage />
-//           <GreatPage />
-//           <GreatPage />
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default App;

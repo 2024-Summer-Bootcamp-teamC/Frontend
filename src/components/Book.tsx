@@ -73,7 +73,7 @@ const Book = forwardRef((props, ref) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center mt-[100px]">
+    <div className="relative flex flex-col items-center justify-center mt-[100px]">
       <HTMLFlipBook
         width={600}
         height={700}
@@ -157,7 +157,7 @@ const Book = forwardRef((props, ref) => {
             <GreatChatPageRight />
           </div>
         </Page>
-
+        
         {/* 인물 퀴즈 페이지 11 ~ 16 */}
         <Page number={11}>
         <div className='absolute inset-0 flex items-center justify-center'>
@@ -202,7 +202,7 @@ const Book = forwardRef((props, ref) => {
 
       {curPage === 0 && (
         <div className="fixed left-[25%]">
-          <MainPage next={nextPage} />
+          <MainPage next={nextPage} children={undefined} />
         </div>
       )}
       {curPage !== 0 && (

@@ -160,27 +160,27 @@ const Book = forwardRef((props, ref) => {
         
         {/* 인물 퀴즈 페이지 11 ~ 16 */}
         <Page number={11}>
-        <div className='absolute inset-0 flex items-center justify-center'>
+          <div className='absolute inset-0 flex items-center justify-center'>
             <GreatQuizPageLeft />
           </div>
         </Page>
         <Page number={12}>
-        <div className='absolute inset-0 flex items-center justify-center'>
+          <div className='absolute inset-0 flex items-center justify-center'>
             <GreatQuizPageRight />
           </div>
         </Page>
         <Page number={13}>
-        <div className='absolute inset-0 flex items-center justify-center'>
+         <div className='absolute inset-0 flex items-center justify-center'>
             <GreatQuizPageRight />
           </div>
         </Page>
         <Page number={14}>
-        <div className='absolute inset-0 flex items-center justify-center'>
+         <div className='absolute inset-0 flex items-center justify-center'>
             <GreatQuizPageRight />
           </div>
         </Page>
         <Page number={15}>
-        <div className='absolute inset-0 flex items-center justify-center'>
+          <div className='absolute inset-0 flex items-center justify-center'>
             <GreatQuizPageRight />
           </div>
         </Page>

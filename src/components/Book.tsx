@@ -84,7 +84,6 @@ const Book = forwardRef((props, ref) => {
         maxHeight={800}
         drawShadow={true}
         flippingTime={1000}
-        className="book-theme"
         startPage={0}
         usePortrait={true}
         startZIndex={30}

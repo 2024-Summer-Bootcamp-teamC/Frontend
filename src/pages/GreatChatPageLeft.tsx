@@ -11,7 +11,7 @@ const GreatChatPageLeft: React.FC = () => {
   return (
     <>
       {/* <img src={Clip} className="fixed left-[13rem] top-[5rem]" alt="클립 이미지" /> */}
-      <div className="flex flex-col items-center justify-center w-[80%]">
+      <div className="flex flex-col items-center justify-center mt-[100px]">
         <div className="flex">
           {[...Array(4)].map((_, index) => (
             <img

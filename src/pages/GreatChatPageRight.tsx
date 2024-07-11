@@ -43,12 +43,21 @@ const GreatChatPageRight: React.FC = () => {
   ]);
 
   const [input, setInput] = useState('');
+  const [isComposing, setIsComposing] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const handleSendMessage = () => {
+  const handleSendMessage = (event?: React.FormEvent) => {
+    if (event) event.preventDefault();
     if (input.trim() !== '') {
-      setMessages([...messages, { id: messages.length + 1, sender: '', text: input }]);
+      setMessages((prevMessages) => [...prevMessages, { id: prevMessages.length + 1, sender: '', text: input }]);
       setInput('');
+    }
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter' && !isComposing) {
+      event.preventDefault();
+      handleSendMessage();
     }
   };
 
@@ -58,29 +67,43 @@ const GreatChatPageRight: React.FC = () => {
     }
   }, [messages]);
 
+  // 현재 날짜를 가져오는 함수
+  const getCurrentDate = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}년 ${month}월 ${day}일`;
+  };
+
   return (
     <div className="flex-grow max-w-2xl m-4">
-      <div className="mt-4 mb-4 text-[20px] text-center">---------------- 2024년 06월 03일 ----------------</div>
-      <div className="mb-4 h-[570px] overflow-y-auto">
-        <div className="mr-4">
-          {messages.map((message) => (
-            <MessageComponent key={message.id} message={message} />
-          ))}
-        </div>
+      <div className="mt-4 mb-4 text-[20px] text-center">{getCurrentDate()}</div>
+      <div className="mr-2 ml-2">
+        <div className="mb-4 h-[570px] overflow-y-auto">
+          <div className="mr-4">
+            {messages.map((message) => (
+              <MessageComponent key={message.id} message={message} />
+            ))}
+          </div>
 
-        <div ref={messagesEndRef} />
-      </div>
-      <div className="flex justify-end mt-4">
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          className="p-2 border border-gray-300 rounded-l-lg"
-          placeholder="메시지를 입력하세요."
-        />
-        <button onClick={handleSendMessage} className="p-2 text-white bg-blue-500 rounded-r-lg">
-          전송
-        </button>
+          <div ref={messagesEndRef} />
+        </div>
+        <div className="flex justify-end mt-4 mr-4">
+          <input
+            type="text"
+            value={input}
+            onKeyDown={handleKeyDown}
+            onCompositionStart={() => setIsComposing(true)}
+            onCompositionEnd={() => setIsComposing(false)}
+            onChange={(e) => setInput(e.target.value)}
+            className="border border-gray-300 rounded-md w-[500px] h-[30px]"
+            placeholder="메시지를 입력하세요."
+          />
+          <button onClick={handleSendMessage} className="ml-1 text-white bg-amber-950 rounded-md w-[40px] h-[30px]">
+            전송
+          </button>
+        </div>
       </div>
     </div>
   );

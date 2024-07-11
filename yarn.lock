@@ -2582,6 +2582,11 @@ rbush@^3.0.1:
   dependencies:
     quickselect "^2.0.0"
 
+react-card-flip@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/react-card-flip/-/react-card-flip-1.2.3.tgz#befca5fa41fcaa7c62ca6035a69b3dc3ded1bc3c"
+  integrity sha512-yb8+yyeTf5UVlZ/FC78XDgxYeWhgA0W28OXNB31LjiFeY1Y2kFhLP7bFiED4KNaRWKjaafT74G38XU53a6eIuw==
+
 react-dom@^16.8.4:
   version "16.14.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.14.0.tgz#7ad838ec29a777fb3c75c3a190f661cf92ab8b89"

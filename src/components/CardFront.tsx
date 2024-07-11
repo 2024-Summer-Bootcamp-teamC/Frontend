@@ -4,10 +4,10 @@ import Rectangle from "../assets/images/Rectangle.png";
 
 const CardFront: React.FC = () => {
     return (
-        <div className="relative flex-shrink-0 w-[237.298px] h-[366.962px]">
+        <div className="relative w-full h-full max-w-[237.298px] max-h-[366.962px]">
             {/* 카드 앞면 템플릿 */}
             <img 
-                className="w-full h-full"
+                className="object-contain w-full h-full"
                 src={CardFrontImage} 
                 alt='Front Of Card' 
             />

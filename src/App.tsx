@@ -4,17 +4,17 @@ import NavBar from './components/NavBar';
 import Book from './components/Book';
 
 const App: React.FC = () => {
-  const bookRef = useRef<{ goPage: (pageNumber: number) => void }>(null);
+  const bookRef = useRef<{ movePage: (pageNumber: number) => void }>(null);
 
-  const goPage = (pageNumber: number) => {
+  const movePage = (pageNumber: number) => {
     if (bookRef.current) {
-      bookRef.current.goPage(pageNumber);
+      bookRef.current.movePage(pageNumber);
     }
   };
 
   return (
     <div className="w-full min-h-screen overflow-hidden font-songmyung">
-      <NavBar goPage={goPage} />
+      <NavBar movePage={movePage} />
       <Book ref={bookRef} />
     </div>
   );

@@ -47,7 +47,7 @@ const Book = forwardRef((props, ref) => {
   const [curPage, setCurPage] = useState(0);
 
   useImperativeHandle(ref, () => ({
-    goPage(pageNumber: number) {
+    movePage(pageNumber: number) {
       if (bookRef.current) {
         bookRef.current.pageFlip().flip(pageNumber);
       }

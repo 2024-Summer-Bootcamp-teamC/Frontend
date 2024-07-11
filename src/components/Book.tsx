@@ -125,12 +125,16 @@ const Book = forwardRef((props, ref) => {
         {/* 인물 카드 리스트 */}
         <Page number={5}>
           <div className='absolute inset-0 flex items-center justify-center'>
+            <div className="flex items-center justify-center w-4/5 h-4/5">
               <GreatListPage />
+            </div>
           </div>
-         </Page>
+        </Page>
         <Page number={6}>
           <div className='absolute inset-0 flex items-center justify-center'>
-              <GreatListPage />
+            <div className="flex items-center justify-center w-4/5 h-4/5">
+                <GreatListPage />
+            </div>          
           </div>
         </Page>
 

@@ -51,7 +51,6 @@ const GreatPageLeft: React.FC = () => {
           </div>
         </div>
       </div>
-      <img src={Back} className="fixed bottom-0 left-0" alt="클립 이미지" />
     </>
   );
 };

@@ -8,8 +8,9 @@ import GreatQuizPageLeft from '../pages/GreatQuizPageLeft';
 import GreatQuizPageRight from '../pages/GreatQuizPageRight';
 import MapPage from '../pages/MapPage';
 import MainPage from '../pages/MainPage';
-import ChartPage from '../pages/ChartPage';
 import GreatListPage from '../pages/GreatListPage';
+import ChartPageLeft from '../pages/ChartPageLeft';
+import ChartPageRight from '../pages/ChartPageRight';
 
 interface PageCoverProps {
   children?: React.ReactNode;
@@ -17,7 +18,7 @@ interface PageCoverProps {
 
 const PageCover = forwardRef<HTMLDivElement, PageCoverProps>((props, ref) => {
   return (
-    <div className="bg-teal-500" ref={ref}>
+    <div ref={ref}>
       <div className="page-content">
         <h2>{props.children}</h2>
         <img src="images/Book.png" alt="" className="w-[600px] h-[700px]" />
@@ -31,13 +32,16 @@ interface PageProps {
   children?: React.ReactNode;
 }
 
-const Page = forwardRef<HTMLDivElement, PageProps & { number: number }>((props, ref) => {
-  const imageSource = props.number % 2 === 0 ? 'images/BookRightBg.png' : 'images/BookLeftBg.png';
+const Page = forwardRef<HTMLDivElement, PageProps>((props, ref) => {
+  const imageSource = props.number % 2 === 0 ? 'images/tmpRight.png' : 'images/tmpLeft.png';
 
   return (
     <div className="bg-gray-100" ref={ref}>
       <img src={imageSource} alt="" className="w-[600px] h-[700px] fixed -z-10" />
       <div className="z-10">{props.children}</div>
+      {props.number % 2 === 1 && (
+        <img src={'images/Back.png'} className="fixed cursor-pointer bottom-4 left-4" alt="뒤로가기 이미지" />
+      )}
     </div>
   );
 });
@@ -45,6 +49,7 @@ const Page = forwardRef<HTMLDivElement, PageProps & { number: number }>((props, 
 const Book = forwardRef((props, ref) => {
   const bookRef = useRef<HTMLFlipBook>(null);
   const [curPage, setCurPage] = useState(0);
+  const [login, setLogin] = useState<boolean>(true);
 
   useImperativeHandle(ref, () => ({
     movePage(pageNumber: number) {
@@ -62,13 +67,13 @@ const Book = forwardRef((props, ref) => {
 
   const nextPage = () => {
     if (bookRef.current) {
-      bookRef.current.pageFlip().flipNext();
+      bookRef.current.pageFlip().flipNext('top');
     }
   };
 
   const prevPage = () => {
     if (bookRef.current) {
-      bookRef.current.pageFlip().flipPrev();
+      bookRef.current.pageFlip().flipPrev('top');
     }
   };
 
@@ -92,7 +97,6 @@ const Book = forwardRef((props, ref) => {
         showCover={true}
         mobileScrollSupport={true}
         clickEventForward={true}
-        useMouseEvents={false}
         swipeDistance={3}
         showPageCorners={true}
         disableFlipByClick={false}
@@ -105,9 +109,15 @@ const Book = forwardRef((props, ref) => {
 
         {/* 지도 */}
         <Page number={1}>
-          <MapPage></MapPage>
+          <div className="relative overflow-hidden">
+            <MapPage part="left" move={movePage} />
+          </div>
         </Page>
-        <Page number={2}></Page>
+        <Page number={2}>
+          <div className="relative overflow-hidden">
+            <MapPage part="right" move={movePage} />
+          </div>
+        </Page>
 
         {/* 분야 */}
         <Page number={3}>
@@ -195,21 +205,36 @@ const Book = forwardRef((props, ref) => {
 
         {/* 차트 페이지 */}
         <Page number={17}>
-          <div className='absolute inset-0 flex items-center justify-center'>
-           <ChartPage />
-          </div>
+
+          <ChartPageLeft />
         </Page>
-        <Page number={18}></Page>
-        <PageCover />
+        <Page number={18}>
+          <ChartPageRight />
+        </Page>
+        <PageCover></PageCover>
       </HTMLFlipBook>
 
       {curPage === 0 && (
-        <div className="fixed left-[25%]">
-          <MainPage next={nextPage} children={undefined} />
+        <div className="fixed left-[25%] h-[600px]">
+          <MainPage next={nextPage} />
+
         </div>
       )}
+
+      {/* {curPage === 1 && (
+        <div className="fixed top-3 z-9">
+          <MapPage />
+        </div>
+      )} */}
+
+      {/* {curPage === 17 && (
+        <div className="fixed top-3 left-[13%] w-[80%] z-9">
+          <ChartPage />
+        </div>
+      )} */}
+
       {curPage !== 0 && (
-        <div className="fixed flex flex-col left-[2.2%] top-[15%]">
+        <div className="fixed flex flex-col left-[2.2%] top-[15%] animate-slideInFromLeft">
           <button
             onClick={() => movePage(1)}
             className="bg-[url('assets/images/CountryIndex.png')] bg-cover w-[100px] h-[40px] mb-3"
@@ -224,7 +249,7 @@ const Book = forwardRef((props, ref) => {
           </button>
         </div>
       )}
-      <div>
+      <div className="z-10">
         <button onClick={prevPage}>이전 페이지</button>
         <button onClick={nextPage}>다음 페이지</button>
       </div>

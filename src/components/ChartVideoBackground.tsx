@@ -9,7 +9,7 @@ type ChartVideoBackgroundProps = {
 const ChartVideoBackground: React.FC<ChartVideoBackgroundProps> = ({ children }) => {
   return (
     <div
-      className="w-[100%] h-[700px] bg-no-repeat bg-cover relative"
+      className="w-[100%] h-[600px] bg-no-repeat bg-cover relative"
       style={{ backgroundImage: `url(${ChartVideoBg})` }}
     >
       <div

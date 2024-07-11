@@ -125,7 +125,7 @@ const Book = forwardRef((props, ref) => {
           <GreatPageLeft />
         </Page>
         <Page number={8}>
-          <GreatPageRight />
+          <GreatPageRight movePage={movePage}/>
         </Page>
 
         {/* 인물 대화 창 */}
@@ -135,7 +135,7 @@ const Book = forwardRef((props, ref) => {
         <Page number={10}>
           <GreatChatPageRight />
         </Page>
-
+        
         {/* 인물 퀴즈 페이지 11 ~ 16 */}
         <Page number={11}>
           <GreatQuizPageLeft></GreatQuizPageLeft>

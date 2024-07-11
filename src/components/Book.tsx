@@ -104,63 +104,100 @@ const Book = forwardRef((props, ref) => {
       >
         <PageCover></PageCover>
 
-        {/* 지도 모달 */}
+        {/* 지도 */}
         <Page number={1}>
           <MapPage></MapPage>
         </Page>
         <Page number={2}></Page>
 
-        {/* 분야 모달 */}
-        <Page number={3}></Page>
-        <Page number={4}></Page>
+        {/* 분야 */}
+        <Page number={3}>
+          <div className='absolute inset-0 flex items-center justify-center'>
+           {/* Field Page */}
+          </div>
+        </Page>
+        <Page number={4}>
+           <div className='absolute inset-0 flex items-center justify-center'>
+            {/* Field Page */}
+           </div> 
+        </Page>
 
         {/* 인물 카드 리스트 */}
         <Page number={5}>
-          <GreatListPage></GreatListPage>
+          <div className='absolute inset-0 flex items-center justify-center'>
+              <GreatListPage />
+          </div>
+         </Page>
+        <Page number={6}>
+          <div className='absolute inset-0 flex items-center justify-center'>
+              <GreatListPage />
+          </div>
         </Page>
-        <Page number={6}></Page>
 
         {/* 인물 프로필 */}
         <Page number={7}>
-          <GreatPageLeft />
+          <div className='absolute inset-0 flex items-center justify-center'>
+            <GreatPageLeft />
+          </div>
         </Page>
         <Page number={8}>
-          <GreatPageRight />
+          <div className='absolute inset-0 flex items-center justify-center'>
+            <GreatPageRight movePage={movePage} />
+          </div>
         </Page>
 
         {/* 인물 대화 창 */}
         <Page number={9}>
-          <GreatChatPageLeft />
+          <div className='absolute inset-0 flex items-center justify-center'>
+            <GreatChatPageLeft />
+          </div>
         </Page>
         <Page number={10}>
-          <GreatChatPageRight />
+          <div className='absolute inset-0 flex items-center justify-center'>
+            <GreatChatPageRight />
+          </div>
         </Page>
 
         {/* 인물 퀴즈 페이지 11 ~ 16 */}
         <Page number={11}>
-          <GreatQuizPageLeft></GreatQuizPageLeft>
+        <div className='absolute inset-0 flex items-center justify-center'>
+            <GreatQuizPageLeft />
+          </div>
         </Page>
         <Page number={12}>
-          <GreatQuizPageRight></GreatQuizPageRight>
+        <div className='absolute inset-0 flex items-center justify-center'>
+            <GreatQuizPageRight />
+          </div>
         </Page>
         <Page number={13}>
-          <GreatQuizPageRight></GreatQuizPageRight>
+        <div className='absolute inset-0 flex items-center justify-center'>
+            <GreatQuizPageRight />
+          </div>
         </Page>
         <Page number={14}>
-          <GreatQuizPageRight></GreatQuizPageRight>
+        <div className='absolute inset-0 flex items-center justify-center'>
+            <GreatQuizPageRight />
+          </div>
         </Page>
         <Page number={15}>
-          <GreatQuizPageRight></GreatQuizPageRight>
+        <div className='absolute inset-0 flex items-center justify-center'>
+            <GreatQuizPageRight />
+          </div>
         </Page>
         <Page number={16}>
-          <GreatQuizPageRight></GreatQuizPageRight>
+          <div className='absolute inset-0 flex items-center justify-center'>
+            <GreatQuizPageRight />
+          </div>
         </Page>
 
         {/* 차트 페이지 */}
         <Page number={17}>
-          <ChartPage />
+          <div className='absolute inset-0 flex items-center justify-center'>
+           <ChartPage />
+          </div>
         </Page>
         <Page number={18}></Page>
+        <PageCover />
       </HTMLFlipBook>
 
       {curPage === 0 && (

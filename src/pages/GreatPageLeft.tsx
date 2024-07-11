@@ -24,9 +24,9 @@ const GreatPageLeft: React.FC = () => {
   return (
     <>
       <div className="flex flex-col items-center justify-center w-[80%]">
-      {/* <img src={Clip} className="fixed left-[5em] top-[-2rem]" alt="클립 이미지" /> */}
+        {/* <img src={Clip} className="fixed left-[5em] top-[-2rem]" alt="클립 이미지" /> */}
 
-        <img src={TmpImg} className="mb-[6rem] w-[40%]" alt="임시 이미지" />
+        <img src={TmpImg} className="mb-[6rem] w-[60%]" alt="임시 이미지" />
         <div className="w-[80%]">
           {/* 프로그레스 바 */}
           <div className="w-[100%] grid" style={{ gridTemplateColumns: 'repeat(5, 25%)' }}>
@@ -40,9 +40,9 @@ const GreatPageLeft: React.FC = () => {
               />
             </div>
           </div>
-          <ProgressBar completed={progress} bgColor="white" height="15px" baseBgColor="#88634A" />
+          <ProgressBar completed={progress} bgColor="white" height="5px" baseBgColor="#88634A" />
           {/* 프로그레스 바 라벨 */}
-          <div className="flex text-[#88634A] text-[2rem] justify-between mt-4">
+          <div className="flex text-[#88634A] text-[20px] justify-between mt-4">
             <span>0</span>
             <span>1</span>
             <span>2</span>

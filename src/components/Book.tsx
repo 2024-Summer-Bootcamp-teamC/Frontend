@@ -1,4 +1,4 @@
-import React, { useRef, useState, useImperativeHandle, forwardRef } from 'react';
+import React, { useRef, useState, useImperativeHandle, forwardRef, useEffect } from 'react';
 import HTMLFlipBook from 'react-pageflip';
 import GreatChatPageRight from '../pages/GreatChatPageRight';
 import GreatPageLeft from '../pages/GreatPageLeft';
@@ -11,6 +11,7 @@ import MainPage from '../pages/MainPage';
 import GreatListPage from '../pages/GreatListPage';
 import ChartPageLeft from '../pages/ChartPageLeft';
 import ChartPageRight from '../pages/ChartPageRight';
+import axios from 'axios';
 
 interface PageCoverProps {
   children?: React.ReactNode;
@@ -50,6 +51,21 @@ const Book = forwardRef((props, ref) => {
   const bookRef = useRef<HTMLFlipBook>(null);
   const [curPage, setCurPage] = useState(0);
   const [login, setLogin] = useState<boolean>(true);
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('/api/greats/1');
+        setData(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useImperativeHandle(ref, () => ({
     movePage(pageNumber: number) {

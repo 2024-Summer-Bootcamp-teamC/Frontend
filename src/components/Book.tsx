@@ -12,6 +12,8 @@ import GreatListPage from '../pages/GreatListPage';
 import ChartPageLeft from '../pages/ChartPageLeft';
 import ChartPageRight from '../pages/ChartPageRight';
 import axios from 'axios';
+import PuzzleModal from '../components/PuzzleModal'; // PuzzleModal을 import합니다.
+
 
 interface PageCoverProps {
   children?: React.ReactNode;
@@ -51,6 +53,7 @@ const Book = forwardRef((props, ref) => {
   const bookRef = useRef<HTMLFlipBook>(null);
   const [curPage, setCurPage] = useState(0);
   const [login, setLogin] = useState<boolean>(true);
+
   const [data, setData] = useState(null);
 
   useEffect(() => {
@@ -66,6 +69,9 @@ const Book = forwardRef((props, ref) => {
 
     fetchData();
   }, []);
+
+  const [showModal, setShowModal] = useState(false); // 모달 상태 추가
+
 
   useImperativeHandle(ref, () => ({
     movePage(pageNumber: number) {
@@ -93,6 +99,10 @@ const Book = forwardRef((props, ref) => {
     }
   };
 
+  const handleComplete = () => {
+    setShowModal(true); // 완료 버튼을 누르면 모달을 보여줍니다.
+  };
+
   return (
     <div className="relative flex flex-col items-center justify-center mt-[100px]">
       <HTMLFlipBook
@@ -104,7 +114,7 @@ const Book = forwardRef((props, ref) => {
         minHeight={300}
         maxHeight={800}
         drawShadow={true}
-        flippingTime={1000}
+        flippingTime={700}
         startPage={0}
         usePortrait={true}
         startZIndex={30}
@@ -192,27 +202,28 @@ const Book = forwardRef((props, ref) => {
         </Page>
         <Page number={12}>
           <div className="absolute inset-0 flex items-center justify-center">
-            <GreatQuizPageRight />
+            <GreatQuizPageRight movePage={movePage} currentPage={12} />
           </div>
         </Page>
         <Page number={13}>
           <div className="absolute inset-0 flex items-center justify-center">
-            <GreatQuizPageRight />
+            <GreatQuizPageRight movePage={movePage} currentPage={13} />
           </div>
         </Page>
         <Page number={14}>
           <div className="absolute inset-0 flex items-center justify-center">
-            <GreatQuizPageRight />
+            <GreatQuizPageRight movePage={movePage} currentPage={14} />
           </div>
         </Page>
         <Page number={15}>
           <div className="absolute inset-0 flex items-center justify-center">
-            <GreatQuizPageRight />
+            <GreatQuizPageRight movePage={movePage} currentPage={15} />
           </div>
         </Page>
         <Page number={16}>
           <div className="absolute inset-0 flex items-center justify-center">
-            <GreatQuizPageRight />
+            <GreatQuizPageRight movePage={movePage} currentPage={16} onComplete={handleComplete} />{' '}
+            {/* handleComplete을 완료 버튼에 전달 */}
           </div>
         </Page>
 
@@ -233,7 +244,7 @@ const Book = forwardRef((props, ref) => {
       )}
 
       {curPage !== 0 && (
-        <div className="fixed flex flex-col left-[2.2%] top-[15%] animate-slideInFromLeft">
+        <div className="fixed flex flex-col left-[5%] top-[15%] animate-slideInFromLeft">
           <button
             onClick={() => movePage(1)}
             className="bg-[url('assets/images/CountryIndex.png')] bg-cover w-[100px] h-[40px] mb-3"
@@ -252,6 +263,14 @@ const Book = forwardRef((props, ref) => {
         <button onClick={prevPage}>이전 페이지</button>
         <button onClick={nextPage}>다음 페이지</button>
       </div>
+      {showModal && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 bg-white bg-opacity-70">
+          <PuzzleModal movePage={movePage} closeModal={() => setShowModal(false)} />
+          <button onClick={() => setShowModal(false)} className="absolute top-5 right-5 text-white text-xl">
+            닫기
+          </button>
+        </div>
+      )}
     </div>
   );
 });

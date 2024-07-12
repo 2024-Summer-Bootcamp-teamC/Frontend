@@ -80,8 +80,8 @@ const GreatChatPageRight: React.FC = () => {
     <div className="flex-grow max-w-2xl m-4">
       <div className="mt-4 mb-4 text-[20px] text-center">{getCurrentDate()}</div>
       <div className="mr-2 ml-2">
-        <div className="mb-4 h-[570px] overflow-y-auto">
-          <div className="mr-4">
+        <div className="mb-5 h-[550px] overflow-y-auto">
+          <div className="mr-6">
             {messages.map((message) => (
               <MessageComponent key={message.id} message={message} />
             ))}
@@ -89,7 +89,7 @@ const GreatChatPageRight: React.FC = () => {
 
           <div ref={messagesEndRef} />
         </div>
-        <div className="flex justify-end mt-4 mr-4">
+        <div className="flex justify-end mt-4 mr-6">
           <input
             type="text"
             value={input}
@@ -97,10 +97,13 @@ const GreatChatPageRight: React.FC = () => {
             onCompositionStart={() => setIsComposing(true)}
             onCompositionEnd={() => setIsComposing(false)}
             onChange={(e) => setInput(e.target.value)}
-            className="border border-gray-300 rounded-md w-[500px] h-[30px]"
+            className="border border-black rounded-md w-[500px] h-[30px]"
             placeholder="메시지를 입력하세요."
           />
-          <button onClick={handleSendMessage} className="ml-1 text-white bg-amber-950 rounded-md w-[40px] h-[30px]">
+          <button
+            onClick={handleSendMessage}
+            className="ml-1 text-white border-black bg-amber-950 rounded-md w-[40px] h-[30px]"
+          >
             전송
           </button>
         </div>

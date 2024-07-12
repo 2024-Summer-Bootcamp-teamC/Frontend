@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import RedBtn from '../assets/images/PuzzleCardRedBtn.png';
 import BlueBtn from '../assets/images/PuzzleCardBlueBtn.png';
 import EmptyPuzzle from '../assets/images/EmptyPuzzle.png';
@@ -11,6 +11,7 @@ interface GreatQuizPageRightProps {
 }
 
 const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, currentPage, onComplete }) => {
+  const [selectedOption, setSelectedOption] = useState<string | null>(null); // 선택된 옵션 상태 추가
   const puzzleCount = 2;
   const puzzlePieces = [...Array(4)].map((_, index) => (
     <img
@@ -20,6 +21,10 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
       alt="퍼즐 조각"
     />
   ));
+
+  const handleOptionClick = (option: string) => {
+    setSelectedOption(option);
+  };
 
   return (
     <div className="relative h-[700px]">
@@ -35,16 +40,26 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
           </span>
         </div>
         <div className="w-[448px]">
-          <div className="border border-black hover:bg-amber-950 hover:text-white rounded-md text-[20px] mb-1 p-2 text-center cursor-pointer">
+          <div
+            className={`border border-black rounded-md text-[20px] mb-1 p-2 text-center cursor-pointer ${
+              selectedOption === 'O' ? 'bg-amber-950 text-white' : 'hover:bg-amber-950 hover:text-white'
+            }`}
+            onClick={() => handleOptionClick('O')}
+          >
             O
           </div>
-          <div className="border border-black hover:bg-amber-950 hover:text-white rounded-md text-[20px] mt-1 p-2 text-center cursor-pointer">
+          <div
+            className={`border border-black rounded-md text-[20px] mt-1 p-2 text-center cursor-pointer ${
+              selectedOption === 'X' ? 'bg-amber-950 text-white' : 'hover:bg-amber-950 hover:text-white'
+            }`}
+            onClick={() => handleOptionClick('X')}
+          >
             X
           </div>
         </div>
 
         <div className="flex justify-center mt-24">
-          {currentPage === 11 || currentPage === 13 || currentPage === 15 ? (
+          {currentPage === 13 || currentPage === 15 ? (
             <button
               className="mx-4 text-2xl bg-no-repeat bg-center bg-cover text-white font-bold w-52 h-20"
               style={{ backgroundImage: `url(${RedBtn})` }}

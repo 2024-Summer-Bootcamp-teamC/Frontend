@@ -2,12 +2,83 @@ import React from 'react';
 import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
 
+Highcharts.setOptions({
+  chart: {
+    style: {
+      fontFamily: 'Song Myung, sans-serif',
+      fontWeight: '500', // Tailwind의 font-medium에 해당
+    },
+  },
+  title: {
+    style: {
+      fontFamily: 'Song Myung, sans-serif',
+      fontWeight: '500', // Tailwind의 font-medium에 해당
+    },
+  },
+  subtitle: {
+    style: {
+      fontFamily: 'Song Myung, sans-serif',
+      fontWeight: '500', // Tailwind의 font-medium에 해당
+    },
+  },
+  xAxis: {
+    labels: {
+      style: {
+        fontFamily: 'Song Myung, sans-serif',
+        fontWeight: '500', // Tailwind의 font-medium에 해당
+      },
+    },
+    title: {
+      style: {
+        fontFamily: 'Song Myung, sans-serif',
+        fontWeight: '500', // Tailwind의 font-medium에 해당
+      },
+    },
+  },
+  yAxis: {
+    labels: {
+      style: {
+        fontFamily: 'Song Myung, sans-serif',
+        fontWeight: '500', // Tailwind의 font-medium에 해당
+      },
+    },
+    title: {
+      style: {
+        fontFamily: 'Song Myung, sans-serif',
+        fontWeight: '500', // Tailwind의 font-medium에 해당
+      },
+    },
+  },
+  tooltip: {
+    style: {
+      fontFamily: 'Song Myung, sans-serif',
+      fontWeight: '500', // Tailwind의 font-medium에 해당
+    },
+  },
+  legend: {
+    itemStyle: {
+      fontFamily: 'Song Myung, sans-serif',
+      fontWeight: '500', // Tailwind의 font-medium에 해당
+    },
+  },
+  plotOptions: {
+    series: {
+      dataLabels: {
+        style: {
+          textOutline: 'none',
+        },
+      },
+    },
+  },
+});
+
 const options = {
   title: {
     text: 'Growth of Internet Users Worldwide (logarithmic scale)',
   },
   chart: {
     height: 270,
+    backgroundColor: 'rgba(255,255,255,0)',
   },
   accessibility: {
     point: {
@@ -27,6 +98,7 @@ const options = {
     title: {
       text: 'Number of Internet Users (in millions)',
     },
+    gridLineColor: '#000000',
   },
 
   tooltip: {
@@ -71,6 +143,7 @@ const ChartPageRight: React.FC = () => {
     },
     chart: {
       height: 270,
+      backgroundColor: 'rgba(255,255,255,0)',
     },
     subtitle: {
       text:
@@ -85,6 +158,7 @@ const ChartPageRight: React.FC = () => {
       title: {
         text: 'Temperature (°C)',
       },
+      gridLineColor: '#000000',
     },
     plotOptions: {
       line: {

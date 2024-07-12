@@ -216,18 +216,6 @@ const Book = forwardRef((props, ref) => {
         </div>
       )}
 
-      {/* {curPage === 1 && (
-        <div className="fixed top-3 z-9">
-          <MapPage />
-        </div>
-      )} */}
-
-      {/* {curPage === 17 && (
-        <div className="fixed top-3 left-[13%] w-[80%] z-9">
-          <ChartPage />
-        </div>
-      )} */}
-
       {curPage !== 0 && (
         <div className="fixed flex flex-col left-[2.2%] top-[15%] animate-slideInFromLeft">
           <button

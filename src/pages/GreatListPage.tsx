@@ -10,7 +10,7 @@ const GreatListPage: React.FC = () => {
     const [isFlipped4, setIsFlipped4] = useState(false);
 
     return (
-        <div className="flex flex-col items-center justify-center w-full h-full p-4 space-y-4">
+        <div className="flex flex-col items-center justify-center w-full h-full p-4 space-y-4 scale-90">
             <div className='flex flex-row justify-center w-full space-x-3'>
                 <div 
                     className="flex-1 max-w-[237.298px] max-h-[366.962px]"

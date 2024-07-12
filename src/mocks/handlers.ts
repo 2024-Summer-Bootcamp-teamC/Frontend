@@ -113,9 +113,11 @@ export const handlers: RestHandler[] = [
   // 위인 전체 리스트 불러오기
   rest.get<Great[]>('/greats/:user_id', (req, res, ctx) => {
     const { user_id } = req.params;
+    console.log('user_id', user_id);
     const user = users.find((user) => user.id === Number(user_id));
     if (user) {
-      return res(ctx.status(201), ctx.json(greats));
+      console.log('user', user);
+      return res(ctx.status(200), ctx.json(greats));
     } else {
       return res(ctx.status(404));
     }

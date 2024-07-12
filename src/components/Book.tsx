@@ -56,9 +56,9 @@ const Book = forwardRef((props, ref) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/api/greats/1');
+        const response = await axios.get('greats/1');
+        console.log('API response:', response);
         setData(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useImperativeHandle, forwardRef, useEffect } from 'react';
+import React, { useRef, useState, useImperativeHandle, forwardRef, memo, useEffect } from 'react';
 import HTMLFlipBook from 'react-pageflip';
 import GreatChatPageRight from '../pages/GreatChatPageRight';
 import GreatPageLeft from '../pages/GreatPageLeft';
@@ -158,14 +158,14 @@ const Book = forwardRef((props, ref) => {
         <Page number={5}>
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="flex items-center justify-center w-4/5 h-4/5">
-              <GreatListPage />
+              <GreatListPage movePage={movePage}/>
             </div>
           </div>
         </Page>
         <Page number={6}>
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="flex items-center justify-center w-4/5 h-4/5">
-              <GreatListPage />
+              <GreatListPage movePage={movePage}/>
             </div>
           </div>
         </Page>

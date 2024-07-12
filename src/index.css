@@ -8,3 +8,12 @@ body {
     @apply min-h-screen bg-center bg-cover bg-custom-background;
 }
 
+/* index.css 또는 styles.css */
+
+::-webkit-scrollbar {
+    width: 4px; /* 스크롤바 너비 조정 */
+}
+::-webkit-scrollbar-thumb {
+    background-color: rgba(112, 108, 108, 0); /* 스크롤바 색상 */
+    border-radius: 10px; /* 스크롤바 모서리 둥글게 */
+}

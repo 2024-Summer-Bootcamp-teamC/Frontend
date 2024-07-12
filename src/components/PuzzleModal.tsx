@@ -3,22 +3,22 @@ import imageSrc from '../assets/images/sejong.png';
 import RedBtn from '../assets/images/PuzzleCardRedBtn.png';
 import BlueBtn from '../assets/images/PuzzleCardBlueBtn.png';
 
-const PuzzleCard: React.FC = () => {
+const PuzzleModal: React.FC = () => {
   return (
-    <div className="bg-white bg-opacity-40 w-4/5 mx-auto p-6 rounded-lg shadow-lg">
+    <div className="w-4/5 p-6 mx-auto bg-white rounded-lg shadow-lg bg-opacity-40">
       <h1 className="text-5xl text-center">퍼즐획득!</h1>
-      <div className="flex relative mb-6 justify-center">
+      <div className="relative flex justify-center mb-6">
         <img src={imageSrc} alt="세종대왕" className="my-10"></img>
       </div>
       <div className="text-center">
         <button
-          className="mx-4 text-2xl bg-no-repeat bg-center bg-cover text-white font-bold w-52 h-20"
+          className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
           style={{ backgroundImage: `url(${RedBtn})` }}
         >
           이어서 풀기
         </button>
         <button
-          className="mx-4 text-2xl bg-no-repeat bg-center bg-cover text-white font-bold w-52 h-20"
+          className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
           style={{ backgroundImage: `url(${BlueBtn})` }}
         >
           카드 보러가기
@@ -28,4 +28,4 @@ const PuzzleCard: React.FC = () => {
   );
 };
 
-export default PuzzleCard;
+export default PuzzleModal;

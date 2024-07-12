@@ -1,4 +1,4 @@
-import React, { useRef, useState, useImperativeHandle, forwardRef } from 'react';
+import React, { useRef, useState, useImperativeHandle, forwardRef, memo } from 'react';
 import HTMLFlipBook from 'react-pageflip';
 import GreatChatPageRight from '../pages/GreatChatPageRight';
 import GreatPageLeft from '../pages/GreatPageLeft';
@@ -94,7 +94,7 @@ const Book = forwardRef((props, ref) => {
         minHeight={300}
         maxHeight={800}
         drawShadow={true}
-        flippingTime={1000}
+        flippingTime={700}
         startPage={0}
         usePortrait={true}
         startZIndex={30}
@@ -138,14 +138,14 @@ const Book = forwardRef((props, ref) => {
         <Page number={5}>
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="flex items-center justify-center w-4/5 h-4/5">
-              <GreatListPage />
+              <GreatListPage movePage={movePage}/>
             </div>
           </div>
         </Page>
         <Page number={6}>
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="flex items-center justify-center w-4/5 h-4/5">
-              <GreatListPage />
+              <GreatListPage movePage={movePage}/>
             </div>
           </div>
         </Page>
@@ -224,7 +224,7 @@ const Book = forwardRef((props, ref) => {
       )}
 
       {curPage !== 0 && (
-        <div className="fixed flex flex-col left-[2.2%] top-[15%] animate-slideInFromLeft">
+        <div className="fixed flex flex-col left-[5%] top-[15%] animate-slideInFromLeft">
           <button
             onClick={() => movePage(1)}
             className="bg-[url('assets/images/CountryIndex.png')] bg-cover w-[100px] h-[40px] mb-3"
@@ -245,7 +245,10 @@ const Book = forwardRef((props, ref) => {
       </div>
       {showModal && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 bg-white bg-opacity-70">
-          <PuzzleModal />
+          <PuzzleModal movePage={movePage} closeModal={() => setShowModal(false)} />
+          <button onClick={() => setShowModal(false)} className="absolute top-5 right-5 text-white text-xl">
+            닫기
+          </button>
         </div>
       )}
     </div>

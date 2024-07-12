@@ -5,7 +5,7 @@ import BlueBtn from '../assets/images/PuzzleCardBlueBtn.png';
 
 const PuzzleModal: React.FC = () => {
   return (
-    <div className="w-4/5 p-6 mx-auto bg-white rounded-lg shadow-lg bg-opacity-40">
+    <div className="w-4/5 p-6 mx-auto rounded-lg shadow-lg">
       <h1 className="text-5xl text-center">퍼즐획득!</h1>
       <div className="relative flex justify-center mb-6">
         <img src={imageSrc} alt="세종대왕" className="my-10"></img>

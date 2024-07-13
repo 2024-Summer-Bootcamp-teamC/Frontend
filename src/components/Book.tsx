@@ -1,4 +1,4 @@
-import React, { useRef, useState, useImperativeHandle, forwardRef, memo, useEffect } from 'react';
+import React, { useRef, useState, useImperativeHandle, forwardRef, useEffect } from 'react';
 import HTMLFlipBook from 'react-pageflip';
 import GreatChatPageRight from '../pages/GreatChatPageRight';
 import GreatPageLeft from '../pages/GreatPageLeft';
@@ -46,18 +46,14 @@ const Page = forwardRef<HTMLDivElement, PageProps>((props, ref) => {
 });
 
 const Book = forwardRef((props, ref) => {
-  const bookRef = useRef<HTMLFlipBook>(null);
+  const bookRef = useRef<React.ElementRef<typeof HTMLFlipBook>>(null);
   const [curPage, setCurPage] = useState(0);
-  const [login, setLogin] = useState<boolean>(true);
-
-  const [data, setData] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get('greats/1');
-        console.log('API response:', response);
-        setData(response.data);
+        console.log('response', response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -66,6 +62,7 @@ const Book = forwardRef((props, ref) => {
     fetchData();
   }, []);
 
+  const someStyle: React.CSSProperties = {}; // htmlFlip 에러 없앨라고 추가
   const [showModal, setShowModal] = useState(false); // 모달 상태 추가
 
   useImperativeHandle(ref, () => ({
@@ -98,6 +95,26 @@ const Book = forwardRef((props, ref) => {
     setShowModal(true); // 완료 버튼을 누르면 모달을 보여줍니다.
   };
 
+  const handleClick = () => {
+    // 예시로 사용할 데이터 객체
+    const newUser = {
+      name: '최호',
+      year: 2001,
+    };
+
+    // axios를 이용한 POST 요청
+    axios
+      .post('/users', newUser)
+      .then((response) => {
+        console.log('Response:', response.data);
+        // 성공적으로 요청이 처리된 경우의 추가 작업
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        // 요청이 실패한 경우의 추가 작업
+      });
+  };
+
   return (
     <div className="relative flex flex-col items-center justify-center mt-[100px]">
       <HTMLFlipBook
@@ -126,6 +143,8 @@ const Book = forwardRef((props, ref) => {
         onFlip={(e) => {
           setCurPage(e.data);
         }}
+        style={someStyle}
+        className={''}
       >
         <PageCover></PageCover>
 
@@ -229,7 +248,6 @@ const Book = forwardRef((props, ref) => {
         <Page number={18}>
           <ChartPageRight />
         </Page>
-        <PageCover></PageCover>
       </HTMLFlipBook>
 
       {curPage === 0 && (
@@ -257,11 +275,12 @@ const Book = forwardRef((props, ref) => {
       <div className="z-10">
         <button onClick={prevPage}>이전 페이지</button>
         <button onClick={nextPage}>다음 페이지</button>
+        <button onClick={handleClick}>유저 테스트</button>
       </div>
       {showModal && (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 bg-white bg-opacity-70">
+        <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-white bg-opacity-70">
           <PuzzleModal movePage={movePage} closeModal={() => setShowModal(false)} />
-          <button onClick={() => setShowModal(false)} className="absolute top-5 right-5 text-white text-xl">
+          <button onClick={() => setShowModal(false)} className="absolute text-xl text-white top-5 right-5">
             닫기
           </button>
         </div>

@@ -3,7 +3,13 @@ import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps
 
 const geoUrl = '../../public/features.json';
 
-const markers = [
+interface MarkerType {
+  markerOffset: number;
+  name: string;
+  coordinates: [number, number]; // [number, number] 타입으로 명시
+}
+
+const markers: MarkerType[] = [
   {
     markerOffset: -30,
     name: '대한민국',

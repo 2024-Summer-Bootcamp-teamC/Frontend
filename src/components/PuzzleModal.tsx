@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import imageSrc from '../assets/images/sejong.png';
 import RedBtn from '../assets/images/PuzzleCardRedBtn.png';
 import BlueBtn from '../assets/images/PuzzleCardBlueBtn.png';
@@ -9,22 +9,30 @@ interface PuzzleModalProps {
 }
 
 const PuzzleModal: React.FC<PuzzleModalProps> = ({ movePage, closeModal }) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
   const handleContinue = () => {
+    setIsVisible(false);
     closeModal();
     setTimeout(() => {
       movePage(12);
-    }, 300); // 300ms 딜레이를 주어 closeModal이 먼저 실행되도록 함
+    }, 500); // 500ms 딜레이를 주어 closeModal이 먼저 실행되도록 함
   };
 
   const handleCardList = () => {
+    setIsVisible(false);
     closeModal();
     setTimeout(() => {
       movePage(5);
-    }, 300); // 300ms 딜레이를 주어 closeModal이 먼저 실행되도록 함
+    }, 500); // 500ms 딜레이를 주어 closeModal이 먼저 실행되도록 함
   };
 
   return (
-    <div className="w-4/5 p-6 mx-auto rounded-lg shadow-lg">
+    <div className={`w-4/5 p-6 mx-auto rounded-lg shadow-lg ${isVisible ? 'modal-visible' : 'modal-hidden'}`}>
       <h1 className="text-5xl text-center">퍼즐획득!</h1>
       <div className="relative flex justify-center mb-6">
         <img src={imageSrc} alt="세종대왕" className="my-10"></img>

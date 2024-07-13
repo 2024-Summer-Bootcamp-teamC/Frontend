@@ -17,3 +17,12 @@ body {
     background-color: rgba(112, 108, 108, 0); /* 스크롤바 색상 */
     border-radius: 10px; /* 스크롤바 모서리 둥글게 */
 }
+
+@layer components {
+    .modal-visible {
+      @apply animate-fadeIn visible;
+    }
+    .modal-hidden {
+      @apply animate-fadeOut invisible;
+    }
+  }

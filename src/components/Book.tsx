@@ -14,7 +14,6 @@ import ChartPageRight from '../pages/ChartPageRight';
 import axios from 'axios';
 import PuzzleModal from '../components/PuzzleModal'; // PuzzleModal을 import합니다.
 
-
 interface PageCoverProps {
   children?: React.ReactNode;
 }
@@ -42,9 +41,6 @@ const Page = forwardRef<HTMLDivElement, PageProps>((props, ref) => {
     <div className="bg-gray-100" ref={ref}>
       <img src={imageSource} alt="" className="w-[600px] h-[700px] fixed -z-10" />
       <div className="z-10">{props.children}</div>
-      {props.number % 2 === 1 && (
-        <img src={'images/Back.png'} className="fixed cursor-pointer bottom-4 left-4" alt="뒤로가기 이미지" />
-      )}
     </div>
   );
 });
@@ -71,7 +67,6 @@ const Book = forwardRef((props, ref) => {
   }, []);
 
   const [showModal, setShowModal] = useState(false); // 모달 상태 추가
-
 
   useImperativeHandle(ref, () => ({
     movePage(pageNumber: number) {
@@ -158,14 +153,14 @@ const Book = forwardRef((props, ref) => {
         <Page number={5}>
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="flex items-center justify-center w-4/5 h-4/5">
-              <GreatListPage movePage={movePage}/>
+              <GreatListPage movePage={movePage} />
             </div>
           </div>
         </Page>
         <Page number={6}>
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="flex items-center justify-center w-4/5 h-4/5">
-              <GreatListPage movePage={movePage}/>
+              <GreatListPage movePage={movePage} />
             </div>
           </div>
         </Page>

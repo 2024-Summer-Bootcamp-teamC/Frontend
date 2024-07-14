@@ -1,7 +1,6 @@
 import React from 'react';
 
 interface MainPageProps {
-  children: React.ReactNode;
   next: () => void;
 }
 

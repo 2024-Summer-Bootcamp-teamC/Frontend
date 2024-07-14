@@ -1,6 +1,24 @@
 // src/mocks/handlers.ts
 
-import { rest, RestHandler } from 'msw';
+import { http, HttpResponse } from 'msw';
+
+type paramsNone = {};
+
+type GreatGetParams = {
+  user_id: string;
+  story_id: string;
+  param: string;
+};
+
+type AddCommentResponseBody = {
+  status: number;
+  message: string;
+};
+
+type UserGetPrams = {
+  user_id: number;
+  correct_cnt: number;
+};
 
 interface User {
   id: number;
@@ -30,13 +48,13 @@ interface Quiz {
   explanation: string;
 }
 
-interface Result {
+type Result = {
   id: number;
   story_id: number;
   user_id: number;
   puzzle_cnt: number;
   correct_cnt: number;
-}
+};
 
 const users: User[] = [{ id: 1, name: '김진용', year: 1900 }];
 
@@ -82,7 +100,7 @@ const greats: Great[] = [
   },
 ];
 
-const quiz: Quiz[] = [
+const quizzes: Quiz[] = [
   {
     id: 1,
     story_id: 1,
@@ -102,76 +120,109 @@ const result: Result[] = [
   },
 ];
 
-export const handlers: RestHandler[] = [
+export const handlers = [
   // 사용자 정보 입력하기
-  rest.post<User>('/users', (req, res, ctx) => {
-    const newUser = req.body;
+  http.post<paramsNone, User, AddCommentResponseBody, '/users'>('/users', async ({ request }) => {
+    const newUser = await request.json();
     newUser.id = users.length + 1;
     users.push(newUser);
-    return res(ctx.status(201), ctx.json(newUser));
+    console.log(users);
+    return HttpResponse.json();
   }),
-  // 위인 전체 리스트 불러오기
-  rest.get<Great[]>('/greats/:user_id', (req, res, ctx) => {
-    const { user_id } = req.params;
-    console.log('user_id', user_id);
+  // 위인 전체 리스트 불러오기, 선택한 분야의 위인 목록 불러오기
+  http.get<GreatGetParams, Great, Great[], '/greats/:user_id'>('/greats/:user_id', ({ params }) => {
+    const { user_id } = params;
     const user = users.find((user) => user.id === Number(user_id));
+    console.log(greats);
     if (user) {
-      console.log('user', user);
-      return res(ctx.status(200), ctx.json(greats));
+      return HttpResponse.json(greats);
     } else {
-      return res(ctx.status(404));
+      return HttpResponse.json();
     }
   }),
-  // 선택한 분야의 위인 목록 불러오기
-  rest.get<Great[]>('/greats', (req, res, ctx) => {
-    const nation = req.url.searchParams.get('nation');
-    const field = req.url.searchParams.get('field');
+  http.get<GreatGetParams, Great, Great[] | AddCommentResponseBody, '/greats/:user_id/:param'>(
+    '/greats/:user_id/:param',
+    ({ params }) => {
+      const { param, user_id } = params;
 
-    let filteredGreats: Great[] = [];
+      const user = users.find((user) => user.id === Number(user_id));
+      const filterGreat = greats.filter((great) => great.field === param || great.nation === param);
 
-    if (nation) {
-      filteredGreats = greats.filter((great) => great.nation === nation);
-    } else if (field) {
-      filteredGreats = greats.filter((great) => great.field === field);
-    }
-
-    return res(ctx.status(200), ctx.json({ greats: filteredGreats }));
-  }),
-  // 선택한 위인 정보 불러오기
-  rest.get<Great>('/greats/:user_id/:story_id', (req, res, ctx) => {
-    const { user_id, story_id } = req.params;
-    const story = greats.find((great) => great.id === Number(story_id));
-
-    if (story) {
-      return res(ctx.status(200), ctx.json(story));
-    } else {
-      return res(ctx.status(404));
-    }
-  }),
+      if (user) {
+        if (filterGreat) {
+          return HttpResponse.json(filterGreat);
+        } else {
+          return HttpResponse.json({ status: 404, message: '위인 없음' });
+        }
+      } else {
+        return HttpResponse.json({ status: 404, message: '사용자 없음' });
+      }
+    },
+  ),
+  http.get<GreatGetParams, Great, Great | AddCommentResponseBody, '/greats/:user_id/:story_id'>(
+    '/greats/:user_id/:story_id',
+    ({ params }) => {
+      const { user_id, story_id } = params;
+      const story = greats.find((great) => great.id === Number(story_id));
+      if (user_id) {
+        if (story) {
+          return HttpResponse.json(story);
+        } else {
+          return HttpResponse.json({ status: 404, message: '위인 없음' });
+        }
+      } else {
+        return HttpResponse.json({ status: 404, message: '사용자 없음' });
+      }
+    },
+  ),
   // 퀴즈 퍼즐 저장하기
-  // rest.post<Quiz>('/quizzes/:story_id/puzzles', (req, res, ctx) => {
-  //   const { story_id } = req.params;
-  //   const { puzzleData } = req.body;
+  // id: number;
+  // story_id: number;
+  // user_id: number;
+  // puzzle_cnt: number;
+  // correct_cnt: number;
+  http.put<GreatGetParams, UserGetPrams, AddCommentResponseBody, '/greats/:story_id/puzzles'>(
+    '/greats/:story_id/puzzles',
+    async ({ params, request }) => {
+      const { story_id } = params;
+      const { user_id, correct_cnt } = await request.json();
 
-  //   const response: Quiz = {
-  //     id: quiz.length + 1,
-  //     story_id: Number(story_id),
-  //     ...puzzleData,
-  //   };
+      const puzzleData = result.find((re) => re.story_id === Number(story_id) || re.user_id === user_id);
 
-  //   quiz.push(response);
+      const response: Result = {
+        id: result.length + 1,
+        story_id: Number(story_id),
+        user_id: user_id,
+        correct_cnt: correct_cnt,
+        puzzle_cnt: (puzzleData?.puzzle_cnt ?? 0) + 1,
+      };
 
-  //   return res(ctx.status(201), ctx.json(response));
-  // }),
-  // 퀴즈 정보 가져오기
-  rest.get<Quiz>('/quizzes/:story_id/', (req, res, ctx) => {
-    const { story_id } = req.params;
-    const story = quiz.find((quiz) => quiz.story_id === Number(story_id));
+      result.push(response);
 
-    if (story) {
-      return res(ctx.status(200), ctx.json(story));
-    } else {
-      return res(ctx.status(404), ctx.json({ error: 'Story not found' }));
-    }
-  }),
+      if (puzzleData) {
+        return HttpResponse.json({ status: 201, message: 'good' });
+      } else {
+        return HttpResponse.json({ status: 404, message: 'bad' });
+      }
+    },
+  ),
+  // 퀴즈 불러오기
+  http.get<GreatGetParams, Result, Quiz | AddCommentResponseBody, '/quizzes/:user_id/:story_id'>(
+    '/quizzes/:user_id/:story_id',
+    ({ params }) => {
+      const { user_id, story_id } = params;
+      const user = users.find((user) => user.id === Number(user_id));
+      const quiz = quizzes.find((quiz) => quiz.story_id === Number(story_id));
+
+      if (user) {
+        if (quiz) {
+          return HttpResponse.json(quiz);
+        } else {
+          return HttpResponse.json({ status: 404, message: '위인 없음' });
+        }
+      } else {
+        return HttpResponse.json({ status: 404, message: '사용자 없음' });
+      }
+    },
+  ),
 ];

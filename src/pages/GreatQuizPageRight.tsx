@@ -7,7 +7,7 @@ import FilledPuzzle from '../assets/images/Puzzle.png';
 interface GreatQuizPageRightProps {
   movePage: (pageNumber: number) => void;
   currentPage: number;
-  onComplete: () => void; // 완료 버튼 클릭 핸들러 추가
+  onComplete?: () => void; // 완료 버튼 클릭 핸들러 추가
 }
 
 const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, currentPage, onComplete }) => {
@@ -61,7 +61,7 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
         <div className="flex justify-center mt-24">
           {currentPage === 13 || currentPage === 15 ? (
             <button
-              className="mx-4 text-2xl bg-no-repeat bg-center bg-cover text-white font-bold w-52 h-20"
+              className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
               style={{ backgroundImage: `url(${RedBtn})` }}
               onClick={() => movePage(currentPage - 1)}
             >
@@ -71,7 +71,7 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
 
           {currentPage === 12 || currentPage === 14 ? (
             <button
-              className="mx-4 text-2xl bg-no-repeat bg-center bg-cover text-white font-bold w-52 h-20"
+              className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
               style={{ backgroundImage: `url(${BlueBtn})` }}
               onClick={() => movePage(currentPage + 1)}
             >
@@ -80,7 +80,7 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
           ) : null}
           {currentPage === 16 ? (
             <button
-              className="mx-4 text-2xl bg-no-repeat bg-center bg-cover text-white font-bold w-52 h-20"
+              className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
               style={{ backgroundImage: `url(${BlueBtn})` }}
               onClick={onComplete} // 완료 버튼 클릭 핸들러 호출
             >

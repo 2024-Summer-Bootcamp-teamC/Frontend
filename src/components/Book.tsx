@@ -266,9 +266,15 @@ const Book = forwardRef((props, ref) => {
           </button>
           <button
             onClick={() => movePage(3)}
-            className="bg-[url('assets/images/FiledIndex.png')] bg-cover w-[100px] h-[40px]"
+            className="bg-[url('assets/images/FiledIndex.png')] bg-cover w-[100px] h-[40px] mb-3"
           >
             분야별
+          </button>
+          <button
+            onClick={() => movePage(5)}
+            className="bg-[url('assets/images/FiledIndex.png')] bg-cover w-[100px] h-[40px]"
+          >
+            전체
           </button>
         </div>
       )}

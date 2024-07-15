@@ -2,13 +2,25 @@ import React from 'react';
 import TmpImg from '../assets/images/Rectangle.png';
 import EmptyPuzzle from '../assets/images/EmptyPuzzle.png';
 import FilledPuzzle from '../assets/images/Puzzle.png';
-import Clip from '../assets/images/Clip.png';
+import ArrowBack from '../assets/arrow_back.png';
 
-const GreatChatPageLeft: React.FC = () => {
+interface GreatChatProps {
+  movePage: (pageNumber: number) => void;
+}
+
+const GreatChatPageLeft: React.FC<GreatChatProps> = ({ movePage }) => {
   // 얻은 퍼즐 개수
   const puzzleCount = 2;
   return (
     <>
+      <div
+        className="absolute top-[350px] left-[40px] cursor-pointer"
+        onClick={() => {
+          movePage(7);
+        }}
+      >
+        <img src={ArrowBack} alt="인물 페이지로 다시 가기" className=" w-17 h-12" />
+      </div>
       {/* <img src={Clip} className="fixed left-[13rem] top-[5rem]" alt="클립 이미지" /> */}
       <div className="flex flex-col items-center justify-center mb-[30px] ">
         <div className="flex">

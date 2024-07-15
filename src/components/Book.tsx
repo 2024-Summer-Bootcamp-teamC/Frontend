@@ -199,7 +199,7 @@ const Book = forwardRef((props, ref) => {
         {/* 인물 대화 창 */}
         <Page number={9}>
           <div className="absolute inset-0 flex items-center justify-center">
-            <GreatChatPageLeft />
+            <GreatChatPageLeft movePage={movePage} />
           </div>
         </Page>
         <Page number={10}>

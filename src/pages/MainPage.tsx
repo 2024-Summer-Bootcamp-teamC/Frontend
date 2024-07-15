@@ -31,9 +31,9 @@ const MainPage: React.FC<MainPageProps> = (props) => {
     };
 
     axios
-      .post('/users', newUser)
+      .post('users/', newUser)
       .then((response) => {
-        console.log('Response:', response.data);
+        console.log(response.data);
         props.next();
         // 성공적으로 요청이 처리된 경우의 추가 작업
       })

@@ -55,7 +55,10 @@ type Result = {
   puzzle_cnt: number;
   correct_cnt: number;
 };
-
+interface UserResponseBody {
+  userID: number;
+  username: string;
+}
 const users: User[] = [{ id: 1, name: '김진용', year: 1900 }];
 
 const greats: Great[] = [
@@ -122,12 +125,15 @@ const result: Result[] = [
 
 export const handlers = [
   // 사용자 정보 입력하기
-  http.post<paramsNone, User, AddCommentResponseBody, '/users'>('/users', async ({ request }) => {
+  http.post<paramsNone, User, UserResponseBody, '/users'>('/users', async ({ request }) => {
     const newUser = await request.json();
     newUser.id = users.length + 1;
     users.push(newUser);
     console.log(users);
-    return HttpResponse.json();
+    return HttpResponse.json({
+      userID: newUser.id,
+      username: newUser.name,
+    });
   }),
   // 위인 전체 리스트 불러오기, 선택한 분야의 위인 목록 불러오기
   http.get<GreatGetParams, Great, Great[], '/greats/:user_id'>('/greats/:user_id', ({ params }) => {

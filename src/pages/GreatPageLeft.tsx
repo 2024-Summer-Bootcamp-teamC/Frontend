@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import ProgressBar from '@ramonak/react-progress-bar';
 import TmpImg from '../assets/images/GreatImgTmp.png';
 import Puzzle from '../assets/images/Puzzle.png';
@@ -9,6 +10,16 @@ const GreatPageLeft: React.FC = () => {
   const [key, setKey] = useState<number>(Date.now());
 
   useEffect(() => {
+    // axios
+    //   .get('/users', newUser)
+    //   .then((response) => {
+    //     props.next();
+    //     // 성공적으로 요청이 처리된 경우의 추가 작업
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error:', error);
+    //     // 요청이 실패한 경우의 추가 작업
+    //   });
     // 외부 데이터에서 가져온 값
     const totalPieces = 4;
     const piecesToFill = 2;

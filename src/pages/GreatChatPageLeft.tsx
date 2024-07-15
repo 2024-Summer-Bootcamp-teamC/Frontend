@@ -2,7 +2,6 @@ import React from 'react';
 import TmpImg from '../assets/images/Rectangle.png';
 import EmptyPuzzle from '../assets/images/EmptyPuzzle.png';
 import FilledPuzzle from '../assets/images/Puzzle.png';
-import Clip from '../assets/images/Clip.png';
 
 const GreatChatPageLeft: React.FC = () => {
   // 얻은 퍼즐 개수

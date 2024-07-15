@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import ProgressBar from '@ramonak/react-progress-bar';
 import TmpImg from '../assets/images/GreatImgTmp.png';
 import Puzzle from '../assets/images/Puzzle.png';
-import Clip from '../assets/images/Clip.png';
-import Back from '../assets/images/Back.png';
 
 const GreatPageLeft: React.FC = () => {
   const [progress, setProgress] = useState<number>(0);

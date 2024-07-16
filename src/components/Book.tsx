@@ -163,7 +163,7 @@ const Book = forwardRef((props, ref) => {
         {/* 인물 대화 창 */}
         <Page number={9}>
           <div className="absolute inset-0 flex items-center justify-center">
-            <GreatChatPageLeft />
+            <GreatChatPageLeft movePage={movePage} />
           </div>
         </Page>
         <Page number={10}>
@@ -230,9 +230,15 @@ const Book = forwardRef((props, ref) => {
           </button>
           <button
             onClick={() => movePage(3)}
-            className="bg-[url('assets/images/FiledIndex.png')] bg-cover w-[100px] h-[40px]"
+            className="bg-[url('assets/images/FiledIndex.png')] bg-cover w-[100px] h-[40px] mb-3"
           >
             분야별
+          </button>
+          <button
+            onClick={() => movePage(5)}
+            className="bg-[url('assets/images/FiledIndex.png')] bg-cover w-[100px] h-[40px]"
+          >
+            전체
           </button>
         </div>
       )}

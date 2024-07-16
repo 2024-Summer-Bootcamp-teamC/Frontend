@@ -19,6 +19,7 @@ const MainPage: React.FC<MainPageProps> = (props) => {
     setYear(e.target.value);
   };
 
+  // api
   const handleClick = (): void => {
     if (!username || !year) {
       alert('Please enter your name and select your birth year.');
@@ -31,7 +32,7 @@ const MainPage: React.FC<MainPageProps> = (props) => {
     };
 
     axios
-      .post("/api/users/", newUser)
+      .post('/api/users/', newUser)
       .then((response) => {
         console.log('Response:', response.data);
         props.next();

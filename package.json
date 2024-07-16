@@ -29,7 +29,8 @@
     "react-pageflip": "^2.0.3",
     "react-progress-bar": "^0.1.0",
     "react-router-dom": "^6.24.1",
-    "react-simple-maps": "^3.0.0"
+    "react-simple-maps": "^3.0.0",
+    "zustand": "^4.5.4"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

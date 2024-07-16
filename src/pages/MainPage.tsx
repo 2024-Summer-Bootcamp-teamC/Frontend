@@ -8,7 +8,7 @@ const MainPage: React.FC<MainPageProps> = (props) => {
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: currentYear - 1999 + 1 }, (_, i) => 1999 + i);
 
-  const [name, setName] = useState('');
+  const [username, setName] = useState('');
   const [year, setYear] = useState('');
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -20,20 +20,20 @@ const MainPage: React.FC<MainPageProps> = (props) => {
   };
 
   const handleClick = (): void => {
-    if (!name || !year) {
+    if (!username || !year) {
       alert('Please enter your name and select your birth year.');
       return;
     }
 
     const newUser = {
-      name,
+      username,
       year: parseInt(year),
     };
 
     axios
-      .post('users/', newUser)
+      .post("/api/users/", newUser)
       .then((response) => {
-        console.log(response.data);
+        console.log('Response:', response.data);
         props.next();
         // 성공적으로 요청이 처리된 경우의 추가 작업
       })
@@ -52,7 +52,7 @@ const MainPage: React.FC<MainPageProps> = (props) => {
           <input
             id="name"
             type="text"
-            value={name}
+            value={username}
             onChange={handleNameChange}
             placeholder="이름을 입력해주세요."
             className="w-[65%] px-3 py-1 mx-auto text-lg transform border border-gray-300 rounded"

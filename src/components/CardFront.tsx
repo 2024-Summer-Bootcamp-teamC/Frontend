@@ -1,36 +1,34 @@
 import React from 'react';
-import CardFrontImage from "../assets/images/CardFrontImage.png";
-import Rectangle from "../assets/images/Rectangle.png";
+import CardFrontImage from '../assets/images/CardFrontImage.png';
+import FrontSejong from '../assets/images/FrontSejong.png';
+interface CardFrontProps {
+  name: string;
+  image: string;
+}
 
-const CardFront: React.FC = () => {
-    return (
-        <div className="relative w-full h-full max-w-[237.298px] max-h-[366.962px]">
-            <img 
-                className="object-contain w-full h-full"
-                src={CardFrontImage} 
-                alt='Front Of Card' 
-            />
-            <div className="absolute flex flex-col items-center text-black top-3 left-4">
-                <span className="text-lg">세</span>
-                <span className="text-lg">종</span>
-                <span className="text-lg">대</span>
-                <span className="text-lg">왕</span>
-            </div>
-            <div className="absolute inset-0 flex items-center justify-center">
-                <img 
-                    className="w-[154.336px] h-[200.652px] object-cover rounded-lg"
-                    src={Rectangle} 
-                    alt='Great Card' 
-                />
-            </div>
-            <div className="absolute flex flex-col items-center text-black transform rotate-180 bottom-4 right-4">
-                <span className="text-lg">세</span>
-                <span className="text-lg">종</span>
-                <span className="text-lg">대</span>
-                <span className="text-lg">왕</span>
-            </div>
-        </div>
-    );
+const CardFront: React.FC<CardFrontProps> = ({ name, image }) => {
+  return (
+    <div className="relative w-full h-full max-w-[200px] max-h-[300px]">
+      <img className="object-contain w-full h-full" src={CardFrontImage} alt="Front Of Card" />
+      <div className="absolute flex flex-col items-center text-black top-3 left-4">
+        {name.split('').map((char, index) => (
+          <span key={index} className="text-lg">
+            {char}
+          </span>
+        ))}
+      </div>
+      <div className="absolute inset-0 top-2 flex items-center justify-center">
+        <img className="w-[130px] h-[170px] object-cover rounded-lg" src={FrontSejong} alt="Great Card" />
+      </div>
+      <div className="absolute flex flex-col items-center text-black transform rotate-180 bottom-2 right-4">
+        {name.split('').map((char, index) => (
+          <span key={index} className="text-lg">
+            {char}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default CardFront;

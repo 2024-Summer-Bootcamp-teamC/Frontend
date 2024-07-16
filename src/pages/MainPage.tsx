@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent } from 'react';
 import axios from 'axios';
+import { useUserIdStore } from '../store';
 
 interface MainPageProps {
   next: () => void;
@@ -7,7 +8,7 @@ interface MainPageProps {
 const MainPage: React.FC<MainPageProps> = (props) => {
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: currentYear - 1999 + 1 }, (_, i) => 1999 + i);
-
+  const { setUserId } = useUserIdStore();
   const [username, setName] = useState('');
   const [year, setYear] = useState('');
 
@@ -35,6 +36,7 @@ const MainPage: React.FC<MainPageProps> = (props) => {
       .post('/api/users/', newUser)
       .then((response) => {
         console.log('Response:', response.data);
+        setUserId(response.data.userID);
         props.next();
         // 성공적으로 요청이 처리된 경우의 추가 작업
       })

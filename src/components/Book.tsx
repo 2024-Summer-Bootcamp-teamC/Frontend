@@ -49,19 +49,6 @@ const Book = forwardRef((props, ref) => {
   const bookRef = useRef<React.ElementRef<typeof HTMLFlipBook>>(null);
   const [curPage, setCurPage] = useState(0);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('greats/1');
-        console.log('response', response.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
   const someStyle: React.CSSProperties = {}; // htmlFlip 에러 없앨라고 추가
   const [showModal, setShowModal] = useState(false); // 모달 상태 추가
 
@@ -78,41 +65,18 @@ const Book = forwardRef((props, ref) => {
       bookRef.current.pageFlip().flip(pageNumber);
     }
   };
-
   const nextPage = () => {
     if (bookRef.current) {
       bookRef.current.pageFlip().flipNext('top');
     }
   };
-
   const prevPage = () => {
     if (bookRef.current) {
       bookRef.current.pageFlip().flipPrev('top');
     }
   };
-
   const handleComplete = () => {
     setShowModal(true); // 완료 버튼을 누르면 모달을 보여줍니다.
-  };
-
-  const handleClick = () => {
-    // 예시로 사용할 데이터 객체
-    const newUser = {
-      name: '최호',
-      year: 2001,
-    };
-
-    // axios를 이용한 POST 요청
-    axios
-      .post('/users', newUser)
-      .then((response) => {
-        console.log('Response:', response.data);
-        // 성공적으로 요청이 처리된 경우의 추가 작업
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        // 요청이 실패한 경우의 추가 작업
-      });
   };
 
   return (
@@ -281,7 +245,6 @@ const Book = forwardRef((props, ref) => {
       <div className="z-10">
         <button onClick={prevPage}>이전 페이지</button>
         <button onClick={nextPage}>다음 페이지</button>
-        <button onClick={handleClick}>유저 테스트</button>
       </div>
       {showModal && (
         <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-white bg-opacity-70">

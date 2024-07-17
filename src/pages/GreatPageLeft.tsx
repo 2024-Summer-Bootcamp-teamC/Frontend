@@ -1,54 +1,46 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import ProgressBar from '@ramonak/react-progress-bar';
-import TmpImg from '../assets/images/GreatImgTmp.png';
 import Puzzle from '../assets/images/Puzzle.png';
+
+import { useGreatPersonStore } from '../store';
 
 const GreatPageLeft: React.FC = () => {
   const [progress, setProgress] = useState<number>(0);
   const [puzzle, setPuzzle] = useState<number>(0);
   const [key, setKey] = useState<number>(Date.now());
 
+  const { greatId, photo_url, puzzle_cnt } = useGreatPersonStore();
+
   useEffect(() => {
-    // axios
-    //   .get('/users', newUser)
-    //   .then((response) => {
-    //     props.next();
-    //     // 성공적으로 요청이 처리된 경우의 추가 작업
-    //   })
-    //   .catch((error) => {
-    //     console.error('Error:', error);
-    //     // 요청이 실패한 경우의 추가 작업
-    //   });
-    // 외부 데이터에서 가져온 값
-    const totalPieces = 4;
-    const piecesToFill = 2;
     // 진행 상태 계산
+    const totalPieces = 4; // 전체 퍼즐 조각 수
+    const piecesToFill = Number(puzzle_cnt); // 채워진 퍼즐 조각 수
     const calc = (piecesToFill / totalPieces) * 100;
     setProgress(calc);
     setPuzzle(piecesToFill + 1);
     setKey(Date.now());
-  }, []);
+  }, [greatId]);
 
   return (
     <>
       <div className="flex flex-col items-center justify-center w-[80%]">
-        {/* <img src={Clip} className="fixed left-[5em] top-[-2rem]" alt="클립 이미지" /> */}
-
-        <img src={TmpImg} className="mb-[6rem] w-[60%]" alt="임시 이미지" />
+        {/* 이미지 */}
+        <img src={photo_url} className="mb-[6rem] w-[60%]" alt="위인 사진" />
         <div className="w-[80%]">
           {/* 프로그레스 바 */}
           <div className="w-[100%] grid" style={{ gridTemplateColumns: 'repeat(5, 25%)' }}>
             <div style={{ gridColumn: `${puzzle}` }} className="relative">
+              {/* 퍼즐 이미지 */}
               <img
-                src={Puzzle}
+                src={Puzzle} // Puzzle 이미지 대신 greatPerson.quote에 해당하는 이미지 URL 사용
                 alt="퍼즐 이미지"
                 key={key}
-                className="absolute left-[-1.5rem] top-[-4rem]  transition-opacity duration-[5000ms] opacity-0"
+                className="absolute left-[-1.5rem] top-[-4rem] transition-opacity duration-[5000ms] opacity-0"
                 style={{ opacity: 1 }}
               />
             </div>
           </div>
+          {/* 프로그레스 바 */}
           <ProgressBar completed={progress} bgColor="white" height="5px" baseBgColor="#88634A" />
           {/* 프로그레스 바 라벨 */}
           <div className="flex text-[#88634A] text-[20px] justify-between mt-4">

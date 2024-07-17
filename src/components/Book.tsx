@@ -1,4 +1,4 @@
-import React, { useRef, useState, useImperativeHandle, forwardRef, useEffect } from 'react';
+import React, { useRef, useState, useImperativeHandle, forwardRef } from 'react';
 import HTMLFlipBook from 'react-pageflip';
 import GreatChatPageRight from '../pages/GreatChatPageRight';
 import GreatPageLeft from '../pages/GreatPageLeft';
@@ -13,8 +13,9 @@ import FieldPageRight from '../pages/FieldPageRight';
 import GreatListPage from '../pages/GreatListPage';
 import ChartPageLeft from '../pages/ChartPageLeft';
 import ChartPageRight from '../pages/ChartPageRight';
-import axios from 'axios';
 import PuzzleModal from '../components/PuzzleModal'; // PuzzleModal을 import합니다.
+import { useVideoModalStore } from '../store';
+import VideoModal from './VideoModal';
 
 interface PageCoverProps {
   children?: React.ReactNode;
@@ -50,6 +51,7 @@ const Page = forwardRef<HTMLDivElement, PageProps>((props, ref) => {
 const Book = forwardRef((props, ref) => {
   const bookRef = useRef<React.ElementRef<typeof HTMLFlipBook>>(null);
   const [curPage, setCurPage] = useState(0);
+  const { showVideoModal, setShowVideoModal } = useVideoModalStore();
 
   const someStyle: React.CSSProperties = {}; // htmlFlip 에러 없앨라고 추가
   const [showModal, setShowModal] = useState(false); // 모달 상태 추가
@@ -278,6 +280,19 @@ const Book = forwardRef((props, ref) => {
           <button onClick={() => setShowGreatListModal(false)} className="absolute text-xl text-white top-5 right-5">
             닫기
           </button>
+        </div>
+      )}
+      {showVideoModal && (
+        <div className="fixed top-0 left-0 z-[1000] flex items-center justify-center w-full h-full bg-white bg-opacity-70">
+          <div className="bg-[#95a3b4] p-[70px] rounded-lg">
+            <VideoModal />
+            <button
+              onClick={() => setShowVideoModal(false)}
+              className="absolute text-xl text-white bg-[#00315a] py-1 px-3 rounded-lg bottom-[23%] left-[48%]"
+            >
+              닫기
+            </button>
+          </div>
         </div>
       )}
     </div>

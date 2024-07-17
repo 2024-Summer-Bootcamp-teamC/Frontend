@@ -26,3 +26,29 @@ body {
       @apply animate-fadeOut invisible;
     }
   }
+  @keyframes cardEnter {
+    from {
+      opacity: 0;
+      transform: translateY(-100px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-card-enter {
+    animation: cardEnter 1s ease-out forwards;
+  }
+  
+  .delay-0 { animation-delay: 0s; }
+  .delay-1 { animation-delay: 0s; }
+  .delay-2 { animation-delay: 0s; }
+  .delay-3 { animation-delay: 0s; }
+  .delay-4 { animation-delay: 0s; }
+  .delay-5 { animation-delay: 0s; }
+  .delay-6 { animation-delay: 0s; }
+  .delay-7 { animation-delay: 0s; }
+  /* 필요에 따라 delay 클래스를 더 추가 */
+  
+  

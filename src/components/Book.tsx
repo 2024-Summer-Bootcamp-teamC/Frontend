@@ -51,6 +51,7 @@ const Book = forwardRef((props, ref) => {
 
   const someStyle: React.CSSProperties = {}; // htmlFlip 에러 없앨라고 추가
   const [showModal, setShowModal] = useState(false); // 모달 상태 추가
+  const [showGreatListModal, setShowGreatListModal] = useState(false); // GreatList 모달 상태 추가
 
   useImperativeHandle(ref, () => ({
     movePage(pageNumber: number) {
@@ -77,6 +78,25 @@ const Book = forwardRef((props, ref) => {
   };
   const handleComplete = () => {
     setShowModal(true); // 완료 버튼을 누르면 모달을 보여줍니다.
+  };
+
+  const handleShowGreatList = () => {
+    movePage(5); // 5페이지로 이동
+    setTimeout(() => {
+      setShowGreatListModal(true); // 1초 후에 모달 표시
+    }, 700);
+  };
+
+  const handleCardClick = () => {
+    setShowGreatListModal(false);
+    movePage(7);
+  };
+
+  const handleCloseModalAndMovePage = (pageNumber: number) => {
+    setShowGreatListModal(false);
+    setTimeout(() => {
+      movePage(pageNumber);
+    }, 500); // 모달 닫힌 후 0.5초 후에 페이지 이동
   };
 
   return (
@@ -132,20 +152,12 @@ const Book = forwardRef((props, ref) => {
           <div className="absolute inset-0 flex items-center justify-center">{/* Field Page */}</div>
         </Page>
 
-        {/* 인물 카드 리스트 */}
+        {/* 인물 목록 */}
         <Page number={5}>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="flex items-center justify-center w-4/5 h-4/5">
-              <GreatListPage movePage={movePage} />
-            </div>
-          </div>
+          <div className="absolute inset-0 flex items-center justify-center"></div>
         </Page>
         <Page number={6}>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="flex items-center justify-center w-4/5 h-4/5">
-              <GreatListPage movePage={movePage} />
-            </div>
-          </div>
+          <div className="absolute inset-0 flex items-center justify-center"></div>
         </Page>
 
         {/* 인물 프로필 */}
@@ -221,21 +233,21 @@ const Book = forwardRef((props, ref) => {
       )}
 
       {curPage !== 0 && (
-        <div className="fixed flex flex-col left-[5%] top-[15%] animate-slideInFromLeft">
+        <div className="fixed flex flex-col left-[5%] top-[15%] animate-slideInFromLeft z-50">
           <button
-            onClick={() => movePage(1)}
+            onClick={() => handleCloseModalAndMovePage(1)}
             className="bg-[url('assets/images/CountryIndex.png')] bg-cover w-[100px] h-[40px] mb-3"
           >
             나라별
           </button>
           <button
-            onClick={() => movePage(3)}
+            onClick={() => handleCloseModalAndMovePage(3)}
             className="bg-[url('assets/images/FiledIndex.png')] bg-cover w-[100px] h-[40px] mb-3"
           >
             분야별
           </button>
           <button
-            onClick={() => movePage(5)}
+            onClick={handleShowGreatList} // 버튼 클릭 시 페이지 이동 후 모달 표시
             className="bg-[url('assets/images/FiledIndex.png')] bg-cover w-[100px] h-[40px]"
           >
             전체
@@ -247,9 +259,17 @@ const Book = forwardRef((props, ref) => {
         <button onClick={nextPage}>다음 페이지</button>
       </div>
       {showModal && (
-        <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-white bg-opacity-70">
+        <div className="fixed top-0 left-0 z-10 flex items-center justify-center w-full h-full bg-white bg-opacity-70">
           <PuzzleModal movePage={movePage} closeModal={() => setShowModal(false)} />
           <button onClick={() => setShowModal(false)} className="absolute text-xl text-white top-5 right-5">
+            닫기
+          </button>
+        </div>
+      )}
+      {showGreatListModal && (
+        <div className="fixed top-0 left-0 z-10 flex items-center justify-center w-full h-full bg-white bg-opacity-0">
+          <GreatListPage movePage={handleCardClick} closeModal={() => setShowGreatListModal(false)} />
+          <button onClick={() => setShowGreatListModal(false)} className="absolute text-xl text-white top-5 right-5">
             닫기
           </button>
         </div>

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
+import axios from 'axios';
 
 Highcharts.setOptions({
   chart: {
@@ -72,113 +73,130 @@ Highcharts.setOptions({
   },
 });
 
-const options = {
-  title: {
-    text: 'Growth of Internet Users Worldwide (logarithmic scale)',
-  },
-  chart: {
-    height: 270,
-    backgroundColor: 'rgba(255,255,255,0)',
-  },
-  accessibility: {
-    point: {
-      valueDescriptionFormat: '{xDescription}{separator}{value} million(s)',
-    },
-  },
-
-  xAxis: {
-    title: {
-      text: 'Year',
-    },
-    categories: [1995, 2000, 2005, 2010, 2015, 2020, 2023],
-  },
-
-  yAxis: {
-    type: 'logarithmic',
-    title: {
-      text: 'Number of Internet Users (in millions)',
-    },
-    gridLineColor: '#000000',
-  },
-
-  tooltip: {
-    headerFormat: '<b>{series.name}</b><br />',
-    pointFormat: '{point.y} million(s)',
-  },
-
-  series: [
-    {
-      name: 'Internet Users',
-      keys: ['y', 'color'],
-      data: [
-        [16, '#0000ff'],
-        [361, '#8d0073'],
-        [1018, '#ba0046'],
-        [2025, '#d60028'],
-        [3192, '#eb0014'],
-        [4673, '#fb0004'],
-        [5200, '#ff0000'],
-      ],
-      color: {
-        linearGradient: {
-          x1: 0,
-          x2: 0,
-          y1: 1,
-          y2: 0,
-        },
-        stops: [
-          [0, '#88634A'],
-          [1, '#88634A'],
-        ],
-      },
-    },
-  ],
-};
-
 const ChartPageRight: React.FC = () => {
   // 정답률 그려주는 옵션
-  const accuracyOptions = {
+  const [ageData, setAgeData] = useState<{ age: string; visit_total: string }[]>([]);
+  const [correctRateData, setCorrectRateData] = useState<{ name: string; correct_rate: string }[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('/api/dashboard/age-visits/');
+        setAgeData(response.data);
+        console.log(ageData);
+        const response2 = await axios.get('/api/dashboard/correct-rate/');
+        setCorrectRateData(response2.data);
+        console.log(correctRateData);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const categories = ageData.map((item) => item.age);
+  const data = ageData.map((item) => parseInt(item.visit_total, 10));
+  const accuracyCategories = correctRateData.map((item) => item.name);
+  const accuracyData = correctRateData.map((item) => parseFloat(item.correct_rate));
+
+  const options = {
     title: {
-      text: 'Monthly Average Temperature',
+      text: '가입자 나이',
     },
     chart: {
       height: 270,
       backgroundColor: 'rgba(255,255,255,0)',
     },
-    subtitle: {
-      text:
-        'Source: ' +
-        '<a href="https://en.wikipedia.org/wiki/List_of_cities_by_average_temperature" ' +
-        'target="_blank">Wikipedia.com</a>',
+    accessibility: {
+      point: {
+        valueDescriptionFormat: '{xDescription}{separator}{value} 명',
+      },
     },
+
     xAxis: {
-      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      title: {
+        text: '나이',
+      },
+      categories: categories,
     },
+
     yAxis: {
       title: {
-        text: 'Temperature (°C)',
+        text: '인원 (명)',
       },
       gridLineColor: '#000000',
     },
-    plotOptions: {
-      line: {
-        dataLabels: {
-          enabled: true,
-        },
-        enableMouseTracking: false,
-      },
+
+    tooltip: {
+      headerFormat: '<b>{series.name}</b><br />',
+      pointFormat: '{point.y} 명',
     },
+
     series: [
       {
-        name: 'Reggane',
-        data: [16.0, 18.2, 23.1, 27.9, 32.2, 36.4, 39.8, 38.4, 35.5, 29.2, 22.0, 17.8],
-      },
-      {
-        name: 'Tallinn',
-        data: [-2.9, -3.6, -0.6, 4.8, 10.2, 14.5, 17.6, 16.5, 12.0, 6.5, 2.0, -0.9],
+        name: '인원',
+        data: data,
+        color: {
+          linearGradient: {
+            x1: 0,
+            x2: 0,
+            y1: 1,
+            y2: 0,
+          },
+          stops: [
+            [0, '#88634A'],
+            [1, '#88634A'],
+          ],
+        },
       },
     ],
   };
+
+  const accuracyOptions = {
+    title: {
+      text: '위인별 정답률',
+    },
+    chart: {
+      height: 270,
+      backgroundColor: 'rgba(255,255,255,0)',
+    },
+    xAxis: {
+      title: {
+        text: '위인',
+      },
+      categories: accuracyCategories,
+    },
+    yAxis: {
+      title: {
+        text: '정답률 (%)',
+      },
+      gridLineColor: '#000000',
+    },
+    tooltip: {
+      headerFormat: '<b>{series.name}</b><br />',
+      pointFormat: '{point.y}% correct',
+    },
+    series: [
+      {
+        name: '정답률',
+        data: accuracyData,
+        color: {
+          linearGradient: {
+            x1: 0,
+            x2: 0,
+            y1: 1,
+            y2: 0,
+          },
+          stops: [
+            [0, '#88634A'],
+            [1, '#88634A'],
+          ],
+        },
+      },
+    ],
+  };
+
   return (
     <>
       <div className="w-[90%] ml-[3%] mt-[15%]">

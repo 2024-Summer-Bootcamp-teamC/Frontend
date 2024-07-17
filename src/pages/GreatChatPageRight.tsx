@@ -9,6 +9,13 @@ interface Message {
   text: string;
 }
 
+// TypeScript 타입 정의 추가
+declare global {
+  interface Window {
+    webkitSpeechRecognition: any;
+  }
+}
+
 // Message 컴포넌트 분리
 const MessageComponent: React.FC<{ message: Message }> = ({ message }) => (
   <div className={`flex ${message.sender === '' ? 'justify-end' : 'justify-start'} items-start mb-2`}>
@@ -28,15 +35,15 @@ const MessageComponent: React.FC<{ message: Message }> = ({ message }) => (
 
 const GreatChatPageRight: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
-
   const [input, setInput] = useState('');
   const [isComposing, setIsComposing] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const socketRef = useRef<WebSocket | null>(null);
+  const recognitionRef = useRef<any>(null);
 
   // WebSocket 연결 설정
   useEffect(() => {
-    const greatId = 'greatId'; // Define your room name
     socketRef.current = new WebSocket(`ws://localhost:8000/ws/chat/${1}/`);
 
     socketRef.current.onmessage = (event) => {
@@ -54,14 +61,12 @@ const GreatChatPageRight: React.FC = () => {
     };
   }, []);
 
-  const handleSendMessage = (event?: React.FormEvent) => {
-    if (event) event.preventDefault();
-    if (input.trim() !== '') {
-      const message = { message: input };
+  const handleSendMessage = (message: string) => {
+    if (message.trim() !== '') {
       if (socketRef.current) {
-        socketRef.current.send(JSON.stringify(message));
+        socketRef.current.send(JSON.stringify({ message }));
       }
-      setMessages((prevMessages) => [...prevMessages, { id: prevMessages.length + 1, sender: '', text: input }]);
+      setMessages((prevMessages) => [...prevMessages, { id: prevMessages.length + 1, sender: '', text: message }]);
       setInput('');
     }
   };
@@ -69,7 +74,7 @@ const GreatChatPageRight: React.FC = () => {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter' && !isComposing) {
       event.preventDefault();
-      handleSendMessage();
+      handleSendMessage(input);
     }
   };
 
@@ -79,7 +84,53 @@ const GreatChatPageRight: React.FC = () => {
     }
   }, [messages]);
 
-  // 현재 날짜를 가져오는 함수
+  const handleStartRecording = () => {
+    if (!('webkitSpeechRecognition' in window)) {
+      alert('웹 브라우저가 음성 인식을 지원하지 않습니다.');
+      return;
+    }
+
+    const recognition = new window.webkitSpeechRecognition();
+    recognitionRef.current = recognition;
+    recognition.lang = 'ko-KR';
+    recognition.continuous = true;
+
+    recognition.onstart = () => {
+      console.log('음성 인식 시작');
+      setIsRecording(true);
+    };
+
+    recognition.onresult = (event) => {
+      let finalTranscript = '';
+      for (let i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          finalTranscript += event.results[i][0].transcript;
+        }
+      }
+      console.log('최종 인식 내용:', finalTranscript);
+      handleSendMessage(finalTranscript);
+    };
+
+    recognition.onerror = (event) => {
+      console.error('음성 인식 오류 발생:', event.error);
+      setIsRecording(false);
+    };
+
+    recognition.onend = () => {
+      console.log('음성 인식 종료');
+      setIsRecording(false);
+    };
+
+    recognition.start();
+  };
+
+  const handleStopRecording = () => {
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
+      setIsRecording(false);
+    }
+  };
+
   const getCurrentDate = () => {
     const date = new Date();
     const year = date.getFullYear();
@@ -98,7 +149,6 @@ const GreatChatPageRight: React.FC = () => {
               <MessageComponent key={message.id} message={message} />
             ))}
           </div>
-
           <div ref={messagesEndRef} />
         </div>
         <div className="flex justify-end mt-4 mr-6">
@@ -109,15 +159,30 @@ const GreatChatPageRight: React.FC = () => {
             onCompositionStart={() => setIsComposing(true)}
             onCompositionEnd={() => setIsComposing(false)}
             onChange={(e) => setInput(e.target.value)}
-            className="border border-black rounded-md w-[500px] h-[30px]"
+            className="border border-black rounded-md w-[450px] h-[30px]"
             placeholder="메시지를 입력하세요."
           />
           <button
-            onClick={handleSendMessage}
+            onClick={() => handleSendMessage(input)}
             className="ml-1 text-white border-black bg-amber-950 rounded-md w-[40px] h-[30px]"
           >
             전송
           </button>
+          {isRecording ? (
+            <button
+              onClick={handleStopRecording}
+              className="ml-1 text-white border-black bg-amber-950 rounded-md w-[55px]"
+            >
+              중지
+            </button>
+          ) : (
+            <button
+              onClick={handleStartRecording}
+              className="ml-1 text-white border-black bg-amber-950 rounded-md w-[55px]"
+            >
+              마이크
+            </button>
+          )}
         </div>
       </div>
     </div>

@@ -1,30 +1,29 @@
 import React from 'react';
-import CardBackImage from "../assets/images/CardBackImage.png";
-import SejongClear from "../assets/images/SejongClear.png";
-import SejongSay from "../assets/images/SejongSay.png";
+import CardBackImage from '../assets/images/CardBackImage.png';
+import SejongClear from '../assets/images/SejongClear.png';
+interface CardBackProps {
+  name: string;
+  saying: string;
+  category: string;
+  image: string;
+}
 
-const CardBack: React.FC = () => {
+const CardBack: React.FC<CardBackProps> = ({ name, saying, category, image }) => {
   return (
-    <div className="relative w-full h-full max-w-[237.298px] max-h-[366.962px]">
-      <img 
-        className="object-contain w-full h-full"
-        src={CardBackImage} 
-        alt='Back Of Card' 
-      />
+    <div className="relative w-full h-full max-w-[200px] max-h-[300px]">
+      <img className="object-contain w-full h-full" src={CardBackImage} alt="Back Of Card" />
       <div className="absolute flex justify-between top-3 left-6 right-6">
-        <span className="text-gray-400">한국/정치</span>
-        <span className="text-white">세종대왕</span>
+        <span className="text-gray-400">{category}</span>
+        <span className="text-white">{name}</span>
       </div>
       <img
-        className="absolute bottom-[22px] w-[154.336px] h-[200.652px] left-1/2 transform -translate-x-1/2"
+        className="absolute bottom-[-1.5px] w-[175px] h-[200px] left-[100.5px] transform -translate-x-1/2"
         src={SejongClear}
-        alt="Clear Great"
+        alt="Great Person"
       />
-      <img
-        className="absolute top-[70px] w-[175px] h-[35px] justify-between left-6 right-6"
-        src={SejongSay}
-        alt="GreatSay"
-      />
+      <div className="absolute top-[40px] w-[170px] h-[35px] justify-between right-[14.5px] text-center text-[16.5px]">
+        {saying}
+      </div>
     </div>
   );
 };

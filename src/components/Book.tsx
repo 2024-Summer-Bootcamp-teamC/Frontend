@@ -8,6 +8,8 @@ import GreatQuizPageLeft from '../pages/GreatQuizPageLeft';
 import GreatQuizPageRight from '../pages/GreatQuizPageRight';
 import MapPage from '../pages/MapPage';
 import MainPage from '../pages/MainPage';
+import FieldPageLeft from '../pages/FieldPageLeft';
+import FieldPageRight from '../pages/FieldPageRight';
 import GreatListPage from '../pages/GreatListPage';
 import ChartPageLeft from '../pages/ChartPageLeft';
 import ChartPageRight from '../pages/ChartPageRight';
@@ -146,10 +148,14 @@ const Book = forwardRef((props, ref) => {
 
         {/* 분야 */}
         <Page number={3}>
-          <div className="absolute inset-0 flex items-center justify-center">{/* Field Page */}</div>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <FieldPageLeft />
+          </div>
         </Page>
         <Page number={4}>
-          <div className="absolute inset-0 flex items-center justify-center">{/* Field Page */}</div>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <FieldPageRight />
+            </div>
         </Page>
 
         {/* 인물 목록 */}

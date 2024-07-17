@@ -7,12 +7,16 @@ interface Message {
   id: number;
   sender: string;
   text: string;
+  ttsUrl?: string; // TTS URL 추가
 }
 
 // TypeScript 타입 정의 추가
 declare global {
   interface Window {
     webkitSpeechRecognition: any;
+    SpeechRecognition: any;
+    webkitSpeechRecognitionEvent: any;
+    SpeechRecognitionErrorEvent: any;
   }
 }
 
@@ -25,6 +29,12 @@ const MessageComponent: React.FC<{ message: Message }> = ({ message }) => (
         {message.sender && <span className="ml-2">{message.sender}</span>}
         <div
           className={`ml-2 mb-4 p-2 rounded-lg leading-tight max-w-xs break-words ${message.sender === '' ? 'bg-white' : 'bg-white'}`}
+          onClick={() => {
+            if (message.ttsUrl) {
+              const audio = new Audio(message.ttsUrl);
+              audio.play();
+            }
+          }}
         >
           <div>{message.text}</div>
         </div>
@@ -48,10 +58,7 @@ const GreatChatPageRight: React.FC = () => {
 
     socketRef.current.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { id: prevMessages.length + 1, sender: '세종대왕', text: data.message },
-      ]);
+      handleNewMessage('세종대왕', data.message);
     };
 
     return () => {
@@ -61,12 +68,66 @@ const GreatChatPageRight: React.FC = () => {
     };
   }, []);
 
+  const fetchTTSUrl = async (message: string) => {
+    try {
+      const response = await fetch('/api/tts/change_sound/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ sentence: message }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`TTS API 요청 실패: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      const { task_id } = data;
+
+      // TTS 작업 완료 여부를 주기적으로 확인
+      let audioUrl: string | null = null;
+      while (!audioUrl) {
+        const resultResponse = await fetch(`/api/tts/get_tts_task/${task_id}/`);
+        if (resultResponse.status === 200) {
+          const resultData = await resultResponse.blob();
+          audioUrl = URL.createObjectURL(resultData);
+        } else {
+          await new Promise((resolve) => setTimeout(resolve, 1000)); // 1초 간격으로 재시도
+        }
+      }
+
+      return audioUrl;
+    } catch (error) {
+      console.error('TTS API 호출 중 오류 발생:', error);
+      return null;
+    }
+  };
+
+  const handleNewMessage = async (sender: string, text: string) => {
+    const newMessage: Message = { id: Date.now(), sender, text };
+    setMessages((prevMessages) => [...prevMessages, newMessage]);
+
+    // TTS URL을 가져와서 메시지에 추가
+    if (sender !== '') {
+      const ttsUrl = await fetchTTSUrl(text);
+      newMessage.ttsUrl = ttsUrl;
+      setMessages((prevMessages) => prevMessages.map((msg) => (msg.id === newMessage.id ? newMessage : msg)));
+
+      // 자동으로 음성 재생
+      if (ttsUrl) {
+        const audio = new Audio(ttsUrl);
+        audio.play();
+      }
+    }
+  };
+
   const handleSendMessage = (message: string) => {
     if (message.trim() !== '') {
       if (socketRef.current) {
         socketRef.current.send(JSON.stringify({ message }));
       }
-      setMessages((prevMessages) => [...prevMessages, { id: prevMessages.length + 1, sender: '', text: message }]);
+      handleNewMessage('', message);
       setInput('');
     }
   };
@@ -100,7 +161,7 @@ const GreatChatPageRight: React.FC = () => {
       setIsRecording(true);
     };
 
-    recognition.onresult = (event) => {
+    recognition.onresult = (event: SpeechRecognitionEvent) => {
       let finalTranscript = '';
       for (let i = event.resultIndex; i < event.results.length; ++i) {
         if (event.results[i].isFinal) {
@@ -111,7 +172,7 @@ const GreatChatPageRight: React.FC = () => {
       handleSendMessage(finalTranscript);
     };
 
-    recognition.onerror = (event) => {
+    recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
       console.error('음성 인식 오류 발생:', event.error);
       setIsRecording(false);
     };

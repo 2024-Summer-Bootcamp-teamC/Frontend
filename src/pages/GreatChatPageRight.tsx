@@ -7,6 +7,17 @@ interface Message {
   id: number;
   sender: string;
   text: string;
+  ttsUrl?: string; // TTS URL 추가
+}
+
+// TypeScript 타입 정의 추가
+declare global {
+  interface Window {
+    webkitSpeechRecognition: any;
+    SpeechRecognition: any;
+    webkitSpeechRecognitionEvent: any;
+    SpeechRecognitionErrorEvent: any;
+  }
 }
 
 // Message 컴포넌트 분리
@@ -18,6 +29,12 @@ const MessageComponent: React.FC<{ message: Message }> = ({ message }) => (
         {message.sender && <span className="ml-2">{message.sender}</span>}
         <div
           className={`ml-2 mb-4 p-2 rounded-lg leading-tight max-w-xs break-words ${message.sender === '' ? 'bg-white' : 'bg-white'}`}
+          onClick={() => {
+            if (message.ttsUrl) {
+              const audio = new Audio(message.ttsUrl);
+              audio.play();
+            }
+          }}
         >
           <div>{message.text}</div>
         </div>
@@ -28,23 +45,20 @@ const MessageComponent: React.FC<{ message: Message }> = ({ message }) => (
 
 const GreatChatPageRight: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
-
   const [input, setInput] = useState('');
   const [isComposing, setIsComposing] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const socketRef = useRef<WebSocket | null>(null);
+  const recognitionRef = useRef<any>(null);
 
   // WebSocket 연결 설정
   useEffect(() => {
-    const greatId = 'greatId'; // Define your room name
     socketRef.current = new WebSocket(`ws://localhost:8000/ws/chat/${1}/`);
 
     socketRef.current.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { id: prevMessages.length + 1, sender: '세종대왕', text: data.message },
-      ]);
+      handleNewMessage('세종대왕', data.message);
     };
 
     return () => {
@@ -54,14 +68,66 @@ const GreatChatPageRight: React.FC = () => {
     };
   }, []);
 
-  const handleSendMessage = (event?: React.FormEvent) => {
-    if (event) event.preventDefault();
-    if (input.trim() !== '') {
-      const message = { message: input };
-      if (socketRef.current) {
-        socketRef.current.send(JSON.stringify(message));
+  const fetchTTSUrl = async (message: string) => {
+    try {
+      const response = await fetch('/api/tts/change_sound/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ sentence: message }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`TTS API 요청 실패: ${response.statusText}`);
       }
-      setMessages((prevMessages) => [...prevMessages, { id: prevMessages.length + 1, sender: '', text: input }]);
+
+      const data = await response.json();
+      const { task_id } = data;
+
+      // TTS 작업 완료 여부를 주기적으로 확인
+      let audioUrl: string | null = null;
+      while (!audioUrl) {
+        const resultResponse = await fetch(`/api/tts/get_tts_task/${task_id}/`);
+        if (resultResponse.status === 200) {
+          const resultData = await resultResponse.blob();
+          audioUrl = URL.createObjectURL(resultData);
+        } else {
+          await new Promise((resolve) => setTimeout(resolve, 1000)); // 1초 간격으로 재시도
+        }
+      }
+
+      return audioUrl;
+    } catch (error) {
+      console.error('TTS API 호출 중 오류 발생:', error);
+      return null;
+    }
+  };
+
+  const handleNewMessage = async (sender: string, text: string) => {
+    const newMessage: Message = { id: Date.now(), sender, text };
+    setMessages((prevMessages) => [...prevMessages, newMessage]);
+
+    // TTS URL을 가져와서 메시지에 추가
+    if (sender !== '') {
+      const ttsUrl = await fetchTTSUrl(text);
+      newMessage.ttsUrl = ttsUrl;
+      setMessages((prevMessages) => prevMessages.map((msg) => (msg.id === newMessage.id ? newMessage : msg)));
+
+      // 자동으로 음성 재생
+      if (ttsUrl) {
+        const audio = new Audio(ttsUrl);
+        audio.play();
+      }
+    }
+  };
+
+  const handleSendMessage = (message: string) => {
+    if (message.trim() !== '') {
+      if (socketRef.current) {
+        socketRef.current.send(JSON.stringify({ message }));
+      }
+      handleNewMessage('', message);
       setInput('');
     }
   };
@@ -69,7 +135,7 @@ const GreatChatPageRight: React.FC = () => {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter' && !isComposing) {
       event.preventDefault();
-      handleSendMessage();
+      handleSendMessage(input);
     }
   };
 
@@ -79,7 +145,53 @@ const GreatChatPageRight: React.FC = () => {
     }
   }, [messages]);
 
-  // 현재 날짜를 가져오는 함수
+  const handleStartRecording = () => {
+    if (!('webkitSpeechRecognition' in window)) {
+      alert('웹 브라우저가 음성 인식을 지원하지 않습니다.');
+      return;
+    }
+
+    const recognition = new window.webkitSpeechRecognition();
+    recognitionRef.current = recognition;
+    recognition.lang = 'ko-KR';
+    recognition.continuous = true;
+
+    recognition.onstart = () => {
+      console.log('음성 인식 시작');
+      setIsRecording(true);
+    };
+
+    recognition.onresult = (event: SpeechRecognitionEvent) => {
+      let finalTranscript = '';
+      for (let i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          finalTranscript += event.results[i][0].transcript;
+        }
+      }
+      console.log('최종 인식 내용:', finalTranscript);
+      handleSendMessage(finalTranscript);
+    };
+
+    recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
+      console.error('음성 인식 오류 발생:', event.error);
+      setIsRecording(false);
+    };
+
+    recognition.onend = () => {
+      console.log('음성 인식 종료');
+      setIsRecording(false);
+    };
+
+    recognition.start();
+  };
+
+  const handleStopRecording = () => {
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
+      setIsRecording(false);
+    }
+  };
+
   const getCurrentDate = () => {
     const date = new Date();
     const year = date.getFullYear();
@@ -98,7 +210,6 @@ const GreatChatPageRight: React.FC = () => {
               <MessageComponent key={message.id} message={message} />
             ))}
           </div>
-
           <div ref={messagesEndRef} />
         </div>
         <div className="flex justify-end mt-4 mr-6">
@@ -109,15 +220,30 @@ const GreatChatPageRight: React.FC = () => {
             onCompositionStart={() => setIsComposing(true)}
             onCompositionEnd={() => setIsComposing(false)}
             onChange={(e) => setInput(e.target.value)}
-            className="border border-black rounded-md w-[500px] h-[30px]"
+            className="border border-black rounded-md w-[450px] h-[30px]"
             placeholder="메시지를 입력하세요."
           />
           <button
-            onClick={handleSendMessage}
+            onClick={() => handleSendMessage(input)}
             className="ml-1 text-white border-black bg-amber-950 rounded-md w-[40px] h-[30px]"
           >
             전송
           </button>
+          {isRecording ? (
+            <button
+              onClick={handleStopRecording}
+              className="ml-1 text-white border-black bg-amber-950 rounded-md w-[55px]"
+            >
+              중지
+            </button>
+          ) : (
+            <button
+              onClick={handleStartRecording}
+              className="ml-1 text-white border-black bg-amber-950 rounded-md w-[55px]"
+            >
+              마이크
+            </button>
+          )}
         </div>
       </div>
     </div>

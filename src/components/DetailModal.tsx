@@ -14,7 +14,7 @@ const DetailModal: React.FC = () => {
           className="w-[40%] h-[100px] bg-no-repeat bg-contain absolute -top-[30px] left-[30%]"
           style={{ backgroundImage: `url(${BlueTapeRow})` }}
         />
-        <div className="flex flex-col text-[1.4rem] m-10">
+        <div className="flex flsrc/pages/GreatPageRight.tsxex-col text-[1.4rem] m-10">
           <div>
             <span>생애 : </span>
             <span>{'1893 ~ 2989'}</span>

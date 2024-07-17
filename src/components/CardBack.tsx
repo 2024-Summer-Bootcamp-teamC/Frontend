@@ -1,6 +1,7 @@
 import React from 'react';
 import CardBackImage from '../assets/images/CardBackImage.png';
 import SejongClear from '../assets/images/SejongClear.png';
+
 interface CardBackProps {
   name: string;
   saying: string;

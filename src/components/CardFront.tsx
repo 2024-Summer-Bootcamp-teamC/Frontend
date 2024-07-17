@@ -17,7 +17,7 @@ const CardFront: React.FC<CardFrontProps> = ({ name, image }) => {
           </span>
         ))}
       </div>
-      <div className="absolute inset-0 top-2 flex items-center justify-center">
+      <div className="absolute inset-0 flex items-center justify-center top-2">
         <img className="w-[130px] h-[170px] object-cover rounded-lg" src={FrontSejong} alt="Great Card" />
       </div>
       <div className="absolute flex flex-col items-center text-black transform rotate-180 bottom-2 right-4">

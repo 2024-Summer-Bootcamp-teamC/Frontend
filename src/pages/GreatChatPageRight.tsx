@@ -27,28 +27,40 @@ const MessageComponent: React.FC<{ message: Message }> = ({ message }) => (
 );
 
 const GreatChatPageRight: React.FC = () => {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: 1,
-      sender: '세종대왕',
-      text: '안녕? 내 이름은 세종대왕 내가 누군지는 알지? ㅋㅋ',
-    },
-    {
-      id: 2,
-      sender: '',
-      text: '안ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ',
-    },
-    { id: 3, sender: '세종대왕', text: '집ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ' },
-    { id: 4, sender: '세종대왕', text: '집ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ' },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
 
   const [input, setInput] = useState('');
   const [isComposing, setIsComposing] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const socketRef = useRef<WebSocket | null>(null);
+
+  // WebSocket 연결 설정
+  useEffect(() => {
+    const greatId = 'greatId'; // Define your room name
+    socketRef.current = new WebSocket(`ws://localhost:8000/ws/chat/${1}/`);
+
+    socketRef.current.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { id: prevMessages.length + 1, sender: '세종대왕', text: data.message },
+      ]);
+    };
+
+    return () => {
+      if (socketRef.current) {
+        socketRef.current.close();
+      }
+    };
+  }, []);
 
   const handleSendMessage = (event?: React.FormEvent) => {
     if (event) event.preventDefault();
     if (input.trim() !== '') {
+      const message = { message: input };
+      if (socketRef.current) {
+        socketRef.current.send(JSON.stringify(message));
+      }
       setMessages((prevMessages) => [...prevMessages, { id: prevMessages.length + 1, sender: '', text: input }]);
       setInput('');
     }

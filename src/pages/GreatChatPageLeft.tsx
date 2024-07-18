@@ -1,8 +1,8 @@
 import React from 'react';
-import TmpImg from '../assets/images/Rectangle.png';
 import EmptyPuzzle from '../assets/images/EmptyPuzzle.png';
 import FilledPuzzle from '../assets/images/Puzzle.png';
 import ArrowBack from '../assets/arrow_back.png';
+import Talking from '../assets/videos/talking.mp4';
 import { useGreatPersonStore } from '../store';
 
 interface GreatChatProps {
@@ -33,7 +33,10 @@ const GreatChatPageLeft: React.FC<GreatChatProps> = ({ movePage }) => {
             />
           ))}
         </div>
-        <img src={front_url} className="mb-1 w-[300px] h-[400px]" alt="임시 이미지" />
+        <video className="mb-1 w-[300px] h-[400px] rounded-[30px]" autoPlay loop muted>
+          <source src={Talking} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
         <div className="text-[26px] mt-2">{name}</div>
       </div>
     </>

@@ -9,7 +9,7 @@ const GreatPageLeft: React.FC = () => {
   const [puzzle, setPuzzle] = useState<number>(0);
   const [key, setKey] = useState<number>(Date.now());
 
-  const { greatId, photo_url, puzzle_cnt } = useGreatPersonStore();
+  const { greatId, front_url, puzzle_cnt } = useGreatPersonStore();
 
   useEffect(() => {
     // 진행 상태 계산
@@ -25,7 +25,7 @@ const GreatPageLeft: React.FC = () => {
     <>
       <div className="flex flex-col items-center justify-center w-[80%]">
         {/* 이미지 */}
-        <img src={photo_url} className="mb-[6rem] w-[60%]" alt="위인 사진" />
+        <img src={front_url} className="mb-[6rem] w-[60%]" alt="위인 사진" />
         <div className="w-[80%]">
           {/* 프로그레스 바 */}
           <div className="w-[100%] grid" style={{ gridTemplateColumns: 'repeat(5, 25%)' }}>

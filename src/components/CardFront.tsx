@@ -7,7 +7,6 @@ interface CardFrontProps {
 }
 
 const CardFront: React.FC<CardFrontProps> = ({ name, image }) => {
-  console.log(image);
   return (
     <div className="relative w-full h-full max-w-[200px] max-h-[300px]">
       <img className="object-contain w-full h-full" src={CardFrontImage} alt="Front Of Card" />

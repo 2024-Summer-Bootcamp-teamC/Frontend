@@ -14,8 +14,12 @@ export const useUserIdStore = create<UserIdState>((set) => ({
 interface GreatPersonState {
   greatId: number;
   name: string;
+  nation: string;
+  field: string;
   silhouette_url: string;
-  photo_url: string;
+  front_url: string;
+  back_url: string;
+  saying_url: string;
   saying: string;
   puzzle_cnt: number;
   video_url: string;
@@ -28,8 +32,12 @@ interface GreatPersonState {
 export const useGreatPersonStore = create<GreatPersonState>((set) => ({
   greatId: 0,
   name: '',
+  nation: '',
+  field: '',
   silhouette_url: '',
-  photo_url: '',
+  front_url: '',
+  back_url: '',
+  saying_url: '',
   saying: '',
   puzzle_cnt: 0,
   video_url: '',
@@ -46,8 +54,11 @@ export const useGreatPersonStore = create<GreatPersonState>((set) => ({
     set(() => ({
       greatId: great.greatId,
       name: great.name,
+      nation: great.nation,
+      field: great.field,
       silhouette_url: great.silhouette_url,
-      photo_url: great.photo_url,
+      front_url: great.front_url,
+      back_url: great.back_url,
       saying: great.saying,
       puzzle_cnt: great.puzzle_cnt,
     })),

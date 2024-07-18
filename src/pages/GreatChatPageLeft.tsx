@@ -10,7 +10,7 @@ interface GreatChatProps {
 }
 
 const GreatChatPageLeft: React.FC<GreatChatProps> = ({ movePage }) => {
-  const { greatId, name, puzzle_cnt } = useGreatPersonStore();
+  const { greatId, name, puzzle_cnt, front_url } = useGreatPersonStore();
 
   return (
     <>
@@ -33,7 +33,7 @@ const GreatChatPageLeft: React.FC<GreatChatProps> = ({ movePage }) => {
             />
           ))}
         </div>
-        <img src={TmpImg} className="mb-1 w-[100%]" alt="임시 이미지" />
+        <img src={front_url} className="mb-1 w-[300px] h-[400px]" alt="임시 이미지" />
         <div className="text-[26px] mt-2">{name}</div>
       </div>
     </>

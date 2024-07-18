@@ -76,13 +76,13 @@ const GreatListPage: React.FC<CardProps> = ({ movePage, closeModal }) => {
           >
             <div className="max-w-[200px] max-h-[300px] ml-12 mr-12 mt-[75px]">
               <ReactCardFlip isFlipped={isFlipped[index]} flipDirection="horizontal">
-                <CardFront key={`front${person.greatId}`} name={person.name} image={person.photo_url} />
+                <CardFront key={`front${person.greatId}`} name={person.name} image={person.front_url} />
                 <CardBack
                   key={`back${person.greatId}`}
                   name={person.name}
-                  saying={person.saying}
-                  category="한국/정치"
-                  image={person.photo_url}
+                  saying_url={person.saying_url}
+                  category={`${person.nation}/${person.field}`}
+                  image={person.back_url}
                 />
               </ReactCardFlip>
             </div>

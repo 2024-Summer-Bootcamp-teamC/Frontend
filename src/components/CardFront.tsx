@@ -7,6 +7,7 @@ interface CardFrontProps {
 }
 
 const CardFront: React.FC<CardFrontProps> = ({ name, image }) => {
+  console.log(image);
   return (
     <div className="relative w-full h-full max-w-[200px] max-h-[300px]">
       <img className="object-contain w-full h-full" src={CardFrontImage} alt="Front Of Card" />
@@ -18,7 +19,7 @@ const CardFront: React.FC<CardFrontProps> = ({ name, image }) => {
         ))}
       </div>
       <div className="absolute inset-0 flex items-center justify-center top-2">
-        <img className="w-[130px] h-[170px] object-cover rounded-lg" src={FrontSejong} alt="Great Card" />
+        <img className="w-[130px] h-[170px] object-cover rounded-lg" src={image} alt="Great Card" />
       </div>
       <div className="absolute flex flex-col items-center text-black transform rotate-180 bottom-2 right-4">
         {name.split('').map((char, index) => (

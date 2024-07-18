@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Sejong from '../assets/images/MiniSejong.png';
+import { useGreatPersonStore } from '../store';
 import '../index.css';
 
 // Message 타입 정의
@@ -7,7 +8,7 @@ interface Message {
   id: number;
   sender: string;
   text: string;
-  ttsUrl?: string; // TTS URL 추가
+  ttsUrl?: string | null; // TTS URL 추가
 }
 
 // TypeScript 타입 정의 추가
@@ -15,9 +16,26 @@ declare global {
   interface Window {
     webkitSpeechRecognition: any;
     SpeechRecognition: any;
-    webkitSpeechRecognitionEvent: any;
-    SpeechRecognitionErrorEvent: any;
   }
+}
+
+// 명시적으로 타입 정의
+interface SpeechRecognitionResult {
+  isFinal: boolean;
+  [index: number]: SpeechRecognitionAlternative;
+}
+
+interface SpeechRecognitionAlternative {
+  transcript: string;
+}
+
+interface SpeechRecognitionEvent {
+  resultIndex: number;
+  results: SpeechRecognitionResult[];
+}
+
+interface SpeechRecognitionErrorEvent {
+  error: string;
 }
 
 // Message 컴포넌트 분리
@@ -51,24 +69,27 @@ const GreatChatPageRight: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const socketRef = useRef<WebSocket | null>(null);
   const recognitionRef = useRef<any>(null);
+  const { greatId, name } = useGreatPersonStore();
 
   // WebSocket 연결 설정
   useEffect(() => {
-    socketRef.current = new WebSocket(`ws://localhost:8000/ws/chat/${1}/`);
+    if (greatId) {
+      socketRef.current = new WebSocket(`ws://localhost:8000/ws/chat/${greatId}/`);
 
-    socketRef.current.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      handleNewMessage('세종대왕', data.message);
-    };
+      socketRef.current.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        handleNewMessage(name, data.message);
+      };
 
-    return () => {
-      if (socketRef.current) {
-        socketRef.current.close();
-      }
-    };
-  }, []);
+      return () => {
+        if (socketRef.current) {
+          socketRef.current.close();
+        }
+      };
+    }
+  }, [greatId, name]);
 
-  const fetchTTSUrl = async (message: string) => {
+  const fetchTTSUrl = async (message: string): Promise<string | null> => {
     try {
       const response = await fetch('/api/tts/change_sound/', {
         method: 'POST',

@@ -76,3 +76,15 @@ export const useVideoModalStore = create<VideoModalState>((set) => ({
       showVideoModal: show,
     })),
 }));
+
+interface QuizState {
+  quiestion: string;
+  answer: string;
+  explanation: string;
+}
+
+export const useQuizStore = create<QuizState>((set) => ({
+  quiestion : '',
+  answer: '',
+  explanation: ''
+}))

@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import RedBtn from '../assets/images/GreatPageRedBtn.png';
 import BlueBtn from '../assets/images/GreatPageBlueBtn.png';
 import VerticalBtn from '../assets/images/GreatPageVerticalBtn.png';
@@ -9,12 +10,21 @@ interface GreatPageRightProps {
 }
 
 const GreatPageRight: React.FC<GreatPageRightProps> = ({ movePage }) => {
-  const { name, saying, life } = useGreatPersonStore();
-
+  const { name, saying, life, greatId } = useGreatPersonStore();
   const { setShowVideoModal } = useVideoModalStore();
 
   const handleLearnMore = () => {
     setShowVideoModal(true);
+  };
+
+  const handleConversationClick = async () => {
+    try {
+      await axios.put(`/api/greats/${greatId}/talk/`, { access_cnt: true });
+      movePage(9);
+      console.log('good');
+    } catch (error) {
+      console.error('Failed to update access count', error);
+    }
   };
 
   return (
@@ -33,7 +43,7 @@ const GreatPageRight: React.FC<GreatPageRightProps> = ({ movePage }) => {
         <button
           className="w-[200px] h-[70px] border-none text-white text-lg text-center bg-cover mb-5 font-semibold mr-5"
           style={{ backgroundImage: `url(${RedBtn})` }}
-          onClick={() => movePage(9)}
+          onClick={handleConversationClick}
         >
           대화하기
         </button>

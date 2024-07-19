@@ -1,6 +1,7 @@
 import React, { useState, ChangeEvent } from 'react';
 import axios from 'axios';
 import { useUserIdStore } from '../store';
+import backgroundImage from '../assets/Bookmark.png';
 
 interface MainPageProps {
   next: () => void;
@@ -50,7 +51,11 @@ const MainPage: React.FC<MainPageProps> = (props) => {
     <div className="flex items-center">
       {/* 왼쪽 컨텐츠 */}
       <div className="w-5/6 pr-24 text-center">
-        <h1 className="mt-6 mb-16 text-4xl font-bold whitespace-nowrap">서비스 이름</h1>
+        <div className="flex">
+          <div className="mt-6 mb-16 text-4xl font-bold whitespace-nowrap">We in</div>
+          <img src="images/jeon.png" className="w-[7rem] h-[5rem]"></img>
+        </div>
+
         <div className="mb-7">
           <input
             id="name"
@@ -58,16 +63,16 @@ const MainPage: React.FC<MainPageProps> = (props) => {
             value={username}
             onChange={handleNameChange}
             placeholder="이름을 입력해주세요."
-            className="w-[65%] px-3 py-1 mx-auto text-lg transform border border-gray-300 rounded"
+            className="w-[100%] px-3 py-1 mx-auto text-m transform border border-gray-300 rounded"
           />
           <h1 className="block mt-10 mb-4 text-lg"></h1>
           <select
             id="age"
             value={year}
             onChange={handleYearChange}
-            className="w-1/4 px-3 py-1 mx-auto text-lg text-gray-500 transform border border-gray-300 rounded"
+            className="w-[90%] px-3 py-1 mx-auto text-lg text-gray-500 transform border border-gray-300 rounded text-center"
           >
-            <option value="">나이</option>
+            <option className="m-10">나이</option>
             {years.map((year) => (
               <option key={year} value={year}>
                 {year}
@@ -76,8 +81,9 @@ const MainPage: React.FC<MainPageProps> = (props) => {
           </select>
           <div className="relative flex items-center justify-center h-20 mt-6">
             <button
-              className="absolute z-10 p-3 text-lg text-black rounded bg-brown-500 hover:bg-brown-600"
+              className="absolute z-10 p-3 text-lg text-black bg-cover rounded w-[100%] h-[5rem]"
               onClick={handleClick}
+              style={{ backgroundImage: `url(${backgroundImage})` }}
             >
               시작하기
             </button>

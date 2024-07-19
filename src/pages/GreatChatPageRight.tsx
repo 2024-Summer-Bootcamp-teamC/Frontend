@@ -39,7 +39,11 @@ interface SpeechRecognitionErrorEvent {
 }
 
 // Message 컴포넌트 분리
-const MessageComponent: React.FC<{ message: Message }> = ({ message }) => (
+const MessageComponent: React.FC<{ message: Message; playVideo: () => void; pauseVideo: () => void }> = ({
+  message,
+  playVideo,
+  pauseVideo,
+}) => (
   <div className={`flex ${message.sender === '' ? 'justify-end' : 'justify-start'} items-start mb-2`}>
     <div className="flex items-start">
       {message.sender === '세종대왕' && <img src={Sejong} alt="세종대왕" className="w-10 h-10 rounded-full" />}
@@ -50,7 +54,11 @@ const MessageComponent: React.FC<{ message: Message }> = ({ message }) => (
           onClick={() => {
             if (message.ttsUrl) {
               const audio = new Audio(message.ttsUrl);
+              playVideo();
               audio.play();
+              audio.onended = () => {
+                pauseVideo();
+              };
             }
           }}
         >
@@ -61,7 +69,7 @@ const MessageComponent: React.FC<{ message: Message }> = ({ message }) => (
   </div>
 );
 
-const GreatChatPageRight: React.FC = () => {
+const GreatChatPageRight: React.FC<{ playVideo: () => void; pauseVideo: () => void }> = ({ playVideo, pauseVideo }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isComposing, setIsComposing] = useState(false);
@@ -134,12 +142,6 @@ const GreatChatPageRight: React.FC = () => {
       const ttsUrl = await fetchTTSUrl(text);
       newMessage.ttsUrl = ttsUrl;
       setMessages((prevMessages) => prevMessages.map((msg) => (msg.id === newMessage.id ? newMessage : msg)));
-
-      // 자동으로 음성 재생
-      if (ttsUrl) {
-        const audio = new Audio(ttsUrl);
-        audio.play();
-      }
     }
   };
 
@@ -228,7 +230,7 @@ const GreatChatPageRight: React.FC = () => {
         <div className="mb-5 h-[550px] overflow-y-auto">
           <div className="mr-6">
             {messages.map((message) => (
-              <MessageComponent key={message.id} message={message} />
+              <MessageComponent key={message.id} message={message} playVideo={playVideo} pauseVideo={pauseVideo} />
             ))}
           </div>
           <div ref={messagesEndRef} />

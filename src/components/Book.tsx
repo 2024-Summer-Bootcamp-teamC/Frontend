@@ -50,6 +50,7 @@ const Page = forwardRef<HTMLDivElement, PageProps>((props, ref) => {
 
 const Book = forwardRef((props, ref) => {
   const bookRef = useRef<React.ElementRef<typeof HTMLFlipBook>>(null);
+  const leftPageRef = useRef<{ playVideo: () => void; pauseVideo: () => void }>(null);
   const [curPage, setCurPage] = useState(0);
   const { showVideoModal, setShowVideoModal } = useVideoModalStore();
 
@@ -157,7 +158,7 @@ const Book = forwardRef((props, ref) => {
         <Page number={4}>
           <div className="absolute inset-0 flex items-center justify-center">
             <FieldPageRight />
-            </div>
+          </div>
         </Page>
 
         {/* 인물 목록 */}
@@ -183,12 +184,15 @@ const Book = forwardRef((props, ref) => {
         {/* 인물 대화 창 */}
         <Page number={9}>
           <div className="absolute inset-0 flex items-center justify-center">
-            <GreatChatPageLeft movePage={movePage} />
+            <GreatChatPageLeft ref={leftPageRef} movePage={movePage} />
           </div>
         </Page>
         <Page number={10}>
           <div className="absolute inset-0 flex items-center justify-center">
-            <GreatChatPageRight />
+            <GreatChatPageRight
+              playVideo={() => leftPageRef.current?.playVideo()}
+              pauseVideo={() => leftPageRef.current?.pauseVideo()}
+            />
           </div>
         </Page>
 

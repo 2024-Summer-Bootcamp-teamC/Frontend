@@ -48,7 +48,12 @@ const GreatChatPageLeft = forwardRef<{ playVideo: () => void; pauseVideo: () => 
               />
             ))}
           </div>
-          <video ref={videoRef} className="mb-1 w-[300px] h-[400px] rounded-[60px]" loop muted>
+          <video
+            ref={videoRef}
+            className="mb-1 w-[295px] h-[399.5px] rounded-[60px] border-[5px] border-amber-800"
+            loop
+            muted
+          >
             <source src={Talking} type="video/mp4" />
             Your browser does not support the video tag.
           </video>

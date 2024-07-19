@@ -51,4 +51,18 @@ body {
   .delay-7 { animation-delay: 0s; }
   /* 필요에 따라 delay 클래스를 더 추가 */
   
+  .card-container {
+    perspective: 1000px; /* 필수 */
+  }
+  
+  .card-size {
+    width: 200px;
+    height: 300px;
+    max-width: 200px;
+    max-height: 300px;
+  }
+  .fade-out {
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+  }
   

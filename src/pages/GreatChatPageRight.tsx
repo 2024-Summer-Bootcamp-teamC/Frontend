@@ -267,7 +267,7 @@ const GreatChatPageRight: React.FC<{ playVideo: () => void; pauseVideo: () => vo
           />
           <button
             onClick={() => handleSendMessage(input)}
-            className="ml-1 text-white border-black bg-amber-950 rounded-md w-[55px] h-[40px]"
+            className="ml-1 text-white border-black bg-amber-800 hover:bg-amber-950 rounded-md w-[55px] h-[40px]"
           >
             전송
           </button>
@@ -281,7 +281,7 @@ const GreatChatPageRight: React.FC<{ playVideo: () => void; pauseVideo: () => vo
           ) : (
             <button
               onClick={handleStartRecording}
-              className="ml-1 text-white border-black bg-amber-700 hover:bg-amber-900 rounded-md w-[55px] h-[40px]"
+              className="ml-1 text-white border-black bg-amber-800 hover:bg-amber-950 rounded-md w-[55px] h-[40px]"
             >
               마이크
             </button>

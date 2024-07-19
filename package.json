@@ -16,6 +16,7 @@
     "@types/react-simple-maps": "^3.0.4",
     "@types/react-youtube": "^7.10.0",
     "axios": "^1.7.2",
+    "bootstrap": "5.3.3",
     "highcharts": "^11.4.5",
     "highcharts-drilldown": "^0.1.7",
     "highcharts-react-official": "^3.2.1",

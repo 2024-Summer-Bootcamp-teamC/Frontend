@@ -9,6 +9,7 @@ interface Message {
   sender: string;
   text: string;
   ttsUrl?: string | null; // TTS URL 추가
+  isTtsReady?: boolean; // TTS 준비 상태 추가
 }
 
 // TypeScript 타입 정의 추가
@@ -39,21 +40,30 @@ interface SpeechRecognitionErrorEvent {
 }
 
 // Message 컴포넌트 분리
-const MessageComponent: React.FC<{ message: Message; playVideo: () => void; pauseVideo: () => void }> = ({
-  message,
-  playVideo,
-  pauseVideo,
-}) => (
+const MessageComponent: React.FC<{
+  message: Message;
+  currentAudio: HTMLAudioElement | null;
+  setCurrentAudio: React.Dispatch<React.SetStateAction<HTMLAudioElement | null>>;
+  playVideo: () => void;
+  pauseVideo: () => void;
+}> = ({ message, currentAudio, setCurrentAudio, playVideo, pauseVideo }) => (
   <div className={`flex ${message.sender === '' ? 'justify-end' : 'justify-start'} items-start mb-2`}>
     <div className="flex items-start">
       {message.sender === '세종대왕' && <img src={Sejong} alt="세종대왕" className="w-10 h-10 rounded-full" />}
       <div>
         {message.sender && <span className="ml-2">{message.sender}</span>}
         <div
-          className={`ml-2 mb-4 p-2 rounded-lg leading-tight max-w-xs break-words ${message.sender === '' ? 'bg-white' : 'bg-white'}`}
+          className={`ml-2 mb-4 p-2 rounded-lg leading-tight max-w-xs break-words ${message.sender === '' ? 'bg-white' : 'bg-white'} ${
+            message.isTtsReady ? 'cursor-pointer hover:bg-gray-200' : ''
+          }`}
           onClick={() => {
             if (message.ttsUrl) {
+              if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+              }
               const audio = new Audio(message.ttsUrl);
+              setCurrentAudio(audio);
               playVideo();
               audio.play();
               audio.onended = () => {
@@ -74,6 +84,7 @@ const GreatChatPageRight: React.FC<{ playVideo: () => void; pauseVideo: () => vo
   const [input, setInput] = useState('');
   const [isComposing, setIsComposing] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
+  const [currentAudio, setCurrentAudio] = useState<HTMLAudioElement | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const socketRef = useRef<WebSocket | null>(null);
   const recognitionRef = useRef<any>(null);
@@ -134,13 +145,14 @@ const GreatChatPageRight: React.FC<{ playVideo: () => void; pauseVideo: () => vo
   };
 
   const handleNewMessage = async (sender: string, text: string) => {
-    const newMessage: Message = { id: Date.now(), sender, text };
+    const newMessage: Message = { id: Date.now(), sender, text, isTtsReady: false };
     setMessages((prevMessages) => [...prevMessages, newMessage]);
 
     // TTS URL을 가져와서 메시지에 추가
     if (sender !== '') {
       const ttsUrl = await fetchTTSUrl(text);
       newMessage.ttsUrl = ttsUrl;
+      newMessage.isTtsReady = true;
       setMessages((prevMessages) => prevMessages.map((msg) => (msg.id === newMessage.id ? newMessage : msg)));
     }
   };
@@ -230,7 +242,14 @@ const GreatChatPageRight: React.FC<{ playVideo: () => void; pauseVideo: () => vo
         <div className="mb-5 h-[550px] overflow-y-auto">
           <div className="mr-6">
             {messages.map((message) => (
-              <MessageComponent key={message.id} message={message} playVideo={playVideo} pauseVideo={pauseVideo} />
+              <MessageComponent
+                key={message.id}
+                message={message}
+                currentAudio={currentAudio}
+                setCurrentAudio={setCurrentAudio}
+                playVideo={playVideo}
+                pauseVideo={pauseVideo}
+              />
             ))}
           </div>
           <div ref={messagesEndRef} />
@@ -243,26 +262,26 @@ const GreatChatPageRight: React.FC<{ playVideo: () => void; pauseVideo: () => vo
             onCompositionStart={() => setIsComposing(true)}
             onCompositionEnd={() => setIsComposing(false)}
             onChange={(e) => setInput(e.target.value)}
-            className="border border-black rounded-md w-[450px] h-[30px]"
+            className="border border-black rounded-md w-[400px] h-[40px] mb-[15px]"
             placeholder="메시지를 입력하세요."
           />
           <button
             onClick={() => handleSendMessage(input)}
-            className="ml-1 text-white border-black bg-amber-950 rounded-md w-[40px] h-[30px]"
+            className="ml-1 text-white border-black bg-amber-950 rounded-md w-[55px] h-[40px]"
           >
             전송
           </button>
           {isRecording ? (
             <button
               onClick={handleStopRecording}
-              className="ml-1 text-white border-black bg-amber-950 rounded-md w-[55px]"
+              className="ml-1 text-white border-black bg-red-500 hover:bg-red-700 rounded-md w-[55px] h-[40px]"
             >
               중지
             </button>
           ) : (
             <button
               onClick={handleStartRecording}
-              className="ml-1 text-white border-black bg-amber-950 rounded-md w-[55px]"
+              className="ml-1 text-white border-black bg-amber-700 hover:bg-amber-900 rounded-md w-[55px] h-[40px]"
             >
               마이크
             </button>

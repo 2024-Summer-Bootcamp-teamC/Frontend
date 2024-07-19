@@ -43,12 +43,12 @@ const GreatChatPageLeft = forwardRef<{ playVideo: () => void; pauseVideo: () => 
               <img
                 key={index}
                 src={index < puzzle_cnt ? FilledPuzzle : EmptyPuzzle}
-                className="w-10 h-10 mx-1 mb-24"
+                className="w-10 h-10 mx-1 mb-10"
                 alt="퍼즐 조각"
               />
             ))}
           </div>
-          <video ref={videoRef} className="mb-1 w-[300px] h-[400px] rounded-[30px]" loop muted>
+          <video ref={videoRef} className="mb-1 w-[300px] h-[400px] rounded-[60px]" loop muted>
             <source src={Talking} type="video/mp4" />
             Your browser does not support the video tag.
           </video>

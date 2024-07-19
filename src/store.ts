@@ -77,14 +77,21 @@ export const useVideoModalStore = create<VideoModalState>((set) => ({
     })),
 }));
 
-interface QuizState {
-  quiestion: string;
+interface Quiz {
+  question: string;
   answer: string;
   explanation: string;
 }
 
+interface QuizState {
+  quizzes: Quiz[];
+  setQuizzes: (quizzes: Quiz[]) => void;
+}
+
 export const useQuizStore = create<QuizState>((set) => ({
-  quiestion : '',
-  answer: '',
-  explanation: ''
-}))
+  quizzes: [],
+  setQuizzes: (quizzes: Quiz[]) =>
+    set(() => ({
+      quizzes: quizzes,
+    })),
+}));

@@ -2,20 +2,33 @@ import React from 'react';
 import RedBtn from '../assets/images/GreatPageRedBtn.png';
 import BlueBtn from '../assets/images/GreatPageBlueBtn.png';
 import VerticalBtn from '../assets/images/GreatPageVerticalBtn.png';
-import { useGreatPersonStore, useVideoModalStore } from '../store';
+import { useUserIdStore, useGreatPersonStore, useVideoModalStore, useQuizStore } from '../store';
+import axios from 'axios';
 
 interface GreatPageRightProps {
   movePage: (pageNumber: number) => void;
 }
 
 const GreatPageRight: React.FC<GreatPageRightProps> = ({ movePage }) => {
-  const { name, saying, life } = useGreatPersonStore();
-
+  const { name, saying, life, greatId } = useGreatPersonStore();
+  const { userId } = useUserIdStore();
   const { setShowVideoModal } = useVideoModalStore();
 
   const handleLearnMore = () => {
     setShowVideoModal(true);
   };
+
+  const handleQuiz = async () => {
+    try {
+      const response = await axios.get(`/api/quizzes/${userId}/${greatId}/`);
+      const quizzes = response.data;
+      useQuizStore.getState().setQuizzes(quizzes);
+      movePage(11); 
+    } catch (error) {
+      console.error('Error fetching quiz data:', error);
+    }
+  };
+  
 
   return (
     <>
@@ -40,7 +53,7 @@ const GreatPageRight: React.FC<GreatPageRightProps> = ({ movePage }) => {
         <button
           className="w-[200px] h-[70px] border-none text-white text-lg text-center bg-cover font-semibold ml-5"
           style={{ backgroundImage: `url(${BlueBtn})` }}
-          onClick={() => movePage(11)}
+          onClick={handleQuiz}
         >
           퀴즈풀기
         </button>

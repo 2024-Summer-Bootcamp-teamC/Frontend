@@ -1,43 +1,47 @@
 import React, { useState } from 'react';
+import { useQuizStore } from '../store';
 import RedBtn from '../assets/images/PuzzleCardRedBtn.png';
 import BlueBtn from '../assets/images/PuzzleCardBlueBtn.png';
-import EmptyPuzzle from '../assets/images/EmptyPuzzle.png';
-import FilledPuzzle from '../assets/images/Puzzle.png';
 
-interface GreatQuizPageRightProps {
-  movePage: (pageNumber: number) => void;
-  currentPage: number;
-  onComplete?: () => void; // 완료 버튼 클릭 핸들러 추가
-}
+const GreatQuizPageRight: React.FC<{ movePage: (pageNumber: number) => void }> = ({ movePage }) => {
+  const { quizzes } = useQuizStore();
+  const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
-const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, currentPage, onComplete }) => {
-  const [selectedOption, setSelectedOption] = useState<string | null>(null); // 선택된 옵션 상태 추가
-  const puzzleCount = 2;
-  const puzzlePieces = [...Array(4)].map((_, index) => (
-    <img
-      key={index}
-      src={index < puzzleCount ? FilledPuzzle : EmptyPuzzle}
-      className="w-10 h-10 mx-1"
-      alt="퍼즐 조각"
-    />
-  ));
+  if (quizzes.length === 0) {
+    return <div>No quizzes available.</div>;
+  }
+
+  const currentQuiz = quizzes[currentQuizIndex];
 
   const handleOptionClick = (option: string) => {
     setSelectedOption(option);
   };
 
+  const handleNextQuiz = () => {
+    if (currentQuizIndex < quizzes.length - 1) {
+      setCurrentQuizIndex(currentQuizIndex + 1);
+      setSelectedOption(null);
+    } else {
+      movePage(12); // Navigate to the completion page or another page
+    }
+  };
+
+  const handlePreviousQuiz = () => {
+    if (currentQuizIndex > 0) {
+      setCurrentQuizIndex(currentQuizIndex - 1);
+      setSelectedOption(null);
+    }
+  };
+
   return (
     <div className="relative h-[700px]">
       <div className="absolute top-0 left-1/2 transform -translate-x-1/2 mt-[40px]">
-        <div className="flex justify-center mb-3">{puzzlePieces}</div>
         <div className="w-[500px] h-[1px] bg-black"></div>
       </div>
       <div className="flex flex-col items-center mt-[100px] h-[calc(100%-100px)] overflow-y-auto">
         <div className="text-[25px] flex flex-col mb-8 leading-tight max-w-md break-words text-center">
-          <span>
-            Q. 문제 문제 문문제 문제문문제 문제문문제 문제문문제 문제문문제 문제문문제 문제문문제 문제문문제 문제문문제
-            문제문문제 문제문제문문제 문제문
-          </span>
+          <span>{currentQuiz.question}</span>
         </div>
         <div className="w-[448px]">
           <div
@@ -57,36 +61,23 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
             X
           </div>
         </div>
-
         <div className="flex justify-center mt-24">
-          {currentPage === 13 || currentPage === 15 ? (
+          {currentQuizIndex > 0 && (
             <button
               className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
               style={{ backgroundImage: `url(${RedBtn})` }}
-              onClick={() => movePage(currentPage - 1)}
+              onClick={handlePreviousQuiz}
             >
               이전 문제
             </button>
-          ) : null}
-
-          {currentPage === 12 || currentPage === 14 ? (
-            <button
-              className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
-              style={{ backgroundImage: `url(${BlueBtn})` }}
-              onClick={() => movePage(currentPage + 1)}
-            >
-              다음 문제
-            </button>
-          ) : null}
-          {currentPage === 16 ? (
-            <button
-              className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
-              style={{ backgroundImage: `url(${BlueBtn})` }}
-              onClick={onComplete} // 완료 버튼 클릭 핸들러 호출
-            >
-              완료
-            </button>
-          ) : null}
+          )}
+          <button
+            className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
+            style={{ backgroundImage: `url(${BlueBtn})` }}
+            onClick={handleNextQuiz}
+          >
+            다음 문제
+          </button>
         </div>
       </div>
     </div>

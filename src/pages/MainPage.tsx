@@ -6,12 +6,14 @@ import backgroundImage from '../assets/Bookmark.png';
 interface MainPageProps {
   next: () => void;
 }
+
 const MainPage: React.FC<MainPageProps> = (props) => {
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: currentYear - 1999 + 1 }, (_, i) => 1999 + i);
   const { setUserId } = useUserIdStore();
   const [username, setName] = useState('');
   const [year, setYear] = useState('');
+  const [fadeOut, setFadeOut] = useState(false);
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setName(e.target.value);
@@ -21,7 +23,6 @@ const MainPage: React.FC<MainPageProps> = (props) => {
     setYear(e.target.value);
   };
 
-  // api
   const handleClick = (): void => {
     if (!username || !year) {
       alert('Please enter your name and select your birth year.');
@@ -38,7 +39,7 @@ const MainPage: React.FC<MainPageProps> = (props) => {
       .then((response) => {
         console.log('Response:', response.data);
         setUserId(response.data.userID);
-        props.next();
+        setFadeOut(true);
         // 성공적으로 요청이 처리된 경우의 추가 작업
       })
       .catch((error) => {
@@ -47,15 +48,20 @@ const MainPage: React.FC<MainPageProps> = (props) => {
       });
   };
 
+  // 애니메이션 종료 후 페이지 이동
+  const handleTransitionEnd = () => {
+    if (fadeOut) {
+      props.next();
+    }
+  };
+
   return (
-    <div className="flex items-center">
-      {/* 왼쪽 컨텐츠 */}
+    <div className={`flex items-center ${fadeOut ? 'fade-out' : ''}`} onTransitionEnd={handleTransitionEnd}>
       <div className="w-5/6 pr-24 text-center">
         <div className="flex">
           <div className="mt-6 mb-16 text-4xl font-bold whitespace-nowrap">We in</div>
-          <img src="images/jeon.png" className="w-[7rem] h-[5rem]"></img>
+          <img src="images/jeon.png" className="w-[7rem] h-[5rem]" alt="Logo" />
         </div>
-
         <div className="mb-7">
           <input
             id="name"

@@ -76,3 +76,13 @@ export const useVideoModalStore = create<VideoModalState>((set) => ({
       showVideoModal: show,
     })),
 }));
+
+interface TriggerChartState {
+  count: number;
+  setCount: () => void;
+}
+
+export const useTriggerChartStore = create<TriggerChartState>((set) => ({
+  count: 0,
+  setCount: () => set((state) => ({ count: state.count + 1 })),
+}));

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Pin from '../assets/images/Pin.png';
 import Vector from '../assets/Vector.png';
+import { useTriggerChartStore } from '../store';
 import Power from '../assets/Power.png';
 
 interface NavBarProps {
@@ -9,6 +10,12 @@ interface NavBarProps {
 
 const NavBar: React.FC<NavBarProps> = ({ movePage }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const { setCount } = useTriggerChartStore();
+
+  const handleClick = () => {
+    movePage(17);
+    setCount();
+  };
 
   return (
     <div className="fixed left-0 right-0 w-full top-14" style={{ height: '1px' }}>
@@ -33,7 +40,7 @@ const NavBar: React.FC<NavBarProps> = ({ movePage }) => {
           <div
             className="fixed cursor-pointer top-2 right-[10px] hover:font-bold hover:underline"
             style={{ fontSize: '20px' }}
-            onClick={() => movePage(17)}
+            onClick={handleClick}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >

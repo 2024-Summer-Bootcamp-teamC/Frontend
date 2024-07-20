@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import axios from 'axios';
+import { useTriggerChartStore } from '../store';
 
 Highcharts.setOptions({
   chart: {
@@ -77,6 +78,7 @@ const ChartPageLeft: React.FC = () => {
   const [categories, setCategories] = useState<string[]>([]);
   const [data, setData] = useState<number[]>([]);
   const [pieData, setPieData] = useState<{ name: string; y: number }[]>([]);
+  const { count } = useTriggerChartStore();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -100,7 +102,7 @@ const ChartPageLeft: React.FC = () => {
     };
 
     fetchData();
-  }, []);
+  }, [count]);
 
   const options = {
     title: {

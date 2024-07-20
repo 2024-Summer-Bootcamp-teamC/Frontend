@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
 import axios from 'axios';
+import { useTriggerChartStore } from '../store';
 
 Highcharts.setOptions({
   chart: {
@@ -77,6 +78,7 @@ const ChartPageRight: React.FC = () => {
   // 정답률 그려주는 옵션
   const [ageData, setAgeData] = useState<{ age: string; visit_total: string }[]>([]);
   const [correctRateData, setCorrectRateData] = useState<{ name: string; correct_rate: string }[]>([]);
+  const { count } = useTriggerChartStore();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -93,7 +95,7 @@ const ChartPageRight: React.FC = () => {
     };
 
     fetchData();
-  }, []);
+  }, [count]);
 
   const categories = ageData.map((item) => item.age);
   const data = ageData.map((item) => parseInt(item.visit_total, 10));

@@ -2,6 +2,7 @@ import React, { useState, ChangeEvent } from 'react';
 import axios from 'axios';
 import { useUserIdStore } from '../store';
 import backgroundImage from '../assets/Bookmark.png';
+import { useTriggerChartStore } from '../store';
 
 interface MainPageProps {
   next: () => void;
@@ -13,6 +14,7 @@ const MainPage: React.FC<MainPageProps> = (props) => {
   const { setUserId } = useUserIdStore();
   const [username, setName] = useState('');
   const [year, setYear] = useState('');
+  const { setCount } = useTriggerChartStore();
   const [fadeOut, setFadeOut] = useState(false);
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -46,6 +48,7 @@ const MainPage: React.FC<MainPageProps> = (props) => {
         console.error('Error:', error);
         // 요청이 실패한 경우의 추가 작업
       });
+    setCount();
   };
 
   // 애니메이션 종료 후 페이지 이동

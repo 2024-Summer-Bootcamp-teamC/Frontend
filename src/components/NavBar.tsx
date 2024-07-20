@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Pin from '../assets/images/Pin.png';
 import Vector from '../assets/Vector.png';
 import { useTriggerChartStore } from '../store';
+import Power from '../assets/Power.png';
 
 interface NavBarProps {
   movePage: (pageNumber: number) => void;
@@ -28,13 +29,22 @@ const NavBar: React.FC<NavBarProps> = ({ movePage }) => {
             <div style={{ fontSize: '30px' }}> 위인 모음 </div>
           </div>
           <div
-            className="fixed cursor-pointer top-2 right-7 hover:font-bold hover:underline"
-            style={{ fontSize: '30px' }}
+            className="fixed cursor-pointer top-2 right-[70px] hover:font-bold hover:underline"
+            style={{ fontSize: '20px' }}
+            onClick={() => movePage(0)}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
+            {isHovered ? <span>로그아웃</span> : <img src={Power} alt="Profile" className="w-[30px] h-[35px]" />}
+          </div>
+          <div
+            className="fixed cursor-pointer top-2 right-[10px] hover:font-bold hover:underline"
+            style={{ fontSize: '20px' }}
             onClick={handleClick}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
-            {isHovered ? <span>차트</span> : <img src={Vector} alt="Profile" className="h-10 w-15" />}
+            {isHovered ? <span>차트</span> : <img src={Vector} alt="Profile" className="w-[40px] h-[35px]" />}
           </div>
         </div>
       </nav>

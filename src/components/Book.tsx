@@ -52,6 +52,7 @@ const Book = forwardRef((props, ref) => {
   const bookRef = useRef<React.ElementRef<typeof HTMLFlipBook>>(null);
   const leftPageRef = useRef<{ playVideo: () => void; pauseVideo: () => void }>(null);
   const [curPage, setCurPage] = useState(0);
+  const [chatPageKey, setChatPageKey] = useState(0); // 대화창을 새로고침하기 위한 key
   const { showVideoModal, setShowVideoModal } = useVideoModalStore();
 
   const someStyle: React.CSSProperties = {}; // htmlFlip 에러 없앨라고 추가
@@ -67,6 +68,9 @@ const Book = forwardRef((props, ref) => {
   }));
 
   const movePage = (pageNumber: number) => {
+    if (pageNumber === 9) {
+      setChatPageKey((prevKey) => prevKey + 1); // 대화창으로 이동할 때 key 변경
+    }
     if (bookRef.current) {
       bookRef.current.pageFlip().flip(pageNumber);
     }
@@ -190,6 +194,7 @@ const Book = forwardRef((props, ref) => {
         <Page number={10}>
           <div className="absolute inset-0 flex items-center justify-center">
             <GreatChatPageRight
+              key={chatPageKey}
               playVideo={() => leftPageRef.current?.playVideo()}
               pauseVideo={() => leftPageRef.current?.pauseVideo()}
             />

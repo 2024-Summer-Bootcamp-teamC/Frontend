@@ -17,11 +17,11 @@ const CardBack: React.FC<CardBackProps> = ({ name, saying_url, category, image }
         <span className="text-white">{name}</span>
       </div>
       <img
-        className="absolute bottom-[7px] w-[170px] h-[180px] left-[100px] transform -translate-x-1/2"
+        className="absolute bottom-[18px] w-[162px] h-[150px] left-[100px] transform -translate-x-1/2"
         src={image}
         alt="Great Person"
       />
-      <div className="absolute top-[40px] w-[170px] h-[35px] justify-between right-[14.5px] text-center text-[16.5px]">
+      <div className="absolute top-[60px] w-[170px] h-[35px] justify-between right-[14.5px] text-center text-[16.5px]">
         <img src={saying_url} alt="명언 사진" />
       </div>
     </div>

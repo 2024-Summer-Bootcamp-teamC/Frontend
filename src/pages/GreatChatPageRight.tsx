@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Sejong from '../assets/images/MiniSejong.png';
 import { useGreatPersonStore } from '../store';
-import '../index.css';
+import '../index.css'; // CSS 파일에서 애니메이션 정의를 추가합니다.
 
 // Message 타입 정의
 interface Message {
@@ -81,6 +81,7 @@ const MessageComponent: React.FC<{
 
 const GreatChatPageRight: React.FC<{ playVideo: () => void; pauseVideo: () => void }> = ({ playVideo, pauseVideo }) => {
   const [messages, setMessages] = useState<Message[]>([]);
+  const [loading, setLoading] = useState(true); // 로딩 상태 추가
   const [input, setInput] = useState('');
   const [isComposing, setIsComposing] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
@@ -145,6 +146,9 @@ const GreatChatPageRight: React.FC<{ playVideo: () => void; pauseVideo: () => vo
   };
 
   const handleNewMessage = async (sender: string, text: string) => {
+    if (loading) {
+      setLoading(false); // 첫 번째 메시지가 오면 로딩 상태를 false로 설정
+    }
     const newMessage: Message = { id: Date.now(), sender, text, isTtsReady: false };
     setMessages((prevMessages) => [...prevMessages, newMessage]);
 
@@ -239,21 +243,33 @@ const GreatChatPageRight: React.FC<{ playVideo: () => void; pauseVideo: () => vo
     <div className="flex-grow max-w-2xl m-4">
       <div className="mt-4 mb-4 text-[20px] text-center">{getCurrentDate()}</div>
       <div className="mr-2 ml-2">
-        <div className="mb-5 h-[550px] overflow-y-auto">
-          <div className="mr-6">
-            {messages.map((message) => (
-              <MessageComponent
-                key={message.id}
-                message={message}
-                currentAudio={currentAudio}
-                setCurrentAudio={setCurrentAudio}
-                playVideo={playVideo}
-                pauseVideo={pauseVideo}
-              />
-            ))}
+        {loading ? (
+          <div className="flex flex-col items-center justify-center h-[550px]">
+            <div className="loader">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+            <div className="text-[25px] font-bold">위인 데리고 오는 중...</div>
           </div>
-          <div ref={messagesEndRef} />
-        </div>
+        ) : (
+          <div className="mb-5 h-[550px] overflow-y-auto">
+            <div className="mr-6">
+              {messages.map((message) => (
+                <MessageComponent
+                  key={message.id}
+                  message={message}
+                  currentAudio={currentAudio}
+                  setCurrentAudio={setCurrentAudio}
+                  playVideo={playVideo}
+                  pauseVideo={pauseVideo}
+                />
+              ))}
+            </div>
+            <div ref={messagesEndRef} />
+          </div>
+        )}
         <div className="flex justify-end mt-4 mr-6">
           <input
             type="text"
@@ -267,7 +283,7 @@ const GreatChatPageRight: React.FC<{ playVideo: () => void; pauseVideo: () => vo
           />
           <button
             onClick={() => handleSendMessage(input)}
-            className="ml-1 text-white border-black bg-amber-950 rounded-md w-[55px] h-[40px]"
+            className="ml-1 text-white border-black bg-amber-800 hover:bg-amber-950 rounded-md w-[55px] h-[40px]"
           >
             전송
           </button>
@@ -281,7 +297,7 @@ const GreatChatPageRight: React.FC<{ playVideo: () => void; pauseVideo: () => vo
           ) : (
             <button
               onClick={handleStartRecording}
-              className="ml-1 text-white border-black bg-amber-700 hover:bg-amber-900 rounded-md w-[55px] h-[40px]"
+              className="ml-1 text-white border-black bg-amber-800 hover:bg-amber-950 rounded-md w-[55px] h-[40px]"
             >
               마이크
             </button>

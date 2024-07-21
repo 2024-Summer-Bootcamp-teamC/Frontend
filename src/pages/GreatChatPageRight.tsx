@@ -63,6 +63,7 @@ const MessageComponent: React.FC<{
                 currentAudio.currentTime = 0;
               }
               const audio = new Audio(message.ttsUrl);
+              audio.playbackRate = 1.25; // 재생 속도를 1.5배속으로 설정
               setCurrentAudio(audio);
               playVideo();
               audio.play();

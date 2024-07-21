@@ -84,7 +84,7 @@ const ChartPageRight: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('/api/dashboard/age-visits/');
-        setAgeData(response.data);
+        setAgeData(response.data.filter((item) => item.age > 0)); // 나이가 0보다 큰 데이터만 사용
         console.log(ageData);
         const response2 = await axios.get('/api/dashboard/correct-rate/');
         setCorrectRateData(response2.data);

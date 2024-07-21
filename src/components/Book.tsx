@@ -42,7 +42,7 @@ const Page = forwardRef<HTMLDivElement, PageProps>((props, ref) => {
 
   return (
     <div className="bg-gray-100" ref={ref}>
-      <img src={imageSource} alt="" className="w-[600px] h-[700px] fixed -z-10" />
+      <img src={imageSource} alt="" className="w-[600px] h-[700px] fixed -z-10 rounded-l-sm rounded-r-sm" />
       <div className="z-10">{props.children}</div>
     </div>
   );

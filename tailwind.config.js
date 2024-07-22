@@ -29,8 +29,8 @@ module.exports = {
         slideInFromLeft: 'slideInFromLeft 1s ease-in-out',
       },
       boxShadow: {
-        'custom-left': '4px 0 6px rgba(0, 0, 0, 0.5)', // 왼쪽 그림자
-        'custom-right': '-4px 0 6px rgba(0, 0, 0, 0.5)', // 오른쪽 그림자
+        'custom-left': '4px 0 6px rgba(0, 0, 0, 0.5)',
+        'custom-right': '-4px 0 6px rgba(0, 0, 0, 0.5)',
       },
     },
   },

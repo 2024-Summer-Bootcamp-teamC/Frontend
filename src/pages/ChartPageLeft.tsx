@@ -77,7 +77,7 @@ Highcharts.setOptions({
 const ChartPageLeft: React.FC = () => {
   const [categories, setCategories] = useState<string[]>([]);
   const [data, setData] = useState<number[]>([]);
-  const [pieData, setPieData] = useState<{ name: string; y: number }[]>([]);
+  const [pieData, setPieData] = useState<{ name: string; y: number; color?: string }[]>([]);
   const { count } = useTriggerChartStore();
 
   useEffect(() => {
@@ -90,11 +90,12 @@ const ChartPageLeft: React.FC = () => {
         setData(data);
 
         const response2 = await axios.get('/api/dashboard/chat-visits/');
-        const pieData = response2.data.map((item: any) => ({
+        const colors = ['#F4C2C2', '#B8E0D2', '#D3B0E0', '#FDFD96', '#FFB7C5', '#C8A2C8', '#FFDAC1', '#FFB347'];
+        const pieData = response2.data.map((item: any, index: number) => ({
           name: item.name,
           y: parseInt(item.access_cnt),
+          color: colors[index % colors.length], // Assigning colors cyclically
         }));
-        console.log(pieData);
         setPieData(pieData);
       } catch (error) {
         console.error(error);
@@ -105,6 +106,9 @@ const ChartPageLeft: React.FC = () => {
   }, [count]);
 
   const options = {
+    credits: {
+      text: '',
+    },
     title: {
       text: '날짜별 방문자 수',
     },
@@ -158,6 +162,9 @@ const ChartPageLeft: React.FC = () => {
   };
 
   const pieOptions = {
+    credits: {
+      text: '',
+    },
     chart: {
       type: 'pie',
       height: '270',
@@ -212,8 +219,7 @@ const ChartPageLeft: React.FC = () => {
 
   return (
     <>
-      <div className="w-[90%] ml-[7%] mt-[3%]">
-        <div className="text-[3rem]">차트</div>
+      <div className="w-[90%] ml-[7%] mt-[15%]">
         <div>
           <HighchartsReact highcharts={Highcharts} options={pieOptions} />
         </div>

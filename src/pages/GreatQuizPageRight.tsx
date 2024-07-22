@@ -1,21 +1,56 @@
 import React, { useState } from 'react';
-import { useQuizStore } from '../store';
+import axios from 'axios';
 import RedBtn from '../assets/images/PuzzleCardRedBtn.png';
 import BlueBtn from '../assets/images/PuzzleCardBlueBtn.png';
+import EmptyPuzzle from '../assets/images/EmptyPuzzle.png';
+import FilledPuzzle from '../assets/images/Puzzle.png';
+import ExplanationModal from '../components/ExplanationModal';
+import PuzzleModal from '../components/PuzzleModal';
+import { useQuizStore, useUserIdStore, useGreatPersonStore } from '../store';
 
-const GreatQuizPageRight: React.FC<{ movePage: (pageNumber: number) => void }> = ({ movePage }) => {
+interface GreatQuizPageRightProps {
+  movePage: (pageNumber: number) => void;
+  currentPage: number;
+  onComplete?: () => void;
+}
+
+const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, currentPage, onComplete }) => {
   const { quizzes } = useQuizStore();
+  const { userId } = useUserIdStore();
+  const { greatId } = useGreatPersonStore();
   const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentExplanation, setCurrentExplanation] = useState('');
+  const [puzzleCount, setPuzzleCount] = useState(0);
 
   if (quizzes.length === 0) {
-    return <div>No quizzes available.</div>;
+    return <div>헉 문제 없음</div>;
   }
 
   const currentQuiz = quizzes[currentQuizIndex];
 
-  const handleOptionClick = (option: string) => {
+  const handleOptionClick = async (option: string) => {
     setSelectedOption(option);
+
+    // Log the current quiz index when an option is clicked
+    console.log('Current Quiz Index:', currentQuizIndex);
+
+    if (option === currentQuiz.answer) {
+      if ((currentQuizIndex + 1) % 5 === 0) {
+        setPuzzleCount(prevCount => {
+          const newPuzzleCount = prevCount + 1;
+          console.log('New puzzle count:', newPuzzleCount); // Log the updated puzzle count
+          updatePuzzleCount(newPuzzleCount);
+          return newPuzzleCount;
+        });
+      } else {
+        handleNextQuiz();
+      }
+    } else {
+      setCurrentExplanation(currentQuiz.explanation);
+      setIsModalOpen(true);
+    }
   };
 
   const handleNextQuiz = () => {
@@ -23,7 +58,7 @@ const GreatQuizPageRight: React.FC<{ movePage: (pageNumber: number) => void }> =
       setCurrentQuizIndex(currentQuizIndex + 1);
       setSelectedOption(null);
     } else {
-      movePage(12); // Navigate to the completion page or another page
+      movePage(12);
     }
   };
 
@@ -34,9 +69,36 @@ const GreatQuizPageRight: React.FC<{ movePage: (pageNumber: number) => void }> =
     }
   };
 
+  const updatePuzzleCount = async (count: number) => {
+    try {
+      const response = await axios.put(`/quizzes/${greatId}/puzzles/`, {
+        userId,
+        puzzle_cnt: count
+      });
+      console.log('Updated puzzle count:', response.data);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error('Error updating puzzle count:', error.message);
+        console.error('Error details:', error.response?.data);
+      } else {
+        console.error('Unexpected error:', error);
+      }
+    }
+  };
+
+  const puzzlePieces = [...Array(4)].map((_, index) => (
+    <img
+      key={index}
+      src={index < puzzleCount ? FilledPuzzle : EmptyPuzzle}
+      className="w-10 h-10 mx-1"
+      alt="퍼즐 조각"
+    />
+  ));
+
   return (
     <div className="relative h-[700px]">
       <div className="absolute top-0 left-1/2 transform -translate-x-1/2 mt-[40px]">
+        <div className="flex justify-center mb-3">{puzzlePieces}</div>
         <div className="w-[500px] h-[1px] bg-black"></div>
       </div>
       <div className="flex flex-col items-center mt-[100px] h-[calc(100%-100px)] overflow-y-auto">
@@ -71,15 +133,35 @@ const GreatQuizPageRight: React.FC<{ movePage: (pageNumber: number) => void }> =
               이전 문제
             </button>
           )}
-          <button
-            className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
-            style={{ backgroundImage: `url(${BlueBtn})` }}
-            onClick={handleNextQuiz}
-          >
-            다음 문제
-          </button>
+          {currentPage === 12 || currentPage === 14 ? (
+            <button
+              className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
+              style={{ backgroundImage: `url(${BlueBtn})` }}
+              onClick={handleNextQuiz}
+            >
+              다음 문제
+            </button>
+          ) : null}
+          {currentPage === 16 ? (
+            <button
+              className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
+              style={{ backgroundImage: `url(${BlueBtn})` }}
+              onClick={onComplete}
+            >
+              완료
+            </button>
+          ) : null}
         </div>
       </div>
+      <ExplanationModal
+        isOpen={isModalOpen}
+        explanation={currentExplanation}
+        onClose={() => setIsModalOpen(false)}
+      />
+      {/* <PuzzleModal
+        movePage={movePage}
+        closeModal={() => setIsPuzzleModalOpen(false)}
+      /> */}
     </div>
   );
 };

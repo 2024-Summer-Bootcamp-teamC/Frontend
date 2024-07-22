@@ -146,12 +146,12 @@ const Book = forwardRef((props, ref) => {
 
         {/* 지도 */}
         <Page number={1}>
-          <div className="relative overflow-hidden">
+          <div className="relative overflow-hidden top-10">
             <MapPage part="left" move={movePage} />
           </div>
         </Page>
         <Page number={2}>
-          <div className="relative overflow-hidden">
+          <div className="relative overflow-hidden top-10">
             <MapPage part="right" move={movePage} />
           </div>
         </Page>

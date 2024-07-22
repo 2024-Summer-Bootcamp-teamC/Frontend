@@ -25,34 +25,43 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
   const [puzzleCount, setPuzzleCount] = useState(0);
 
   if (quizzes.length === 0) {
-    return <div>헉 문제 없음</div>;
+    return <div>문제를 준비중입니다..</div>;
   }
 
   const currentQuiz = quizzes[currentQuizIndex];
 
   const handleOptionClick = async (option: string) => {
     setSelectedOption(option);
-
+  
+    // Log the total number of quizzes and the current quiz index
+    console.log(`Total quizzes: ${quizzes.length}`);
+    console.log(`Current quiz index: ${currentQuizIndex}`);
+  
     if (option === currentQuiz.answer) {
       const newPuzzleCount = (currentQuizIndex + 1) % 5 === 0 ? puzzleCount + 1 : puzzleCount;
       
       if ((currentQuizIndex + 1) % 5 === 0) {
         setPuzzleCount(newPuzzleCount);
         updatePuzzleCount(newPuzzleCount);
-
+  
         if (showPuzzleModal) {
           showPuzzleModal(); // Trigger PuzzleModal
         }
       }
-
+  
       handleNextQuiz();
     } else {
       setCurrentExplanation(currentQuiz.explanation);
       setIsModalOpen(true);
     }
   };
+  
 
   const handleNextQuiz = () => {
+    // Log the total number of quizzes and the current quiz index
+    console.log(`Total quizzes: ${quizzes.length}`);
+    console.log(`Current quiz index: ${currentQuizIndex}`);
+  
     if (currentQuizIndex < quizzes.length - 1) {
       setCurrentQuizIndex(currentQuizIndex + 1);
       setSelectedOption(null);
@@ -60,6 +69,7 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
       movePage(12);
     }
   };
+  
 
   const handlePreviousQuiz = () => {
     if (currentQuizIndex > 0) {

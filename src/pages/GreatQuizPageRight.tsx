@@ -5,16 +5,16 @@ import BlueBtn from '../assets/images/PuzzleCardBlueBtn.png';
 import EmptyPuzzle from '../assets/images/EmptyPuzzle.png';
 import FilledPuzzle from '../assets/images/Puzzle.png';
 import ExplanationModal from '../components/ExplanationModal';
-import PuzzleModal from '../components/PuzzleModal';
 import { useQuizStore, useUserIdStore, useGreatPersonStore } from '../store';
 
 interface GreatQuizPageRightProps {
   movePage: (pageNumber: number) => void;
   currentPage: number;
   onComplete?: () => void;
+  showPuzzleModal?: () => void; // Add this prop
 }
 
-const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, currentPage, onComplete }) => {
+const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, currentPage, onComplete, showPuzzleModal }) => {
   const { quizzes } = useQuizStore();
   const { userId } = useUserIdStore();
   const { greatId } = useGreatPersonStore();
@@ -33,20 +33,19 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
   const handleOptionClick = async (option: string) => {
     setSelectedOption(option);
 
-    // Log the current quiz index when an option is clicked
-    console.log('Current Quiz Index:', currentQuizIndex);
-
     if (option === currentQuiz.answer) {
+      const newPuzzleCount = (currentQuizIndex + 1) % 5 === 0 ? puzzleCount + 1 : puzzleCount;
+      
       if ((currentQuizIndex + 1) % 5 === 0) {
-        setPuzzleCount(prevCount => {
-          const newPuzzleCount = prevCount + 1;
-          console.log('New puzzle count:', newPuzzleCount); // Log the updated puzzle count
-          updatePuzzleCount(newPuzzleCount);
-          return newPuzzleCount;
-        });
-      } else {
-        handleNextQuiz();
+        setPuzzleCount(newPuzzleCount);
+        updatePuzzleCount(newPuzzleCount);
+
+        if (showPuzzleModal) {
+          showPuzzleModal(); // Trigger PuzzleModal
+        }
       }
+
+      handleNextQuiz();
     } else {
       setCurrentExplanation(currentQuiz.explanation);
       setIsModalOpen(true);
@@ -158,10 +157,6 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
         explanation={currentExplanation}
         onClose={() => setIsModalOpen(false)}
       />
-      {/* <PuzzleModal
-        movePage={movePage}
-        closeModal={() => setIsPuzzleModalOpen(false)}
-      /> */}
     </div>
   );
 };

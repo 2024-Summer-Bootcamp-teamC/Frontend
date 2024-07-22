@@ -76,3 +76,41 @@ export const useVideoModalStore = create<VideoModalState>((set) => ({
       showVideoModal: show,
     })),
 }));
+
+interface GreatListState {
+  showGreatList: boolean;
+  setShowGreatList: (show: boolean) => void;
+}
+
+export const useGreatListStore = create<GreatListState>((set) => ({
+  showGreatList: false,
+  setShowGreatList: (show: boolean) =>
+    set(() => ({
+      showGreatList: show,
+    })),
+}));
+
+interface Params {
+  nation?: string;
+  field?: string;
+}
+
+interface ParamState {
+  param: Params;
+  field: boolean;
+  setParam: (param: Params) => void;
+  setField: (param: boolean) => void;
+}
+
+export const useParamStore = create<ParamState>((set) => ({
+  param: '',
+  field: true,
+  setParam: (param: Params) =>
+    set(() => ({
+      param: param,
+    })),
+  setField: (param: boolean) =>
+    set(() => ({
+      field: param,
+    })),
+}));

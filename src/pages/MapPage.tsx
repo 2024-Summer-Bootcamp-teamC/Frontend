@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps';
+import { useGreatListStore, useParamStore } from '../store';
 
 const geoUrl = '../../public/features.json';
 
 interface MarkerType {
   markerOffset: number;
   name: string;
-  coordinates: [number, number]; // [number, number] 타입으로 명시
+  coordinates: [number, number];
 }
 
 const markers: MarkerType[] = [
@@ -27,6 +28,23 @@ interface MapPageProps {
 
 const MapPage: React.FC<MapPageProps> = ({ part, move }) => {
   const [hoveredMarker, setHoveredMarker] = useState<string | null>(null);
+  const { setParam, setField } = useParamStore();
+  const { setShowGreatList } = useGreatListStore();
+
+  const handleMarkerClick = useCallback(
+    (markerName: string) => {
+      // 상태 업데이트 함수들을 동기적으로 처리하기 위해, 상태 업데이트 후 페이지 이동 처리
+      setParam({ nation: markerName });
+      setField(false);
+      setShowGreatList(true);
+      console.log(markerName);
+      // 상태 업데이트가 완료된 후에 페이지 전환
+      setTimeout(() => {
+        move(5);
+      }, 100); // 100ms 정도의 지연을 두어 상태 업데이트를 기다림
+    },
+    [move, setParam, setField, setShowGreatList],
+  );
 
   const handleMarkerMouseEnter = (markerName: string) => {
     setHoveredMarker(markerName);
@@ -64,6 +82,7 @@ const MapPage: React.FC<MapPageProps> = ({ part, move }) => {
             coordinates={coordinates}
             onMouseEnter={() => handleMarkerMouseEnter(name)}
             onMouseLeave={handleMarkerMouseLeave}
+            onClick={() => handleMarkerClick(name)}
           >
             <g
               fill="rgba(255,255,255,0)"
@@ -72,7 +91,6 @@ const MapPage: React.FC<MapPageProps> = ({ part, move }) => {
               strokeLinecap="round"
               strokeLinejoin="round"
               transform="translate(-12, -24)"
-              onClick={() => move(5)}
               className="cursor-pointer"
             >
               <circle cx="12" cy="10" r="3" />

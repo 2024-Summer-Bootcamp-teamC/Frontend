@@ -14,8 +14,9 @@ import GreatListPage from '../pages/GreatListPage';
 import ChartPageLeft from '../pages/ChartPageLeft';
 import ChartPageRight from '../pages/ChartPageRight';
 import PuzzleModal from '../components/PuzzleModal'; // PuzzleModal을 import합니다.
-import { useVideoModalStore } from '../store';
+import { useVideoModalStore, useGreatListStore } from '../store';
 import VideoModal from './VideoModal';
+import GreatListModal from './GreatListModal';
 
 interface PageCoverProps {
   children?: React.ReactNode;
@@ -56,6 +57,7 @@ const Book = forwardRef((props, ref) => {
   const someStyle: React.CSSProperties = {}; // htmlFlip 에러 없앨라고 추가
   const [showModal, setShowModal] = useState(false); // 모달 상태 추가
   const [showGreatListModal, setShowGreatListModal] = useState(false); // GreatList 모달 상태 추가
+  const { showGreatList } = useGreatListStore();
 
   useImperativeHandle(ref, () => ({
     movePage(pageNumber: number) {
@@ -151,13 +153,13 @@ const Book = forwardRef((props, ref) => {
         {/* 분야 */}
         <Page number={3}>
           <div className="absolute inset-0 flex items-center justify-center">
-            <FieldPageLeft />
+            <FieldPageLeft movePage={movePage} />
           </div>
         </Page>
         <Page number={4}>
           <div className="absolute inset-0 flex items-center justify-center">
-            <FieldPageRight />
-            </div>
+            <FieldPageRight movePage={movePage} />
+          </div>
         </Page>
 
         {/* 인물 목록 */}
@@ -282,6 +284,15 @@ const Book = forwardRef((props, ref) => {
           </button>
         </div>
       )}
+      {showGreatList && (
+        <div className="fixed top-0 left-0 z-10 flex items-center justify-center w-full h-full bg-white bg-opacity-0">
+          <GreatListModal movePage={handleCardClick} closeModal={() => setShowGreatListModal(false)} />
+          <button onClick={() => setShowGreatListModal(false)} className="absolute text-xl text-white top-5 right-5">
+            닫기
+          </button>
+        </div>
+      )}
+
       {showVideoModal && (
         <div className="fixed top-0 left-0 z-[1000] flex items-center justify-center w-full h-full bg-white bg-opacity-70">
           <div className="bg-[#95a3b4] p-[70px] rounded-lg">

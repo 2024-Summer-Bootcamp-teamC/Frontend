@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Pin from '../assets/images/Pin.png';
 import Vector from '../assets/Vector.png';
 import { useTriggerChartStore } from '../store';
 import Power from '../assets/Power.png';
@@ -9,7 +8,8 @@ interface NavBarProps {
 }
 
 const NavBar: React.FC<NavBarProps> = ({ movePage }) => {
-  const [isHovered, setIsHovered] = useState(false);
+  const [isHoveredLogout, setIsHoveredLogout] = useState(false);
+  const [isHoveredChart, setIsHoveredChart] = useState(false);
   const { setCount } = useTriggerChartStore();
 
   const handleClick = () => {
@@ -18,26 +18,30 @@ const NavBar: React.FC<NavBarProps> = ({ movePage }) => {
   };
 
   return (
-    <div className="fixed left-0 right-0 w-full top-14" style={{ height: '1px' }}>
-      <nav className="border-b border-black">
-        <div className="container mx-auto">
+    <div className="fixed left-0 right-0 top-0 w-full z-10">
+      <nav className="border-b-[2.5px] border-black">
+        <div className="container mx-auto relative">
           <div
-            className="fixed top-[11px] left-[10px] flex items-center gap-2.5 cursor-pointer hover:font-bold hover:underline"
+            className="absolute left-[-100px] top-[-7px] flex items-center gap-2.5 cursor-pointer hover:font-bold p-4"
             style={{ fontSize: '20px' }}
             onClick={() => movePage(0)}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+            onMouseEnter={() => setIsHoveredLogout(true)}
+            onMouseLeave={() => setIsHoveredLogout(false)}
           >
-            {isHovered ? <span>로그아웃</span> : <img src={Power} alt="Profile" className="w-[35px] h-[35px]" />}
+            {isHoveredLogout ? <span>로그아웃</span> : <img src={Power} alt="Profile" className="w-[30px] h-[30px]" />}
+          </div>
+          <div className="flex items-center justify-center">
+            <div className="text-[20px] font-bold">We in</div>
+            <img src="images/jeon.png" className="w-[57px] h-[45px]" alt="Logo" />
           </div>
           <div
-            className="fixed cursor-pointer top-[11px] right-[10px] hover:font-bold hover:underline"
+            className="absolute right-[-100px] top-[-7px] flex items-center gap-2.5 cursor-pointer hover:font-bold p-4"
             style={{ fontSize: '20px' }}
             onClick={handleClick}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+            onMouseEnter={() => setIsHoveredChart(true)}
+            onMouseLeave={() => setIsHoveredChart(false)}
           >
-            {isHovered ? <span>차트</span> : <img src={Vector} alt="Profile" className="w-[40px] h-[35px]" />}
+            {isHoveredChart ? <span>차트</span> : <img src={Vector} alt="Profile" className="w-[33px] h-[29px]" />}
           </div>
         </div>
       </nav>

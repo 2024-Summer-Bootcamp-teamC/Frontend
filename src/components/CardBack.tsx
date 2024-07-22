@@ -21,7 +21,7 @@ const CardBack: React.FC<CardBackProps> = ({ name, saying_url, category, image }
         src={image}
         alt="Great Person"
       />
-      <div className="absolute top-[60px] w-[170px] h-[35px] justify-between right-[14.5px] text-center text-[16.5px]">
+      <div className="absolute top-[60px] w-[160px] h-[35px] justify-between right-[20px] bg-center">
         <img src={saying_url} alt="명언 사진" />
       </div>
     </div>

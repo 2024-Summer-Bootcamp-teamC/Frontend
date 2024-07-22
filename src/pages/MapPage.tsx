@@ -97,7 +97,7 @@ const MapPage: React.FC<MapPageProps> = ({ part, move }) => {
                   y={markerOffset - 10} // 사각형의 y 위치 조정
                   width={rectWidth} // 동적으로 조정된 너비
                   height="20" // 사각형의 높이
-                  fill="rgba(255,255,255,0.5)" // 배경 색상
+                  fill="rgba(255,255,255)" // 배경 색상
                   rx={5} // 둥근 모서리 반경
                   ry={5}
                 />
@@ -106,7 +106,7 @@ const MapPage: React.FC<MapPageProps> = ({ part, move }) => {
                   textAnchor="middle" // 텍스트를 중앙에 배치
                   x={15} // 텍스트의 x 좌표를 사각형의 중앙에 맞추기
                   y={markerOffset + 5} // 텍스트의 y 좌표, 사각형의 중앙에 맞추기
-                  style={{ fontFamily: 'font-songmyung', fill: '#000000', fontSize: '0.8rem' }}
+                  style={{ fontFamily: 'font-songmyung', fill: '#000000', fontSize: '0.8rem', fontWeight: 'bold' }}
                 >
                   {name}
                 </text>

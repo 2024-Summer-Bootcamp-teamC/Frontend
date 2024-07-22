@@ -247,7 +247,7 @@ const Book = forwardRef((props, ref) => {
       </HTMLFlipBook>
 
       {curPage === 0 && (
-        <div className="fixed left-[25%] h-[600px]">
+        <div className="fixed left-[300px] h-[600px]">
           <MainPage next={nextPage} />
         </div>
       )}

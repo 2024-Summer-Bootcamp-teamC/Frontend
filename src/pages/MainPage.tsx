@@ -72,15 +72,16 @@ const MainPage: React.FC<MainPageProps> = (props) => {
             value={username}
             onChange={handleNameChange}
             placeholder="이름을 입력해주세요."
-            className="w-[100%] px-3 py-1 mx-auto text-lg transform border border-gray-300 rounded mb-10 text-center"
+            className="w-[100%] px-3 py-1 mx-auto text-m transform border border-gray-300 rounded"
           />
+          <h1 className="block mt-10 mb-4 text-lg"></h1>
           <select
             id="age"
             value={year}
             onChange={handleYearChange}
-            className="w-[90%] px-3 py-1 mx-auto text-lg text-gray-500 transform border border-gray-300 rounded text-center appearance-none"
+            className="w-[90%] px-3 py-1 mx-auto text-lg text-gray-500 transform border border-gray-300 rounded text-center"
           >
-            <option className="m-10">출생년도를 선택해주세요.</option>
+            <option className="m-10">나이</option>
             {years.map((year) => (
               <option key={year} value={year}>
                 {year}

@@ -61,7 +61,7 @@ const MainPage: React.FC<MainPageProps> = (props) => {
   return (
     <div className={`flex items-center ${fadeOut ? 'fade-out' : ''}`} onTransitionEnd={handleTransitionEnd}>
       <div className="w-5/6 pr-24 text-center">
-        <div className="flex">
+        <div className="flex mx-auto w-[50%]">
           <div className="mt-6 mb-16 text-4xl font-bold whitespace-nowrap">We in</div>
           <img src="images/jeon.png" className="w-[7rem] h-[5rem]" alt="Logo" />
         </div>
@@ -72,13 +72,13 @@ const MainPage: React.FC<MainPageProps> = (props) => {
             value={username}
             onChange={handleNameChange}
             placeholder="이름을 입력해주세요."
-            className="w-[100%] px-3 py-1 mx-auto text-lg transform border border-gray-300 rounded mb-10 text-center"
+            className="w-[100%] px-3 py-1 mx-auto text-lg transform border border-gray-300 rounded mb-10 text-center placeholder-black"
           />
           <select
             id="age"
             value={year}
             onChange={handleYearChange}
-            className="w-[90%] px-3 py-1 mx-auto text-lg text-gray-500 transform border border-gray-300 rounded text-center appearance-none"
+            className="w-[90%] px-3 py-1 mx-auto text-lg transform border border-gray-300 rounded text-center appearance-none"
           >
             <option className="m-10">출생년도를 선택해주세요.</option>
             {years.map((year) => (
@@ -87,15 +87,14 @@ const MainPage: React.FC<MainPageProps> = (props) => {
               </option>
             ))}
           </select>
-          <div className="relative flex items-center justify-center h-20 mt-6">
-            <button
-              className="absolute z-10 p-3 text-lg text-black bg-cover rounded w-[100%] h-[5rem]"
-              onClick={handleClick}
-              style={{ backgroundImage: `url(${backgroundImage})` }}
-            >
-              시작하기
-            </button>
-          </div>
+
+          <button
+            className="text-black bg-cover w-[80%] h-[3rem] mt-10"
+            onClick={handleClick}
+            style={{ backgroundImage: `url(${backgroundImage})` }}
+          >
+            시작하기
+          </button>
         </div>
       </div>
     </div>

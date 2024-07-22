@@ -17,6 +17,7 @@ const markers: MarkerType[] = [
   },
   { markerOffset: -30, name: '미국', coordinates: [-100.0369, 38.9072] },
   { markerOffset: 15, name: '프랑스', coordinates: [5, 45] },
+  { markerOffset: -30, name: '네덜란드', coordinates: [5.3, 52.15] },
   { markerOffset: 15, name: '독일', coordinates: [13.405, 52.52] },
 ];
 

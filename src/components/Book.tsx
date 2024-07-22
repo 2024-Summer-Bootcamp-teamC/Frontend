@@ -26,7 +26,7 @@ const PageCover = forwardRef<HTMLDivElement, PageCoverProps>((props, ref) => {
     <div ref={ref}>
       <div className="page-content">
         <h2>{props.children}</h2>
-        <img src="images/Book.png" alt="" className="w-[600px] h-[700px]" />
+        <img src="images/Book.png" alt="" className="w-[600px] h-[700px] " />
       </div>
     </div>
   );
@@ -40,9 +40,12 @@ interface PageProps {
 const Page = forwardRef<HTMLDivElement, PageProps>((props, ref) => {
   const imageSource = props.number % 2 === 0 ? 'images/tmpRight.png' : 'images/tmpLeft.png';
 
+  // 그림자 클래스를 조건에 따라 설정
+  const shadowClass = props.number % 2 === 0 ? 'shadow-custom-right' : 'shadow-custom-left';
+
   return (
     <div className="bg-gray-100" ref={ref}>
-      <img src={imageSource} alt="" className="w-[600px] h-[700px] fixed -z-10" />
+      <img src={imageSource} alt="" className={`w-[600px] h-[700px] fixed -z-10 ${shadowClass}`} />
       <div className="z-10">{props.children}</div>
     </div>
   );

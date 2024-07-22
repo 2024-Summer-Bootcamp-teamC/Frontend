@@ -15,20 +15,12 @@ module.exports = {
           '100%': { opacity: '1' },
         },
         fadeOut: {
-          '0%': {
-            opacity: '1',
-          },
-          '100%': {
-            opacity: '0',
-          },
+          '0%': { opacity: '1' },
+          '100%': { opacity: '0' },
         },
         slideInFromLeft: {
-          '0%': {
-            transform: 'translateX(-100%)',
-          },
-          '100%': {
-            transform: 'translateX(0)',
-          },
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(0)' },
         },
       },
       animation: {
@@ -36,19 +28,9 @@ module.exports = {
         fadeOut: 'fadeOut 1s ease-in-out',
         slideInFromLeft: 'slideInFromLeft 1s ease-in-out',
       },
-      keyframes: {
-        fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
-        fadeOut: {
-          '0%': { opacity: '1' },
-          '100%': { opacity: '0' },
-        },
-      },
-      animation: {
-        fadeIn: 'fadeIn 1s ease-in forwards',
-        fadeOut: 'fadeOut 0.5s ease-out forwards',
+      boxShadow: {
+        'custom-left': '4px 0 6px rgba(0, 0, 0, 0.5)', // 왼쪽 그림자
+        'custom-right': '-4px 0 6px rgba(0, 0, 0, 0.5)', // 오른쪽 그림자
       },
     },
   },

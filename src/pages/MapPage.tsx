@@ -97,7 +97,7 @@ const MapPage: React.FC<MapPageProps> = ({ part, move }) => {
                   y={markerOffset - 10} // 사각형의 y 위치 조정
                   width={rectWidth} // 동적으로 조정된 너비
                   height="20" // 사각형의 높이
-                  fill="#ffffff" // 배경 색상
+                  fill="rgba(255,255,255,0.5)" // 배경 색상
                   rx={5} // 둥근 모서리 반경
                   ry={5}
                 />

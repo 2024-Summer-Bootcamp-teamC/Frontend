@@ -5,9 +5,10 @@ import Power from '../assets/Power.png';
 
 interface NavBarProps {
   movePage: (pageNumber: number) => void;
+  curPage: number; // 현재 페이지 상태를 prop으로 추가
 }
 
-const NavBar: React.FC<NavBarProps> = ({ movePage }) => {
+const NavBar: React.FC<NavBarProps> = ({ movePage, curPage }) => {
   const [isHoveredLogout, setIsHoveredLogout] = useState(false);
   const [isHoveredChart, setIsHoveredChart] = useState(false);
   const { setCount } = useTriggerChartStore();
@@ -17,12 +18,15 @@ const NavBar: React.FC<NavBarProps> = ({ movePage }) => {
     setCount();
   };
 
+  // curPage가 0일 때 NavBar의 특정 부분을 숨기도록 설정
+  const hideNavBarContent = curPage === 0 ? 'hidden' : '';
+
   return (
-    <div className="fixed left-0 right-0 top-0 w-full z-10">
-      <nav className="border-b-[2.5px] border-black">
-        <div className="container mx-auto relative">
+    <div className="fixed left-0 right-0 top-0 w-full z-10" style={{ height: '50px' }}>
+      <nav className={`border-b-[2.5px] border-black h-full ${hideNavBarContent}`}>
+        <div className="container mx-auto relative h-full">
           <div
-            className="absolute left-[-100px] top-[-7px] flex items-center gap-2.5 cursor-pointer hover:font-bold p-4"
+            className={`absolute left-[-100px] top-[-7px] flex items-center gap-2.5 cursor-pointer hover:font-bold p-4 ${hideNavBarContent}`}
             style={{ fontSize: '20px' }}
             onClick={() => movePage(0)}
             onMouseEnter={() => setIsHoveredLogout(true)}
@@ -35,7 +39,7 @@ const NavBar: React.FC<NavBarProps> = ({ movePage }) => {
             <img src="images/jeon.png" className="w-[57px] h-[45px]" alt="Logo" />
           </div>
           <div
-            className="absolute right-[-100px] top-[-7px] flex items-center gap-2.5 cursor-pointer hover:font-bold p-4"
+            className={`absolute right-[-100px] top-[-7px] flex items-center gap-2.5 cursor-pointer hover:font-bold p-4 ${hideNavBarContent}`}
             style={{ fontSize: '20px' }}
             onClick={handleClick}
             onMouseEnter={() => setIsHoveredChart(true)}

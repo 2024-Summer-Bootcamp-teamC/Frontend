@@ -56,6 +56,7 @@ const MessageComponent: React.FC<{
           className={`ml-2 mb-4 p-2 rounded-lg leading-tight max-w-xs break-words ${message.sender === '' ? 'bg-white' : 'bg-white'} ${
             message.isTtsReady ? 'cursor-pointer hover:bg-gray-200' : ''
           }`}
+          style={{ borderRadius: '0px 10px 10px 10px' }}
           onClick={() => {
             if (message.ttsUrl) {
               if (currentAudio) {

@@ -7,12 +7,13 @@ import { useUserIdStore, useGreatPersonStore } from '../store';
 import '../index.css'; // CSS 파일을 추가하여 애니메이션 효과를 적용
 import { GreatPerson } from '../types';
 
-interface CardProps {
-  movePage: (pageNumber: number) => void;
+interface GreatModalProps {
   closeModal: () => void; // 모달 닫기 함수 추가
-}
+  movePage: (pageNumber: number) => void;
+  
+}  
 
-const GreatListPage: React.FC<CardProps> = ({ movePage, closeModal }) => {
+const GreatModal: React.FC<GreatModalProps> = ({ closeModal, movePage }) => {
   const [greatPersons, setGreatPersons] = useState<GreatPerson[]>([]);
   const [isFlipped, setIsFlipped] = useState<boolean[]>([]);
   const { userId } = useUserIdStore();
@@ -31,7 +32,7 @@ const GreatListPage: React.FC<CardProps> = ({ movePage, closeModal }) => {
     };
 
     fetchGreatPersons();
-  }, []);
+  }, [userId]);
 
   const handleFlip = (index: number) => {
     setIsFlipped((prevState) => {
@@ -64,33 +65,43 @@ const GreatListPage: React.FC<CardProps> = ({ movePage, closeModal }) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full p-4 space-y-4 scale-90">
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-        {greatPersons.map((person, index) => (
-          <div
-            key={person.greatId}
-            className={`flex justify-center w-full animate-card-enter delay-${index}`}
-            onMouseEnter={() => handleFlip(index)}
-            onMouseLeave={() => handleFlip(index)}
-            onClick={() => handleCardClick(person)}
-          >
-            <div className="max-w-[200px] max-h-[300px] ml-12 mr-12 mt-[75px]">
-              <ReactCardFlip isFlipped={isFlipped[index]} flipDirection="horizontal">
-                <CardFront key={`front${person.greatId}`} name={person.name} image={person.front_url} />
-                <CardBack
-                  key={`back${person.greatId}`}
-                  name={person.name}
-                  saying_url={person.saying_url}
-                  category={`${person.nation}/${person.field}`}
-                  image={person.back_url}
-                />
-              </ReactCardFlip>
-            </div>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="w-3/4 p-4 overflow-auto bg-white rounded-lg h-3/4">
+        <button
+          className="absolute top-0 right-0 m-4 text-2xl font-bold text-gray-500 hover:text-gray-800"
+          onClick={closeModal}
+        >
+          &times;
+        </button>
+        <div className="flex flex-col items-center justify-center w-full h-full p-4 space-y-4 scale-90">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+            {greatPersons.map((person, index) => (
+              <div
+                key={person.greatId}
+                className={`flex justify-center w-full animate-card-enter delay-${index}`}
+                onMouseEnter={() => handleFlip(index)}
+                onMouseLeave={() => handleFlip(index)}
+                onClick={() => handleCardClick(person)}
+              >
+                <div className="max-w-[200px] max-h-[300px] ml-12 mr-12 mt-[75px]">
+                  <ReactCardFlip isFlipped={isFlipped[index]} flipDirection="horizontal">
+                    <CardFront key={`front${person.greatId}`} name={person.name} image={person.front_url} />
+                    <CardBack
+                      key={`back${person.greatId}`}
+                      name={person.name}
+                      saying_url={person.saying_url}
+                      category={`${person.nation}/${person.field}`}
+                      image={person.back_url}
+                    />
+                  </ReactCardFlip>
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
       </div>
     </div>
   );
 };
 
-export default GreatListPage;
+export default GreatModal;

@@ -11,11 +11,7 @@ interface MarkerType {
 }
 
 const markers: MarkerType[] = [
-  {
-    markerOffset: -30,
-    name: '대한민국',
-    coordinates: [126.978, 37.5665],
-  },
+  { markerOffset: -30, name: '한국', coordinates: [126.978, 37.5665] },
   { markerOffset: -30, name: '미국', coordinates: [-100.0369, 38.9072] },
   { markerOffset: 15, name: '프랑스', coordinates: [5, 45] },
   { markerOffset: 15, name: '독일', coordinates: [13.405, 52.52] },
@@ -33,26 +29,19 @@ const MapPage: React.FC<MapPageProps> = ({ part, move }) => {
 
   const handleMarkerClick = useCallback(
     (markerName: string) => {
-      // 상태 업데이트 함수들을 동기적으로 처리하기 위해, 상태 업데이트 후 페이지 이동 처리
       setParam({ nation: markerName });
       setField(false);
       setShowGreatList(true);
       console.log(markerName);
-      // 상태 업데이트가 완료된 후에 페이지 전환
       setTimeout(() => {
         move(5);
-      }, 100); // 100ms 정도의 지연을 두어 상태 업데이트를 기다림
+      }, 100);
     },
     [move, setParam, setField, setShowGreatList],
   );
 
-  const handleMarkerMouseEnter = (markerName: string) => {
-    setHoveredMarker(markerName);
-  };
-
-  const handleMarkerMouseLeave = () => {
-    setHoveredMarker(null);
-  };
+  const handleMarkerMouseEnter = (markerName: string) => setHoveredMarker(markerName);
+  const handleMarkerMouseLeave = () => setHoveredMarker(null);
 
   const containerStyle = {
     display: 'flex',
@@ -68,9 +57,7 @@ const MapPage: React.FC<MapPageProps> = ({ part, move }) => {
     <div className="flex items-center justify-center" style={containerStyle}>
       <ComposableMap
         projection="geoMercator"
-        projectionConfig={{
-          scale: 110,
-        }}
+        projectionConfig={{ scale: 110 }}
         style={{ width: '100%', height: '100vh' }}
       >
         <Geographies geography={geoUrl}>

@@ -12,7 +12,7 @@ interface CardProps {
   closeModal: () => void; // 모달 닫기 함수 추가
 }
 
-const GreatListPage: React.FC<CardProps> = ({ movePage, closeModal }) => {
+const GreatListModal: React.FC<CardProps> = ({ movePage, closeModal }) => {
   const [greatPersons, setGreatPersons] = useState<GreatPerson[]>([]);
   const [isFlipped, setIsFlipped] = useState<boolean[]>([]);
   const { userId } = useUserIdStore();
@@ -117,4 +117,4 @@ const GreatListPage: React.FC<CardProps> = ({ movePage, closeModal }) => {
   );
 };
 
-export default GreatListPage;
+export default GreatListModal;

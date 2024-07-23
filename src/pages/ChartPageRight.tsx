@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
 import axios from 'axios';
+import { useTriggerChartStore } from '../store';
 
 Highcharts.setOptions({
   chart: {
@@ -73,17 +74,18 @@ Highcharts.setOptions({
   },
 });
 
+interface CorrectRateData {
+  name: string;
+  correct_rate: string;
+}
+
 const ChartPageRight: React.FC = () => {
-  // 정답률 그려주는 옵션
-  const [ageData, setAgeData] = useState<{ age: string; visit_total: string }[]>([]);
-  const [correctRateData, setCorrectRateData] = useState<{ name: string; correct_rate: string }[]>([]);
+  const [correctRateData, setCorrectRateData] = useState<CorrectRateData[]>([]);
+  const { count } = useTriggerChartStore();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/api/dashboard/age-visits/');
-        setAgeData(response.data);
-        console.log(ageData);
         const response2 = await axios.get('/api/dashboard/correct-rate/');
         setCorrectRateData(response2.data);
         console.log(correctRateData);
@@ -93,72 +95,21 @@ const ChartPageRight: React.FC = () => {
     };
 
     fetchData();
-  }, []);
+  }, [count]);
 
-  const categories = ageData.map((item) => item.age);
-  const data = ageData.map((item) => parseInt(item.visit_total, 10));
   const accuracyCategories = correctRateData.map((item) => item.name);
   const accuracyData = correctRateData.map((item) => parseFloat(item.correct_rate));
 
-  const options = {
-    title: {
-      text: '가입자 나이',
-    },
-    chart: {
-      height: 270,
-      backgroundColor: 'rgba(255,255,255,0)',
-    },
-    accessibility: {
-      point: {
-        valueDescriptionFormat: '{xDescription}{separator}{value} 명',
-      },
-    },
-
-    xAxis: {
-      title: {
-        text: '나이',
-      },
-      categories: categories,
-    },
-
-    yAxis: {
-      title: {
-        text: '인원 (명)',
-      },
-      gridLineColor: '#000000',
-    },
-
-    tooltip: {
-      headerFormat: '<b>{series.name}</b><br />',
-      pointFormat: '{point.y} 명',
-    },
-
-    series: [
-      {
-        name: '인원',
-        data: data,
-        color: {
-          linearGradient: {
-            x1: 0,
-            x2: 0,
-            y1: 1,
-            y2: 0,
-          },
-          stops: [
-            [0, '#88634A'],
-            [1, '#88634A'],
-          ],
-        },
-      },
-    ],
-  };
-
   const accuracyOptions = {
+    credits: {
+      text: '',
+    },
     title: {
       text: '위인별 정답률',
     },
     chart: {
-      height: 270,
+      type: 'column', // 막대 그래프를 위해 'column'으로 설정
+      height: 600,
       backgroundColor: 'rgba(255,255,255,0)',
     },
     xAxis: {
@@ -172,6 +123,7 @@ const ChartPageRight: React.FC = () => {
         text: '정답률 (%)',
       },
       gridLineColor: '#000000',
+      min: 0, // y축의 최소값 설정
     },
     tooltip: {
       headerFormat: '<b>{series.name}</b><br />',
@@ -200,12 +152,7 @@ const ChartPageRight: React.FC = () => {
   return (
     <>
       <div className="w-[90%] ml-[3%] mt-[15%]">
-        <div className="">
-          <HighchartsReact highcharts={Highcharts} options={options} />
-        </div>
-        <div className="mt-[3%]">
-          <HighchartsReact highcharts={Highcharts} options={accuracyOptions} />
-        </div>
+        <HighchartsReact highcharts={Highcharts} options={accuracyOptions} />
       </div>
     </>
   );

@@ -46,7 +46,7 @@ const FieldPageRight: React.FC<Props> = ({ movePage }) => {
                 className="absolute top-3 w-[75%] h-[150%] transform -translate-x-1/2 -translate-y-1/2 left-1/2 pointer-events-none"
                 style={{ opacity: 1 }}
               />
-              <span className="absolute text-5xl pointer-events-none top-11 left-12" style={{ opacity: 1 }}>
+              <span className="absolute text-[30px] pointer-events-none top-11 left-12" style={{ opacity: 1 }}>
                 {section.label}
               </span>{' '}
               {/* 위치 조정 */}

@@ -101,6 +101,7 @@ export const useQuizStore = create<QuizState>((set) => ({
     set(() => ({
       quizzes: quizzes,
     })),
+}));
 
   interface TriggerChartState {
   count: number;

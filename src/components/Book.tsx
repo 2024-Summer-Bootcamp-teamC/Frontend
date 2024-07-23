@@ -224,7 +224,7 @@ const Book = forwardRef((props: BookProps, ref) => {
         </Page>
         <Page number={12}>
           <div className="absolute inset-0 flex items-center justify-center">
-            <GreatQuizPageRight movePage={movePage} currentPage={12} onComplete={handleComplete} showPuzzleModal={handleShowPuzzleModal} />
+           <GreatQuizPageRight movePage={movePage} currentPage={12} onComplete={handleComplete} showPuzzleModal={handleShowPuzzleModal} />
           </div>
         </Page>
 
@@ -272,8 +272,8 @@ const Book = forwardRef((props: BookProps, ref) => {
 
       {showModal && (
         <div className="fixed top-0 left-0 z-10 flex items-center justify-center w-full h-full bg-white bg-opacity-70">
-          <PuzzleModal openModal={showModal} movePage={movePage} closeModal={() => setShowModal(false)} />
-          <button onClick={() => setShowModal(false)} className="absolute text-xl text-white top-5 right-5">
+            <PuzzleModal openModal={showModal} movePage={movePage} closeModal={() => setShowModal(false)} />          
+              <button onClick={() => setShowModal(false)} className="absolute text-xl text-white top-5 right-5">
             닫기
           </button>
         </div>

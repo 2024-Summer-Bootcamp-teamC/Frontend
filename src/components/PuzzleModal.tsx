@@ -7,28 +7,31 @@ interface PuzzleModalProps {
   openModal: boolean;
   movePage: (pageNumber: number) => void;
   closeModal: () => void;
-  resetQuiz: () => void; // Add resetQuiz prop
+  resetQuiz: () => void;
+  showGreatList: () => void; // Add this prop
 }
 
-const PuzzleModal: React.FC<PuzzleModalProps> = ({ openModal, movePage, closeModal, resetQuiz }) => {
-  // No need for local visibility state if using openModal directly
+const PuzzleModal: React.FC<PuzzleModalProps> = ({ openModal, movePage, closeModal, resetQuiz, showGreatList }) => {
   useEffect(() => {
     if (!openModal) {
-      // Handle any additional logic when modal is closed if needed
+      resetQuiz();
     }
   }, [openModal]);
 
-  // Conditionally render the modal based on openModal prop
   if (!openModal) return null;
 
   const handleAction = (pageNumber: number) => {
     closeModal();
     if (pageNumber === 12) {
-      resetQuiz(); // "이어사 풀기" 버튼을 클릭하면 퀴즈를 초기화하는 함수 호출
+      resetQuiz();
     }
     setTimeout(() => {
-      movePage(pageNumber);
-    }, 500); // 500ms 지연을 통해 closeModal이 실행될 시간을 확보
+      if (pageNumber === 5) {
+        showGreatList(); // Call the function when pageNumber is 5
+      } else {
+        movePage(pageNumber);
+      }
+    }, 500);
   };
 
   return (

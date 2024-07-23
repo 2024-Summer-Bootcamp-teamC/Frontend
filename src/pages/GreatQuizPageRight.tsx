@@ -25,7 +25,6 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
   const [currentExplanation, setCurrentExplanation] = useState('');
   const [puzzleCount, setPuzzleCountState] = useState(0);
   const [correctCnt, setCorrectCnt] = useState(0);
-  const [isPuzzleModalOpen, setPuzzleModalOpen] = useState(false);
   
   if (quizzes.length === 0) {
     return <div>문제를 준비중입니다..</div>;
@@ -47,7 +46,9 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
         setPuzzleCount(newPuzzleCount);
         updatePuzzleCount(newCorrectCnt);
 
-        setPuzzleModalOpen(true); 
+        if (showPuzzleModal) {
+          showPuzzleModal(); // Show the puzzle modal
+        }
       }
 
       handleNextQuiz();
@@ -88,12 +89,6 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
       setCurrentQuizIndex(currentQuizIndex - 1);
       setSelectedOption(null);
     }
-  };
-
-  const resetQuiz = () => {
-    setCurrentQuizIndex(0); // Reset to the first quiz
-    setSelectedOption(null); 
-    setPuzzleModalOpen(false); 
   };
 
   const puzzlePieces = [...Array(4)].map((_, index) => (
@@ -150,12 +145,6 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
         explanation={currentExplanation}
         onClose={() => setIsModalOpen(false)}
         onNextQuiz={handleNextQuiz}
-      />
-      <PuzzleModal
-        openModal={isPuzzleModalOpen}
-        movePage={movePage}
-        closeModal={() => setPuzzleModalOpen(false)}
-        resetQuiz={resetQuiz} // 퀴즈를 초기화하는 함수 전달
       />
     </div>
   );

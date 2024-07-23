@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps';
 
 const geoUrl = '../../public/features.json';

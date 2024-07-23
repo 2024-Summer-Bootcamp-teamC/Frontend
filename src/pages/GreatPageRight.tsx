@@ -4,7 +4,6 @@ import RedBtn from '../assets/images/GreatPageRedBtn.png';
 import BlueBtn from '../assets/images/GreatPageBlueBtn.png';
 import VerticalBtn from '../assets/images/GreatPageVerticalBtn.png';
 import { useUserIdStore, useGreatPersonStore, useVideoModalStore, useQuizStore } from '../store';
-import axios from 'axios';
 
 interface GreatPageRightProps {
   movePage: (pageNumber: number) => void;
@@ -24,12 +23,12 @@ const GreatPageRight: React.FC<GreatPageRightProps> = ({ movePage }) => {
       const response = await axios.get(`/api/quizzes/${userId}/${greatId}/`);
       const quizzes = response.data;
       useQuizStore.getState().setQuizzes(quizzes);
-      movePage(11); 
+      movePage(11);
     } catch (error) {
       console.error('Error fetching quiz data:', error);
     }
   };
-  
+
   const handleConversationClick = async () => {
     try {
       await axios.put(`/api/greats/${greatId}/talk/`, { access_cnt: true });
@@ -54,14 +53,14 @@ const GreatPageRight: React.FC<GreatPageRightProps> = ({ movePage }) => {
         <div className="text-[1.2rem] m-1">{life}</div>
         <div className="text-[2rem] ">{saying}</div>
         <button
-            className="w-[200px] h-[70px] border-none text-white text-lg text-center bg-cover mb-5 font-semibold mr-5"
+          className="w-[200px] h-[70px] border-none text-white text-lg text-center bg-cover mb-5 font-semibold mr-5"
           style={{ backgroundImage: `url(${RedBtn})` }}
           onClick={() => movePage(9)}
         >
           대화하기
         </button>
         <button
-            className="w-[200px] h-[70px] border-none text-white text-lg text-center bg-cover font-semibold ml-5"
+          className="w-[200px] h-[70px] border-none text-white text-lg text-center bg-cover font-semibold ml-5"
           style={{ backgroundImage: `url(${BlueBtn})` }}
           onClick={handleQuiz}
         >

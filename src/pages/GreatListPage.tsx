@@ -7,13 +7,12 @@ import { useUserIdStore, useGreatPersonStore } from '../store';
 import '../index.css'; // CSS 파일을 추가하여 애니메이션 효과를 적용
 import { GreatPerson } from '../types';
 
-interface GreatModalProps {
-  closeModal: () => void; // 모달 닫기 함수 추가
+interface CardProps {
   movePage: (pageNumber: number) => void;
-  
-}  
+  closeModal: () => void; // 모달 닫기 함수 추가
+}
 
-const GreatModal: React.FC<GreatModalProps> = ({ closeModal, movePage }) => {
+const GreatListPage: React.FC<CardProps> = ({ movePage, closeModal }) => {
   const [greatPersons, setGreatPersons] = useState<GreatPerson[]>([]);
   const [isFlipped, setIsFlipped] = useState<boolean[]>([]);
   const { userId } = useUserIdStore();
@@ -41,7 +40,7 @@ const GreatModal: React.FC<GreatModalProps> = ({ closeModal, movePage }) => {
 
     return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 클리어
   }, []);
-  
+
   const handleFlip = (index: number) => {
     if (!isClickable) return; // 클릭 불가 시 아무 작업도 하지 않음
     setIsFlipped((prevState) => {
@@ -99,10 +98,10 @@ const GreatModal: React.FC<GreatModalProps> = ({ closeModal, movePage }) => {
               </ReactCardFlip>
             </div>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );
 };
 
-export default GreatModal;
+export default GreatListPage;

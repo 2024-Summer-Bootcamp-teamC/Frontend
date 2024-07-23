@@ -2,23 +2,11 @@ import React from 'react';
 import EconomyImage from '../assets/Economy.png'; // 경제 이미지 경로 설정
 import ArtsImage from '../assets/Palette.png'; // 문화예술 이미지 경로 설정
 import Tape from '../assets/Tape.png'; // 테이프 이미지 경로 설정
-import { useParamStore, useGreatListStore } from '../store';
 
-interface Props {
-  movePage: (pageNumber: number) => void;
-}
-
-const FieldPageRight: React.FC<Props> = ({ movePage }) => {
-  const { setShowGreatList } = useGreatListStore();
-  const { setParam, setField } = useParamStore();
-
+const FieldPageRight: React.FC = () => {
   const handleSectionClick = (section: string) => {
     console.log(`${section} section clicked`);
-    setParam({ field: section });
-    setField(true);
     // React Router를 사용하여 페이지 전환 로직을 추가할 수 있습니다.
-    movePage(5);
-    setShowGreatList(true);
   };
 
   return (

@@ -1,6 +1,5 @@
-import React, { useState, useRef, userCallback, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps';
-import { useGreatListStore, useParamStore } from '../store';
 
 const geoUrl = '../../public/features.json';
 
@@ -29,9 +28,6 @@ interface MapPageProps {
 
 const MapPage: React.FC<MapPageProps> = ({ part, move }) => {
   const [hoveredMarker, setHoveredMarker] = useState<string | null>(null);
-
-  const { setParam, setField } = useParamStore();
-  const { setShowGreatList } = useGreatListStore();
   const [rectWidth, setRectWidth] = useState<number>(0);
 
   const textRef = useRef<SVGTextElement | null>(null);
@@ -44,21 +40,13 @@ const MapPage: React.FC<MapPageProps> = ({ part, move }) => {
     }
   }, [hoveredMarker]);
 
-  const handleMarkerClick = useCallback(
-    (markerName: string) => {
-      setParam({ nation: markerName });
-      setField(false);
-      setShowGreatList(true);
-      console.log(markerName);
-      setTimeout(() => {
-        move(5);
-      }, 100);
-    },
-    [move, setParam, setField, setShowGreatList],
-  );
+  const handleMarkerMouseEnter = (markerName: string) => {
+    setHoveredMarker(markerName);
+  };
 
-  const handleMarkerMouseEnter = (markerName: string) => setHoveredMarker(markerName);
-  const handleMarkerMouseLeave = () => setHoveredMarker(null);
+  const handleMarkerMouseLeave = () => {
+    setHoveredMarker(null);
+  };
 
   const containerStyle = {
     display: 'flex',
@@ -74,7 +62,9 @@ const MapPage: React.FC<MapPageProps> = ({ part, move }) => {
     <div className="flex items-center justify-center" style={containerStyle}>
       <ComposableMap
         projection="geoMercator"
-        projectionConfig={{ scale: 110 }}
+        projectionConfig={{
+          scale: 110,
+        }}
         style={{ width: '100%', height: '100vh' }}
       >
         <Geographies geography={geoUrl}>
@@ -86,7 +76,6 @@ const MapPage: React.FC<MapPageProps> = ({ part, move }) => {
             coordinates={coordinates}
             onMouseEnter={() => handleMarkerMouseEnter(name)}
             onMouseLeave={handleMarkerMouseLeave}
-            onClick={() => handleMarkerClick(name)}
           >
             <g
               fill="rgba(255,0,0,0.3)"
@@ -95,6 +84,7 @@ const MapPage: React.FC<MapPageProps> = ({ part, move }) => {
               strokeLinecap="round"
               strokeLinejoin="round"
               transform="translate(-12, -24)"
+              onClick={() => move(5)}
               className="cursor-pointer"
             >
               <circle cx="12" cy="10" r="5" />

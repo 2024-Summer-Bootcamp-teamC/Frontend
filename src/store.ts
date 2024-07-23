@@ -23,8 +23,10 @@ interface GreatPersonState {
   saying: string;
   puzzle_cnt: number;
   video_url: string;
+  information_url: string;
   life: string;
   setLife: (life: string) => void;
+  setInfo: (info: string) => void;
   setVideo_url: (url: string) => void;
   setGreat: (great: GreatPerson) => void;
 }
@@ -41,7 +43,12 @@ export const useGreatPersonStore = create<GreatPersonState>((set) => ({
   saying: '',
   puzzle_cnt: 0,
   video_url: '',
+  information_url: '',
   life: '',
+  setInfo: (info: string) =>
+    set(() => ({
+      information_url: info,
+    })),
   setLife: (life: string) =>
     set(() => ({
       life: life,

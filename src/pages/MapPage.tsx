@@ -12,7 +12,7 @@ interface MarkerType {
 const markers: MarkerType[] = [
   {
     markerOffset: -35,
-    name: '대한민국',
+    name: '한국',
     coordinates: [126.978, 37.5665],
   },
   { markerOffset: -35, name: '미국', coordinates: [-100.0369, 38.9072] },
@@ -78,8 +78,8 @@ const MapPage: React.FC<MapPageProps> = ({ part, move }) => {
             onMouseLeave={handleMarkerMouseLeave}
           >
             <g
-              fill="rgba(255,255,255,0)"
-              stroke="#cacaca"
+              fill="rgba(255,0,0,0.3)"
+              stroke="rgba(255,0,0,1)"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -87,7 +87,7 @@ const MapPage: React.FC<MapPageProps> = ({ part, move }) => {
               onClick={() => move(5)}
               className="cursor-pointer"
             >
-              <circle cx="12" cy="10" r="3" />
+              <circle cx="12" cy="10" r="5" />
               <path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 6.9 8 11.7z" />
             </g>
             {hoveredMarker === name && (

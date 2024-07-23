@@ -16,7 +16,7 @@ const GreatListPage: React.FC<CardProps> = ({ movePage, closeModal }) => {
   const [greatPersons, setGreatPersons] = useState<GreatPerson[]>([]);
   const [isFlipped, setIsFlipped] = useState<boolean[]>([]);
   const { userId } = useUserIdStore();
-  const { setGreat, setLife, setVideo_url } = useGreatPersonStore();
+  const { setGreat, setLife, setVideo_url, setInfo } = useGreatPersonStore();
   const [isClickable, setIsClickable] = useState(false); // 클릭 가능 여부 상태 추가
 
   useEffect(() => {
@@ -58,9 +58,10 @@ const GreatListPage: React.FC<CardProps> = ({ movePage, closeModal }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`/api/greats/${userId}/${person.greatId}/`);
-        console.log(response.data);
+
         setLife(response.data.life);
         setVideo_url(response.data.video_url);
+        setInfo(response.data.information_url);
       } catch (error) {
         console.error('Error fetching data:', error);
       }

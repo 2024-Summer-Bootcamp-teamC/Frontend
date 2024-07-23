@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import RedBtn from '../assets/images/PuzzleCardRedBtn.png';
 import BlueBtn from '../assets/images/PuzzleCardBlueBtn.png';
@@ -90,12 +90,19 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
       setSelectedOption(null);
     }
   };
+
   const resetQuiz = () => {
     setCurrentQuizIndex(0); // Reset to the first quiz
     setSelectedOption(null);
     setPuzzleModalOpen(false); // Close the modal after reset
     // Additional state reset logic if needed
   };
+
+  useEffect(() => {
+    // Reset quiz whenever puzzleCount changes
+    resetQuiz();
+  }, [puzzleCount]);
+
   const puzzlePieces = [...Array(4)].map((_, index) => (
     <img
       key={index}

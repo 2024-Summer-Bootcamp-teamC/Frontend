@@ -27,7 +27,7 @@ const PuzzleModal: React.FC<PuzzleModalProps> = ({ openModal, movePage, closeMod
     }
     setTimeout(() => {
       if (pageNumber === 5) {
-        showGreatList(); // Call the function when pageNumber is 5
+        showGreatList();
       } else {
         movePage(pageNumber);
       }

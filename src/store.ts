@@ -119,7 +119,27 @@ export const useParamStore = create<ParamState>((set) => ({
   setField: (param: boolean) =>
     set(() => ({
       field: param,
+
+interface Quiz {
+  question: string;
+  answer: string;
+  explanation: string;
+}
+
+interface QuizState {
+  quizzes: Quiz[];
+  setQuizzes: (quizzes: Quiz[]) => void;
+}
+
+export const useQuizStore = create<QuizState>((set) => ({
+  quizzes: [],
+  setQuizzes: (quizzes: Quiz[]) =>
+    set(() => ({
+      quizzes: quizzes,
     })),
+
+}));
+
 
   interface TriggerChartState {
   count: number;
@@ -129,4 +149,3 @@ export const useParamStore = create<ParamState>((set) => ({
 export const useTriggerChartStore = create<TriggerChartState>((set) => ({
   count: 0,
   setCount: () => set((state) => ({ count: state.count + 1 })),
-}));

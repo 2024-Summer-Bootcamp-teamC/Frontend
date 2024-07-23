@@ -1,33 +1,51 @@
 import React, { useState } from 'react';
-import Pin from '../assets/images/Pin.png';
 import Vector from '../assets/Vector.png';
+import { useTriggerChartStore } from '../store';
+import Power from '../assets/Power.png';
 
 interface NavBarProps {
   movePage: (pageNumber: number) => void;
+  curPage: number; // 현재 페이지 상태를 prop으로 추가
 }
 
-const NavBar: React.FC<NavBarProps> = ({ movePage }) => {
-  const [isHovered, setIsHovered] = useState(false);
+const NavBar: React.FC<NavBarProps> = ({ movePage, curPage }) => {
+  const [isHoveredLogout, setIsHoveredLogout] = useState(false);
+  const [isHoveredChart, setIsHoveredChart] = useState(false);
+  const { setCount } = useTriggerChartStore();
+
+  const handleClick = () => {
+    movePage(17);
+    setCount();
+  };
+
+  // curPage가 0일 때 NavBar의 특정 부분을 숨기도록 설정
+  const hideNavBarContent = curPage === 0 ? 'hidden' : '';
 
   return (
-    <div className="fixed left-0 right-0 w-full top-14" style={{ height: '1px' }}>
-      <nav className="border-b border-black">
-        <div className="container mx-auto">
+    <div className="fixed left-0 right-0 top-0 w-full z-10" style={{ height: '50px' }}>
+      <nav className={`border-b-[2.5px] border-black h-full ${hideNavBarContent}`}>
+        <div className="container mx-auto relative h-full">
           <div
-            className="fixed top-2 left-6 flex items-center gap-2.5 cursor-pointer hover:font-bold hover:underline"
-            onClick={() => movePage(5)}
+            className={`absolute left-[-100px] top-[-7px] flex items-center gap-2.5 cursor-pointer hover:font-bold p-4 ${hideNavBarContent}`}
+            style={{ fontSize: '20px' }}
+            onClick={() => movePage(0)}
+            onMouseEnter={() => setIsHoveredLogout(true)}
+            onMouseLeave={() => setIsHoveredLogout(false)}
           >
-            <img src={Pin} alt="PinImage" />
-            <div style={{ fontSize: '30px' }}> 위인 모음 </div>
+            {isHoveredLogout ? <span>로그아웃</span> : <img src={Power} alt="Profile" className="w-[30px] h-[30px]" />}
+          </div>
+          <div className="flex items-center justify-center">
+            <div className="text-[20px] font-bold">We in</div>
+            <img src="images/jeon.png" className="w-[57px] h-[45px]" alt="Logo" />
           </div>
           <div
-            className="fixed cursor-pointer top-2 right-7 hover:font-bold hover:underline"
-            style={{ fontSize: '30px' }}
-            onClick={() => movePage(17)}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+            className={`absolute right-[-100px] top-[-7px] flex items-center gap-2.5 cursor-pointer hover:font-bold p-4 ${hideNavBarContent}`}
+            style={{ fontSize: '20px' }}
+            onClick={handleClick}
+            onMouseEnter={() => setIsHoveredChart(true)}
+            onMouseLeave={() => setIsHoveredChart(false)}
           >
-            {isHovered ? <span>차트</span> : <img src={Vector} alt="Profile" className="w-15 h-10" />}
+            {isHoveredChart ? <span>차트</span> : <img src={Vector} alt="Profile" className="w-[33px] h-[29px]" />}
           </div>
         </div>
       </nav>

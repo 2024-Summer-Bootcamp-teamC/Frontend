@@ -16,7 +16,8 @@ const GreatListPage: React.FC<CardProps> = ({ movePage, closeModal }) => {
   const [greatPersons, setGreatPersons] = useState<GreatPerson[]>([]);
   const [isFlipped, setIsFlipped] = useState<boolean[]>([]);
   const { userId } = useUserIdStore();
-  const { setGreat, setLife, setVideo_url } = useGreatPersonStore();
+  const { setGreat, setLife, setVideo_url, setInfo } = useGreatPersonStore();
+  const [isClickable, setIsClickable] = useState(false); // 클릭 가능 여부 상태 추가
 
   useEffect(() => {
     const fetchGreatPersons = async () => {
@@ -31,9 +32,17 @@ const GreatListPage: React.FC<CardProps> = ({ movePage, closeModal }) => {
     };
 
     fetchGreatPersons();
+
+    // 모달이 뜬 후 2초 동안 클릭 불가
+    const timer = setTimeout(() => {
+      setIsClickable(true);
+    }, 300);
+
+    return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 클리어
   }, []);
 
   const handleFlip = (index: number) => {
+    if (!isClickable) return; // 클릭 불가 시 아무 작업도 하지 않음
     setIsFlipped((prevState) => {
       const newFlipped = [...prevState];
       newFlipped[index] = !newFlipped[index];
@@ -42,30 +51,28 @@ const GreatListPage: React.FC<CardProps> = ({ movePage, closeModal }) => {
   };
 
   const handleCardClick = (person: GreatPerson) => {
+    if (!isClickable) return; // 클릭 불가 시 아무 작업도 하지 않음
     closeModal();
     setGreat(person);
 
     const fetchData = async () => {
       try {
         const response = await axios.get(`/api/greats/${userId}/${person.greatId}/`);
-        console.log(response.data);
+
         setLife(response.data.life);
         setVideo_url(response.data.video_url);
+        setInfo(response.data.information_url);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
-
-    setTimeout(() => {
-      fetchData();
-
-      movePage(7);
-    }, 500); // 모달 닫힌 후 0.5초 후에 페이지 이동
+    fetchData();
+    movePage(7);
   };
 
   return (
     <div className="flex flex-col items-center justify-center w-full h-full p-4 space-y-4 scale-90">
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4" style={{ pointerEvents: isClickable ? 'auto' : 'none' }}>
         {greatPersons.map((person, index) => (
           <div
             key={person.greatId}
@@ -74,16 +81,20 @@ const GreatListPage: React.FC<CardProps> = ({ movePage, closeModal }) => {
             onMouseLeave={() => handleFlip(index)}
             onClick={() => handleCardClick(person)}
           >
-            <div className="max-w-[200px] max-h-[300px] ml-12 mr-12 mt-[75px]">
+            <div className="card-container max-w-[200px] max-h-[300px] ml-12 mr-12 mt-[75px]">
               <ReactCardFlip isFlipped={isFlipped[index]} flipDirection="horizontal">
-                <CardFront key={`front${person.greatId}`} name={person.name} image={person.front_url} />
-                <CardBack
-                  key={`back${person.greatId}`}
-                  name={person.name}
-                  saying_url={person.saying_url}
-                  category={`${person.nation}/${person.field}`}
-                  image={person.back_url}
-                />
+                <div className="card-size">
+                  <CardFront key={`front${person.greatId}`} name={person.name} image={person.front_url} />
+                </div>
+                <div className="card-size">
+                  <CardBack
+                    key={`back${person.greatId}`}
+                    name={person.name}
+                    saying_url={person.saying_url}
+                    category={`${person.nation}/${person.field}`}
+                    image={person.back_url}
+                  />
+                </div>
               </ReactCardFlip>
             </div>
           </div>

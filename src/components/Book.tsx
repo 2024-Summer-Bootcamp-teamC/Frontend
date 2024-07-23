@@ -42,18 +42,24 @@ const Page = forwardRef<HTMLDivElement, PageProps>((props, ref) => {
 
   return (
     <div className="bg-gray-100" ref={ref}>
-      <img src={imageSource} alt="" className="w-[600px] h-[700px] fixed -z-10" />
+      <img src={imageSource} alt="" className="w-[600px] h-[700px] fixed -z-10 rounded-l-sm rounded-r-sm" />
       <div className="z-10">{props.children}</div>
     </div>
   );
 });
 
-const Book = forwardRef((props, ref) => {
+interface BookProps {
+  setCurPage: (pageNumber: number) => void;
+}
+
+const Book = forwardRef((props: BookProps, ref) => {
   const bookRef = useRef<React.ElementRef<typeof HTMLFlipBook>>(null);
+  const leftPageRef = useRef<{ playVideo: () => void; pauseVideo: () => void }>(null);
   const [curPage, setCurPage] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [showGreatListModal, setShowGreatListModal] = useState(false);
   const [puzzleModalOpen, setPuzzleModalOpen] = useState(false);
+  const [chatPageKey, setChatPageKey] = useState(0); // 대화창을 새로고침하기 위한 key
 
   const { showVideoModal, setShowVideoModal } = useVideoModalStore();
 
@@ -66,6 +72,9 @@ const Book = forwardRef((props, ref) => {
   }));
 
   const movePage = (pageNumber: number) => {
+    if (pageNumber === 9) {
+      setChatPageKey((prevKey) => prevKey + 1); // 대화창으로 이동할 때 key 변경
+    }
     if (bookRef.current) {
       bookRef.current.pageFlip().flip(pageNumber);
     }
@@ -141,6 +150,7 @@ const Book = forwardRef((props, ref) => {
         ref={bookRef}
         onFlip={(e) => {
           setCurPage(e.data);
+          props.setCurPage(e.data); // 현재 페이지 상태 업데이트
         }}
         className={''}
       >
@@ -148,12 +158,12 @@ const Book = forwardRef((props, ref) => {
 
         {/* 지도 */}
         <Page number={1}>
-          <div className="relative overflow-hidden">
+          <div className="relative overflow-hidden top-10">
             <MapPage part="left" move={movePage} />
           </div>
         </Page>
         <Page number={2}>
-          <div className="relative overflow-hidden">
+          <div className="relative overflow-hidden top-10">
             <MapPage part="right" move={movePage} />
           </div>
         </Page>
@@ -167,7 +177,7 @@ const Book = forwardRef((props, ref) => {
         <Page number={4}>
           <div className="absolute inset-0 flex items-center justify-center">
             <FieldPageRight />
-            </div>
+          </div>
         </Page>
 
         {/* 인물 목록 */}
@@ -193,12 +203,16 @@ const Book = forwardRef((props, ref) => {
         {/* 인물 대화 창 */}
         <Page number={9}>
           <div className="absolute inset-0 flex items-center justify-center">
-            <GreatChatPageLeft movePage={movePage} />
+            <GreatChatPageLeft ref={leftPageRef} movePage={movePage} />
           </div>
         </Page>
         <Page number={10}>
           <div className="absolute inset-0 flex items-center justify-center">
-            <GreatChatPageRight />
+            <GreatChatPageRight
+              key={chatPageKey}
+              playVideo={() => leftPageRef.current?.playVideo()}
+              pauseVideo={() => leftPageRef.current?.pauseVideo()}
+            />
           </div>
         </Page>
 
@@ -224,7 +238,7 @@ const Book = forwardRef((props, ref) => {
       </HTMLFlipBook>
 
       {curPage === 0 && (
-        <div className="fixed left-[25%] h-[600px]">
+        <div className="fixed left-[300px] h-[600px]">
           <MainPage next={nextPage} />
         </div>
       )}

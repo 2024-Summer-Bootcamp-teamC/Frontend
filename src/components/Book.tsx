@@ -58,9 +58,9 @@ const Book = forwardRef((props: BookProps, ref) => {
   const [curPage, setCurPage] = useState(0);
   const [puzzleModalOpen, setPuzzleModalOpen] = useState(false);
   const [chatPageKey, setChatPageKey] = useState(0); // 대화창을 새로고침하기 위한 key
-
   const { showVideoModal, setShowVideoModal } = useVideoModalStore();
-
+  const [showModal, setShowModal] = useState(false);
+  const [showGreatListModal, setShowGreatListModal] = useState(false);
   useImperativeHandle(ref, () => ({
     movePage(pageNumber: number) {
       if (bookRef.current) {

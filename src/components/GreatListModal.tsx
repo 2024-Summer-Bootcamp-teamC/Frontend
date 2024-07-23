@@ -1,29 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import CardFront from '../components/CardFront';
-import CardBack from '../components/CardBack';
+import CardFront from './CardFront';
+import CardBack from './CardBack';
 import ReactCardFlip from 'react-card-flip';
-import { useUserIdStore, useGreatPersonStore } from '../store';
+import { useUserIdStore, useGreatPersonStore, useParamStore, useGreatListStore } from '../store';
 import '../index.css'; // CSS 파일을 추가하여 애니메이션 효과를 적용
 import { GreatPerson } from '../types';
 
-interface GreatModalProps {
-  closeModal: () => void; // 모달 닫기 함수 추가
+interface CardProps {
   movePage: (pageNumber: number) => void;
-  
-}  
+  closeModal: () => void; // 모달 닫기 함수 추가
+}
 
-const GreatModal: React.FC<GreatModalProps> = ({ closeModal, movePage }) => {
+const GreatListModal: React.FC<CardProps> = ({ movePage, closeModal }) => {
   const [greatPersons, setGreatPersons] = useState<GreatPerson[]>([]);
   const [isFlipped, setIsFlipped] = useState<boolean[]>([]);
   const { userId } = useUserIdStore();
-  const { setGreat, setLife, setVideo_url, setInfo } = useGreatPersonStore();
+  const { setGreat, setLife, setVideo_url } = useGreatPersonStore();
   const [isClickable, setIsClickable] = useState(false); // 클릭 가능 여부 상태 추가
+  const { param, field } = useParamStore();
+  const { setShowGreatList } = useGreatListStore();
 
   useEffect(() => {
     const fetchGreatPersons = async () => {
       try {
-        const response = await axios.get(`/api/greats/${userId}/`);
+        const params: { [key: string]: string } = {};
+        if (param) {
+          if (field && param.field) {
+            params.field = param.field;
+          } else if (param.nation) {
+            params.nation = param.nation;
+          }
+        }
+
+        console.log(param);
+
+        const response = await axios.get(`/api/greats/${userId}/`, { params });
         setGreatPersons(response.data);
         console.log(response.data);
         setIsFlipped(new Array(response.data.length).fill(false));
@@ -40,8 +52,8 @@ const GreatModal: React.FC<GreatModalProps> = ({ closeModal, movePage }) => {
     }, 300);
 
     return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 클리어
-  }, []);
-  
+  }, [param, userId]); // 의존성 배열에 param과 userId 추가
+
   const handleFlip = (index: number) => {
     if (!isClickable) return; // 클릭 불가 시 아무 작업도 하지 않음
     setIsFlipped((prevState) => {
@@ -59,15 +71,15 @@ const GreatModal: React.FC<GreatModalProps> = ({ closeModal, movePage }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`/api/greats/${userId}/${person.greatId}/`);
-
+        console.log(response.data);
         setLife(response.data.life);
         setVideo_url(response.data.video_url);
-        setInfo(response.data.information_url);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
     fetchData();
+    setShowGreatList(false);
     movePage(7);
   };
 
@@ -99,10 +111,10 @@ const GreatModal: React.FC<GreatModalProps> = ({ closeModal, movePage }) => {
               </ReactCardFlip>
             </div>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );
 };
 
-export default GreatModal;
+export default GreatListModal;

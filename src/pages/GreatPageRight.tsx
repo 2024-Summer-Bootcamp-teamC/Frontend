@@ -55,7 +55,7 @@ const GreatPageRight: React.FC<GreatPageRightProps> = ({ movePage }) => {
         <button
             className="w-[200px] h-[70px] border-none text-white text-lg text-center bg-cover mb-5 font-semibold mr-5"
           style={{ backgroundImage: `url(${RedBtn})` }}
-          onClick={() => movePage(9)}
+          onClick={() => handleConversationClick}
         >
           대화하기
         </button>

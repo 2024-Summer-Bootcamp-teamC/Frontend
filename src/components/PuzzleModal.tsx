@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import imageSrc from '../assets/images/sejong.png';
 import RedBtn from '../assets/images/PuzzleCardRedBtn.png';
 import BlueBtn from '../assets/images/PuzzleCardBlueBtn.png';
@@ -7,9 +7,10 @@ interface PuzzleModalProps {
   openModal: boolean;
   movePage: (pageNumber: number) => void;
   closeModal: () => void;
+  resetQuiz: () => void; // Add resetQuiz prop
 }
 
-const PuzzleModal: React.FC<PuzzleModalProps> = ({ openModal, movePage, closeModal }) => {
+const PuzzleModal: React.FC<PuzzleModalProps> = ({ openModal, movePage, closeModal, resetQuiz }) => {
   // No need for local visibility state if using openModal directly
   useEffect(() => {
     if (!openModal) {
@@ -22,9 +23,12 @@ const PuzzleModal: React.FC<PuzzleModalProps> = ({ openModal, movePage, closeMod
 
   const handleAction = (pageNumber: number) => {
     closeModal();
+    if (pageNumber === 12) {
+      resetQuiz(); // "이어사 풀기" 버튼을 클릭하면 퀴즈를 초기화하는 함수 호출
+    }
     setTimeout(() => {
       movePage(pageNumber);
-    }, 500); // 500ms delay to allow closeModal to execute
+    }, 500); // 500ms 지연을 통해 closeModal이 실행될 시간을 확보
   };
 
   return (

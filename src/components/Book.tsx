@@ -13,7 +13,7 @@ import FieldPageRight from '../pages/FieldPageRight';
 import GreatListPage from '../pages/GreatListPage';
 import ChartPageLeft from '../pages/ChartPageLeft';
 import ChartPageRight from '../pages/ChartPageRight';
-import PuzzleModal from '../components/PuzzleModal'; // PuzzleModal을 import합니다.
+import PuzzleModal from '../components/PuzzleModal';
 import { useVideoModalStore } from '../store';
 import VideoModal from './VideoModal';
 
@@ -56,12 +56,12 @@ const Book = forwardRef((props: BookProps, ref) => {
   const bookRef = useRef<React.ElementRef<typeof HTMLFlipBook>>(null);
   const leftPageRef = useRef<{ playVideo: () => void; pauseVideo: () => void }>(null);
   const [curPage, setCurPage] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+  const [showGreatListModal, setShowGreatListModal] = useState(false);
+  const [puzzleModalOpen, setPuzzleModalOpen] = useState(false);
   const [chatPageKey, setChatPageKey] = useState(0); // 대화창을 새로고침하기 위한 key
-  const { showVideoModal, setShowVideoModal } = useVideoModalStore();
 
-  const someStyle: React.CSSProperties = {}; // htmlFlip 에러 없앨라고 추가
-  const [showModal, setShowModal] = useState(false); // 모달 상태 추가
-  const [showGreatListModal, setShowGreatListModal] = useState(false); // GreatList 모달 상태 추가
+  const { showVideoModal, setShowVideoModal } = useVideoModalStore();
 
   useImperativeHandle(ref, () => ({
     movePage(pageNumber: number) {
@@ -79,24 +79,27 @@ const Book = forwardRef((props: BookProps, ref) => {
       bookRef.current.pageFlip().flip(pageNumber);
     }
   };
+
   const nextPage = () => {
     if (bookRef.current) {
       bookRef.current.pageFlip().flipNext('top');
     }
   };
+
   const prevPage = () => {
     if (bookRef.current) {
       bookRef.current.pageFlip().flipPrev('top');
     }
   };
+
   const handleComplete = () => {
-    setShowModal(true); // 완료 버튼을 누르면 모달을 보여줍니다.
+    setShowModal(true);
   };
 
   const handleShowGreatList = () => {
-    movePage(5); // 5페이지로 이동
+    movePage(5);
     setTimeout(() => {
-      setShowGreatListModal(true); // 1초 후에 모달 표시
+      setShowGreatListModal(true);
     }, 700);
   };
 
@@ -109,7 +112,15 @@ const Book = forwardRef((props: BookProps, ref) => {
     setShowGreatListModal(false);
     setTimeout(() => {
       movePage(pageNumber);
-    }, 500); // 모달 닫힌 후 0.5초 후에 페이지 이동
+    }, 500);
+  };
+
+  const handlePuzzleModalClose = () => {
+    setPuzzleModalOpen(false);
+  };
+
+  const handleShowPuzzleModal = () => {
+    setPuzzleModalOpen(true);
   };
 
   return (
@@ -141,7 +152,6 @@ const Book = forwardRef((props: BookProps, ref) => {
           setCurPage(e.data);
           props.setCurPage(e.data); // 현재 페이지 상태 업데이트
         }}
-        style={someStyle}
         className={''}
       >
         <PageCover></PageCover>
@@ -214,38 +224,17 @@ const Book = forwardRef((props: BookProps, ref) => {
         </Page>
         <Page number={12}>
           <div className="absolute inset-0 flex items-center justify-center">
-            <GreatQuizPageRight movePage={movePage} currentPage={12} />
-          </div>
-        </Page>
-        <Page number={13}>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <GreatQuizPageRight movePage={movePage} currentPage={13} />
-          </div>
-        </Page>
-        <Page number={14}>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <GreatQuizPageRight movePage={movePage} currentPage={14} />
-          </div>
-        </Page>
-        <Page number={15}>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <GreatQuizPageRight movePage={movePage} currentPage={15} />
-          </div>
-        </Page>
-        <Page number={16}>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <GreatQuizPageRight movePage={movePage} currentPage={16} onComplete={handleComplete} />{' '}
-            {/* handleComplete을 완료 버튼에 전달 */}
+            <GreatQuizPageRight movePage={movePage} currentPage={12} onComplete={handleComplete} showPuzzleModal={handleShowPuzzleModal} />
           </div>
         </Page>
 
         {/* 차트 페이지 */}
-        <Page number={17}>
-          <ChartPageLeft />
-        </Page>
-        <Page number={18}>
-          <ChartPageRight />
-        </Page>
+        <Page number={13}>
+            <ChartPageLeft />
+          </Page>
+          <Page number={14}>
+            <ChartPageRight />
+        </Page>      
       </HTMLFlipBook>
 
       {curPage === 0 && (
@@ -280,9 +269,10 @@ const Book = forwardRef((props: BookProps, ref) => {
         <button onClick={prevPage}>이전 페이지</button>
         <button onClick={nextPage}>다음 페이지</button>
       </div>
+
       {showModal && (
         <div className="fixed top-0 left-0 z-10 flex items-center justify-center w-full h-full bg-white bg-opacity-70">
-          <PuzzleModal movePage={movePage} closeModal={() => setShowModal(false)} />
+          <PuzzleModal openModal={showModal} movePage={movePage} closeModal={() => setShowModal(false)} />
           <button onClick={() => setShowModal(false)} className="absolute text-xl text-white top-5 right-5">
             닫기
           </button>
@@ -307,6 +297,13 @@ const Book = forwardRef((props: BookProps, ref) => {
               닫기
             </button>
           </div>
+        </div>
+      )}
+
+      {/* PuzzleModal */}
+      {puzzleModalOpen && (
+        <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-50">
+          <PuzzleModal openModal={puzzleModalOpen} movePage={movePage} closeModal={handlePuzzleModalClose} />
         </div>
       )}
     </div>

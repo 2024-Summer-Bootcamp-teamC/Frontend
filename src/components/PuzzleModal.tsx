@@ -4,54 +4,52 @@ import RedBtn from '../assets/images/PuzzleCardRedBtn.png';
 import BlueBtn from '../assets/images/PuzzleCardBlueBtn.png';
 
 interface PuzzleModalProps {
+  openModal: boolean;
   movePage: (pageNumber: number) => void;
   closeModal: () => void;
 }
 
-const PuzzleModal: React.FC<PuzzleModalProps> = ({ movePage, closeModal }) => {
-  const [isVisible, setIsVisible] = useState(false);
-
+const PuzzleModal: React.FC<PuzzleModalProps> = ({ openModal, movePage, closeModal }) => {
+  // No need for local visibility state if using openModal directly
   useEffect(() => {
-    setIsVisible(true);
-  }, []);
+    if (!openModal) {
+      // Handle any additional logic when modal is closed if needed
+    }
+  }, [openModal]);
 
-  const handleContinue = () => {
-    setIsVisible(false);
+  // Conditionally render the modal based on openModal prop
+  if (!openModal) return null;
+
+  const handleAction = (pageNumber: number) => {
     closeModal();
     setTimeout(() => {
-      movePage(12);
-    }, 500); // 500ms 딜레이를 주어 closeModal이 먼저 실행되도록 함
-  };
-
-  const handleCardList = () => {
-    setIsVisible(false);
-    closeModal();
-    setTimeout(() => {
-      movePage(5);
-    }, 500); // 500ms 딜레이를 주어 closeModal이 먼저 실행되도록 함
+      movePage(pageNumber);
+    }, 500); // 500ms delay to allow closeModal to execute
   };
 
   return (
-    <div className={`w-4/5 p-6 mx-auto rounded-lg shadow-lg ${isVisible ? 'modal-visible' : 'modal-hidden'}`}>
-      <h1 className="text-5xl text-center">퍼즐획득!</h1>
-      <div className="relative flex justify-center mb-6">
-        <img src={imageSrc} alt="세종대왕" className="my-10"></img>
-      </div>
-      <div className="text-center">
-        <button
-          className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
-          style={{ backgroundImage: `url(${RedBtn})` }}
-          onClick={handleContinue}
-        >
-          이어서 풀기
-        </button>
-        <button
-          className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
-          style={{ backgroundImage: `url(${BlueBtn})` }}
-          onClick={handleCardList}
-        >
-          카드 보러가기
-        </button>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div className={`bg-white p-6 rounded-lg shadow-lg transition-opacity duration-500 ${openModal ? 'opacity-100' : 'opacity-0'}`}>
+        <h1 className="mb-6 text-5xl text-center">퍼즐 획득!</h1>
+        <div className="relative flex justify-center mb-6">
+          <img src={imageSrc} alt="세종대왕" className="my-10" />
+        </div>
+        <div className="text-center">
+          <button
+            className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
+            style={{ backgroundImage: `url(${RedBtn})` }}
+            onClick={() => handleAction(12)}
+          >
+            이어서 풀기
+          </button>
+          <button
+            className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
+            style={{ backgroundImage: `url(${BlueBtn})` }}
+            onClick={() => handleAction(5)}
+          >
+            카드 보러가기
+          </button>
+        </div>
       </div>
     </div>
   );

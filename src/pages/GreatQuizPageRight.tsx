@@ -23,6 +23,7 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentExplanation, setCurrentExplanation] = useState('');
   const [puzzleCount, setPuzzleCount] = useState(0);
+  const [correctCnt, setCorrectCnt] = useState(0); // New state to track correct answers
 
   if (quizzes.length === 0) {
     return <div>문제를 준비중입니다..</div>;
@@ -33,17 +34,16 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
   const handleOptionClick = async (option: string) => {
     setSelectedOption(option);
   
-    // Log the total number of quizzes and the current quiz index
-    console.log(`Total quizzes: ${quizzes.length}`);
-    console.log(`Current quiz index: ${currentQuizIndex}`);
-  
     if (option === currentQuiz.answer) {
+      const newCorrectCnt = correctCnt + 1;
+      setCorrectCnt(newCorrectCnt); // Update correct count
+      
       const newPuzzleCount = (currentQuizIndex + 1) % 5 === 0 ? puzzleCount + 1 : puzzleCount;
       
       if ((currentQuizIndex + 1) % 5 === 0) {
         setPuzzleCount(newPuzzleCount);
-        updatePuzzleCount(newPuzzleCount);
-  
+        updatePuzzleCount(newCorrectCnt); // Send correct count to the server
+
         if (showPuzzleModal) {
           showPuzzleModal(); // Trigger PuzzleModal
         }
@@ -56,33 +56,11 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
     }
   };
   
-
-  const handleNextQuiz = () => {
-    // Log the total number of quizzes and the current quiz index
-    console.log(`Total quizzes: ${quizzes.length}`);
-    console.log(`Current quiz index: ${currentQuizIndex}`);
-  
-    if (currentQuizIndex < quizzes.length - 1) {
-      setCurrentQuizIndex(currentQuizIndex + 1);
-      setSelectedOption(null);
-    } else {
-      movePage(12);
-    }
-  };
-  
-
-  const handlePreviousQuiz = () => {
-    if (currentQuizIndex > 0) {
-      setCurrentQuizIndex(currentQuizIndex - 1);
-      setSelectedOption(null);
-    }
-  };
-
-  const updatePuzzleCount = async (count: number) => {
+  const updatePuzzleCount = async (correctCnt: number) => {
     try {
-      const response = await axios.put(`/quizzes/${greatId}/puzzles/`, {
-        userId,
-        puzzle_cnt: count
+      const response = await axios.put(`/api/quizzes/${greatId}/puzzles/`, {
+        user_id: userId,
+        correct_cnt: correctCnt
       });
       console.log('Updated puzzle count:', response.data);
     } catch (error) {
@@ -92,6 +70,23 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
       } else {
         console.error('Unexpected error:', error);
       }
+    }
+  };
+  
+
+  const handleNextQuiz = () => {
+    if (currentQuizIndex < quizzes.length - 1) {
+      setCurrentQuizIndex(currentQuizIndex + 1);
+      setSelectedOption(null);
+    } else {
+      movePage(12);
+    }
+  };
+
+  const handlePreviousQuiz = () => {
+    if (currentQuizIndex > 0) {
+      setCurrentQuizIndex(currentQuizIndex - 1);
+      setSelectedOption(null);
     }
   };
 

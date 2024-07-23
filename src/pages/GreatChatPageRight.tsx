@@ -53,9 +53,10 @@ const MessageComponent: React.FC<{
       <div>
         {message.sender && <span className="ml-2">{message.sender}</span>}
         <div
-          className={`ml-2 mb-4 p-2 rounded-lg leading-tight max-w-xs break-words ${message.sender === '' ? 'bg-white' : 'bg-white'} ${
+          className={`ml-3 mb-4 p-2 leading-tight max-w-xs break-words ${message.sender === '' ? 'bg-white' : 'bg-white'} ${
             message.isTtsReady ? 'cursor-pointer hover:bg-gray-200' : ''
           }`}
+          style={{ borderRadius: '0px 10px 10px 10px' }}
           onClick={() => {
             if (message.ttsUrl) {
               if (currentAudio) {
@@ -255,7 +256,7 @@ const GreatChatPageRight: React.FC<{ playVideo: () => void; pauseVideo: () => vo
             <div className="text-[25px] font-bold">위인 데리고 오는 중...</div>
           </div>
         ) : (
-          <div className="mb-5 h-[550px] overflow-y-auto">
+          <div className="h-[550px] overflow-y-auto">
             <div className="mr-6">
               {messages.map((message) => (
                 <MessageComponent
@@ -271,7 +272,7 @@ const GreatChatPageRight: React.FC<{ playVideo: () => void; pauseVideo: () => vo
             <div ref={messagesEndRef} />
           </div>
         )}
-        <div className="flex justify-end mt-4 mr-6">
+        <div className="flex justify-end mr-6 mb-3">
           <input
             type="text"
             value={input}

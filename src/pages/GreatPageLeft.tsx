@@ -8,7 +8,6 @@ const GreatPageLeft: React.FC = () => {
   const [progress, setProgress] = useState<number>(0);
   const [puzzle, setPuzzle] = useState<number>(0);
   const [key, setKey] = useState<number>(Date.now());
-
   const { greatId, front_url, puzzle_cnt } = useGreatPersonStore();
 
   useEffect(() => {
@@ -19,7 +18,7 @@ const GreatPageLeft: React.FC = () => {
     setProgress(calc);
     setPuzzle(piecesToFill + 1);
     setKey(Date.now());
-  }, [greatId]);
+  }, [greatId, puzzle_cnt]); // Listen for changes to puzzle_cnt
 
   return (
     <>

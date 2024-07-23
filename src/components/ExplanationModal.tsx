@@ -4,10 +4,16 @@ interface ExplanationModalProps {
   isOpen: boolean;
   explanation: string;
   onClose: () => void;
+  onNextQuiz: () => void; // Add this prop
 }
 
-const ExplanationModal: React.FC<ExplanationModalProps> = ({ isOpen, explanation, onClose }) => {
+const ExplanationModal: React.FC<ExplanationModalProps> = ({ isOpen, explanation, onClose, onNextQuiz }) => {
   if (!isOpen) return null;
+
+  const handleClose = () => {
+    onClose();
+    onNextQuiz(); // Move to the next quiz when the modal closes
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
@@ -16,7 +22,7 @@ const ExplanationModal: React.FC<ExplanationModalProps> = ({ isOpen, explanation
         <div className="mb-4">{explanation}</div>
         <button
           className="px-4 py-2 text-white bg-blue-500 rounded-md"
-          onClick={onClose}
+          onClick={handleClose}
         >
           Close
         </button>

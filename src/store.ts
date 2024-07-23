@@ -29,6 +29,7 @@ interface GreatPersonState {
   setInfo: (info: string) => void;
   setVideo_url: (url: string) => void;
   setGreat: (great: GreatPerson) => void;
+  setPuzzleCount: (count: number) => void; // Add this method
 }
 
 export const useGreatPersonStore = create<GreatPersonState>((set) => ({
@@ -69,6 +70,10 @@ export const useGreatPersonStore = create<GreatPersonState>((set) => ({
       saying: great.saying,
       puzzle_cnt: great.puzzle_cnt,
     })),
+  setPuzzleCount: (count: number) =>
+    set(() => ({
+      puzzle_cnt: count,
+    })),
 }));
 
 interface VideoModalState {
@@ -103,7 +108,7 @@ export const useQuizStore = create<QuizState>((set) => ({
     })),
 }));
 
-  interface TriggerChartState {
+interface TriggerChartState {
   count: number;
   setCount: () => void;
 }

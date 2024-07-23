@@ -35,7 +35,7 @@ const GreatChatPageLeft = forwardRef<{ playVideo: () => void; pauseVideo: () => 
             movePage(7);
           }}
         >
-          <img src={ArrowBack} alt="인물 페이지로 다시 가기" className=" w-17 h-12" />
+          <img src={ArrowBack} alt="인물 페이지로 다시 가기" className="h-12  w-17" />
         </div>
         <div className="flex flex-col items-center justify-center mb-[30px] ">
           <div className="flex">

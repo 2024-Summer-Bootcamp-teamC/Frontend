@@ -13,9 +13,10 @@ import FieldPageRight from '../pages/FieldPageRight';
 import GreatListPage from '../pages/GreatListPage';
 import ChartPageLeft from '../pages/ChartPageLeft';
 import ChartPageRight from '../pages/ChartPageRight';
-import PuzzleModal from '../components/PuzzleModal';
-import { useVideoModalStore } from '../store';
+import PuzzleModal from '../components/PuzzleModal'; // PuzzleModal을 import합니다.
+import { useVideoModalStore, useGreatListStore } from '../store';
 import VideoModal from './VideoModal';
+import GreatListModal from './GreatListModal';
 
 interface PageCoverProps {
   children?: React.ReactNode;
@@ -58,9 +59,13 @@ const Book = forwardRef((props: BookProps, ref) => {
   const [curPage, setCurPage] = useState(0);
   const [puzzleModalOpen, setPuzzleModalOpen] = useState(false);
   const [chatPageKey, setChatPageKey] = useState(0); // 대화창을 새로고침하기 위한 key
+
+  const someStyle: React.CSSProperties = {}; // htmlFlip 에러 없앨라고 추가
+  const [showModal, setShowModal] = useState(false); // 모달 상태 추가
+  const [showGreatListModal, setShowGreatListModal] = useState(false); // GreatList 모달 상태 추가
+  const { showGreatList } = useGreatListStore();
   const { showVideoModal, setShowVideoModal } = useVideoModalStore();
-  const [showModal, setShowModal] = useState(false);
-  const [showGreatListModal, setShowGreatListModal] = useState(false);
+
   useImperativeHandle(ref, () => ({
     movePage(pageNumber: number) {
       if (bookRef.current) {
@@ -289,6 +294,15 @@ const Book = forwardRef((props: BookProps, ref) => {
           </button>
         </div>
       )}
+      {showGreatList && (
+        <div className="fixed top-0 left-0 z-10 flex items-center justify-center w-full h-full bg-white bg-opacity-0">
+          <GreatListModal movePage={handleCardClick} closeModal={() => setShowGreatListModal(false)} />
+          <button onClick={() => setShowGreatListModal(false)} className="absolute text-xl text-white top-5 right-5">
+            닫기
+          </button>
+        </div>
+      )}
+
       {showVideoModal && (
         <div className="fixed top-0 left-0 z-[1000] flex items-center justify-center w-full h-full bg-white bg-opacity-70">
           <div className="bg-[#95a3b4] p-[70px] rounded-lg">

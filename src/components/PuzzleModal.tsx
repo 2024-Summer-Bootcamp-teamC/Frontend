@@ -8,7 +8,7 @@ interface PuzzleModalProps {
   movePage: (pageNumber: number) => void;
   closeModal: () => void;
   resetQuiz: () => void;
-  showGreatList: () => void; // Add this prop
+  showGreatList: () => void;
 }
 
 const PuzzleModal: React.FC<PuzzleModalProps> = ({ openModal, movePage, closeModal, resetQuiz, showGreatList }) => {

@@ -10,8 +10,7 @@ import { GreatPerson } from '../types';
 interface GreatModalProps {
   closeModal: () => void; // 모달 닫기 함수 추가
   movePage: (pageNumber: number) => void;
-  
-}  
+}
 
 const GreatModal: React.FC<GreatModalProps> = ({ closeModal, movePage }) => {
   const [greatPersons, setGreatPersons] = useState<GreatPerson[]>([]);
@@ -41,7 +40,7 @@ const GreatModal: React.FC<GreatModalProps> = ({ closeModal, movePage }) => {
 
     return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 클리어
   }, []);
-  
+
   const handleFlip = (index: number) => {
     if (!isClickable) return; // 클릭 불가 시 아무 작업도 하지 않음
     setIsFlipped((prevState) => {
@@ -99,7 +98,7 @@ const GreatModal: React.FC<GreatModalProps> = ({ closeModal, movePage }) => {
               </ReactCardFlip>
             </div>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );

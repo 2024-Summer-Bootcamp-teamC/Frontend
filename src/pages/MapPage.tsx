@@ -1,4 +1,4 @@
-import React, { useState, useRef, userCallback, useEffect } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps';
 import { useGreatListStore, useParamStore } from '../store';
 

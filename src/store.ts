@@ -110,7 +110,7 @@ interface ParamState {
 }
 
 export const useParamStore = create<ParamState>((set) => ({
-  param: '',
+  param: {},
   field: true,
   setParam: (param: Params) =>
     set(() => ({
@@ -119,6 +119,8 @@ export const useParamStore = create<ParamState>((set) => ({
   setField: (param: boolean) =>
     set(() => ({
       field: param,
+    })),
+}));
 
 interface Quiz {
   question: string;
@@ -137,11 +139,9 @@ export const useQuizStore = create<QuizState>((set) => ({
     set(() => ({
       quizzes: quizzes,
     })),
-
 }));
 
-
-  interface TriggerChartState {
+interface TriggerChartState {
   count: number;
   setCount: () => void;
 }
@@ -149,3 +149,4 @@ export const useQuizStore = create<QuizState>((set) => ({
 export const useTriggerChartStore = create<TriggerChartState>((set) => ({
   count: 0,
   setCount: () => set((state) => ({ count: state.count + 1 })),
+}));

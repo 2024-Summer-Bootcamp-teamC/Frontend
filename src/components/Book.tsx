@@ -57,8 +57,6 @@ const Book = forwardRef((props: BookProps, ref) => {
   const bookRef = useRef<React.ElementRef<typeof HTMLFlipBook>>(null);
   const leftPageRef = useRef<{ playVideo: () => void; pauseVideo: () => void }>(null);
   const [curPage, setCurPage] = useState(0);
-  const [showModal, setShowModal] = useState(false);
-  const [showGreatListModal, setShowGreatListModal] = useState(false);
   const [puzzleModalOpen, setPuzzleModalOpen] = useState(false);
   const [chatPageKey, setChatPageKey] = useState(0); // 대화창을 새로고침하기 위한 key
 
@@ -229,17 +227,22 @@ const Book = forwardRef((props: BookProps, ref) => {
         </Page>
         <Page number={12}>
           <div className="absolute inset-0 flex items-center justify-center">
-            <GreatQuizPageRight movePage={movePage} currentPage={12} onComplete={handleComplete} showPuzzleModal={handleShowPuzzleModal} />
+            <GreatQuizPageRight
+              movePage={movePage}
+              currentPage={12}
+              onComplete={handleComplete}
+              showPuzzleModal={handleShowPuzzleModal}
+            />
           </div>
         </Page>
 
         {/* 차트 페이지 */}
         <Page number={13}>
-            <ChartPageLeft />
-          </Page>
-          <Page number={14}>
-            <ChartPageRight />
-        </Page>      
+          <ChartPageLeft />
+        </Page>
+        <Page number={14}>
+          <ChartPageRight />
+        </Page>
       </HTMLFlipBook>
 
       {curPage === 0 && (

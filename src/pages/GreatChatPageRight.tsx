@@ -53,10 +53,9 @@ const MessageComponent: React.FC<{
       <div>
         {message.sender && <span className="ml-2">{message.sender}</span>}
         <div
-          className={`ml-3 mb-4 p-2 leading-tight max-w-xs break-words ${message.sender === '' ? 'bg-white' : 'bg-white'} ${
+          className={`ml-2 mb-4 p-2 rounded-lg leading-tight max-w-xs break-words ${message.sender === '' ? 'bg-white' : 'bg-white'} ${
             message.isTtsReady ? 'cursor-pointer hover:bg-gray-200' : ''
           }`}
-          style={{ borderRadius: '0px 10px 10px 10px' }}
           onClick={() => {
             if (message.ttsUrl) {
               if (currentAudio) {
@@ -272,7 +271,7 @@ const GreatChatPageRight: React.FC<{ playVideo: () => void; pauseVideo: () => vo
             <div ref={messagesEndRef} />
           </div>
         )}
-        <div className="flex justify-end mr-6 mb-3">
+        <div className="flex justify-end mr-6">
           <input
             type="text"
             value={input}

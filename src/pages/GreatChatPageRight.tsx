@@ -280,7 +280,7 @@ const GreatChatPageRight: React.FC<{ playVideo: () => void; pauseVideo: () => vo
             onCompositionEnd={() => setIsComposing(false)}
             onChange={(e) => setInput(e.target.value)}
             className="border border-black rounded-md w-[400px] h-[40px] mb-[15px]"
-            placeholder="메시지를 입력하세요."
+            placeholder="   메시지를 입력하세요."
           />
           <button
             onClick={() => handleSendMessage(input)}

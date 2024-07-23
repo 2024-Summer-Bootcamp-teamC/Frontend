@@ -12,7 +12,7 @@ interface MarkerType {
 const markers: MarkerType[] = [
   {
     markerOffset: -35,
-    name: '대한민국',
+    name: '한국',
     coordinates: [126.978, 37.5665],
   },
   { markerOffset: -35, name: '미국', coordinates: [-100.0369, 38.9072] },

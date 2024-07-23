@@ -1,5 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Sejong from '../assets/images/MiniSejong.png';
+import Sound1 from '../assets/images/Sound1.png';
+import Sound2 from '../assets/images/Sound2.png';
+import Sound3 from '../assets/images/Sound3.png';
 import { useGreatPersonStore } from '../store';
 import '../index.css'; // CSS 파일에서 애니메이션 정의를 추가합니다.
 
@@ -46,40 +49,69 @@ const MessageComponent: React.FC<{
   setCurrentAudio: React.Dispatch<React.SetStateAction<HTMLAudioElement | null>>;
   playVideo: () => void;
   pauseVideo: () => void;
-}> = ({ message, currentAudio, setCurrentAudio, playVideo, pauseVideo }) => (
-  <div className={`flex ${message.sender === '' ? 'justify-end' : 'justify-start'} items-start mb-2`}>
-    <div className="flex items-start">
-      {message.sender === '세종대왕' && <img src={Sejong} alt="세종대왕" className="w-10 h-10 rounded-full" />}
-      <div>
-        {message.sender && <span className="ml-2">{message.sender}</span>}
-        <div
-          className={`ml-2 mb-4 p-2 rounded-lg leading-tight max-w-xs break-words ${message.sender === '' ? 'bg-white' : 'bg-white'} ${
-            message.isTtsReady ? 'cursor-pointer hover:bg-gray-200' : ''
-          }`}
-          style={{ borderRadius: '0px 10px 10px 10px' }}
-          onClick={() => {
-            if (message.ttsUrl) {
-              if (currentAudio) {
-                currentAudio.pause();
-                currentAudio.currentTime = 0;
-              }
-              const audio = new Audio(message.ttsUrl);
-              audio.playbackRate = 1.15; // 재생 속도를 1.5배속으로 설정
-              setCurrentAudio(audio);
-              playVideo();
-              audio.play();
-              audio.onended = () => {
-                pauseVideo();
-              };
-            }
-          }}
-        >
-          <div>{message.text}</div>
+}> = ({ message, currentAudio, setCurrentAudio, playVideo, pauseVideo }) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentSoundImage, setCurrentSoundImage] = useState(Sound1);
+  const soundImages = [Sound1, Sound2, Sound3];
+
+  const handleAudioPlay = () => {
+    if (message.ttsUrl) {
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+      }
+      const audio = new Audio(message.ttsUrl);
+      audio.playbackRate = 1.15; // 재생 속도를 1.5배속으로 설정
+      setCurrentAudio(audio);
+      playVideo();
+      setIsPlaying(true);
+      audio.play();
+      audio.onended = () => {
+        pauseVideo();
+        setIsPlaying(false);
+      };
+    }
+  };
+
+  useEffect(() => {
+    if (isPlaying) {
+      const interval = setInterval(() => {
+        setCurrentSoundImage((prevImage) => {
+          const currentIndex = soundImages.indexOf(prevImage);
+          const nextIndex = (currentIndex + 1) % soundImages.length;
+          return soundImages[nextIndex];
+        });
+      }, 500);
+      return () => clearInterval(interval);
+    }
+  }, [isPlaying]);
+
+  return (
+    <div className={`flex ${message.sender === '' ? 'justify-end' : 'justify-start'} items-start mb-2`}>
+      <div className="flex items-start">
+        {message.sender === '세종대왕' && <img src={Sejong} alt="세종대왕" className="w-10 h-10 rounded-full" />}
+        <div>
+          {message.sender && <span className="ml-2">{message.sender}</span>}
+          <div
+            className={`ml-2 mb-4 p-2 rounded-lg leading-tight max-w-xs break-words ${message.sender === '' ? 'bg-white' : 'bg-white'} ${
+              message.isTtsReady ? 'cursor-pointer hover:bg-gray-200' : ''
+            }`}
+            style={{ borderRadius: '0px 10px 10px 10px' }}
+            onClick={handleAudioPlay}
+          >
+            <div>{message.text}</div>
+          </div>
         </div>
+        <img
+          src={currentSoundImage}
+          alt="스피커 버튼"
+          className="w-[16px] h-[16px] self-end ml-[10px] mb-[25px] cursor-pointer object-contain"
+          onClick={handleAudioPlay}
+        />
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 const GreatChatPageRight: React.FC<{ playVideo: () => void; pauseVideo: () => void }> = ({ playVideo, pauseVideo }) => {
   const [messages, setMessages] = useState<Message[]>([]);

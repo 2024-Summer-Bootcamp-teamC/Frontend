@@ -128,7 +128,7 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
           </div>
         </div>
         <div className="flex justify-center mt-24">
-          {currentQuizIndex > 0 && (
+          {/* {currentQuizIndex > 0 && (
             <button
               className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
               style={{ backgroundImage: `url(${RedBtn})` }}
@@ -145,7 +145,7 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
             >
               다음 문제
             </button>
-          ) : null}
+          ) : null} */}
           {currentPage === 16 ? (
             <button
               className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
@@ -161,6 +161,7 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
         isOpen={isModalOpen}
         explanation={currentExplanation}
         onClose={() => setIsModalOpen(false)}
+        onNextQuiz={handleNextQuiz} // Pass the handleNextQuiz function
       />
     </div>
   );

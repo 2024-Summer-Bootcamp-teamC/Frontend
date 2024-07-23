@@ -4,7 +4,6 @@ import RedBtn from '../assets/images/GreatPageRedBtn.png';
 import BlueBtn from '../assets/images/GreatPageBlueBtn.png';
 import VerticalBtn from '../assets/images/GreatPageVerticalBtn.png';
 import { useUserIdStore, useGreatPersonStore, useVideoModalStore, useQuizStore } from '../store';
-import axios from 'axios';
 
 interface GreatPageRightProps {
   movePage: (pageNumber: number) => void;

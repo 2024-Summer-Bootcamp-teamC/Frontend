@@ -72,6 +72,9 @@ const Book = forwardRef((props: BookProps, ref) => {
         bookRef.current.pageFlip().flip(pageNumber);
       }
     },
+    setShowGreatListModal(value: boolean) {
+      setShowGreatListModal(value);
+    },
   }));
 
   const movePage = (pageNumber: number) => {

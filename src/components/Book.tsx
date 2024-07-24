@@ -101,6 +101,7 @@ const Book = forwardRef((props: BookProps, ref) => {
 
   const handleShowGreatList = () => {
     movePage(5);
+    setShowGreatList(false);
     setTimeout(() => {
       setShowGreatListModal(true);
     }, 700);
@@ -113,6 +114,7 @@ const Book = forwardRef((props: BookProps, ref) => {
 
   const handleCloseModalAndMovePage = (pageNumber: number) => {
     setShowGreatListModal(false);
+    setShowGreatList(false);
     setTimeout(() => {
       movePage(pageNumber);
     }, 500);

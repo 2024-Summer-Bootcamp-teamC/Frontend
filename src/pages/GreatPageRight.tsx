@@ -29,7 +29,7 @@ const GreatPageRight: React.FC<GreatPageRightProps> = ({ movePage }) => {
       console.error('Error fetching quiz data:', error);
     }
   };
-  
+
   const handleConversationClick = async () => {
     try {
       await axios.put(`/api/greats/${greatId}/talk/`, { access_cnt: true });

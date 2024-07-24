@@ -1,4 +1,6 @@
 import React from 'react';
+import explainImge from '../assets/images/ExplainImage.png';
+import RedBtn from '../assets/images/GreatPageRedBtn.png';
 
 interface ExplanationModalProps {
   isOpen: boolean;
@@ -17,18 +19,23 @@ const ExplanationModal: React.FC<ExplanationModalProps> = ({ isOpen, explanation
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="w-full max-w-lg p-6 bg-white rounded-md shadow-md">
-        <div className="mb-4 text-xl">Explanation</div>
-        <div className="mb-4">{explanation}</div>
-        <button
-          className="px-4 py-2 text-white bg-blue-500 rounded-md"
-          onClick={handleClose}
-        >
-          Close
-        </button>
+      <div className="relative">
+        <img src={explainImge} alt="모달두루마리" className={`shadow-lg transition-opacity duration-500`}/>
+        <div className="absolute inset-0 flex flex-col items-center justify-center p-6">        
+          <div className="mb-4 text-xl">[ 해설 ]</div>
+            <div className="mb-4">{explanation}</div>
+            <button
+              style={{ backgroundImage: `url(${RedBtn})` }}
+              className="px-6 py-2 mt-3 text-xs text-white"
+              onClick={handleClose}
+            >
+              Close
+            </button>
+        </div>
       </div>
     </div>
   );
 };
 
 export default ExplanationModal;
+

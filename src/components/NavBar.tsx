@@ -14,7 +14,7 @@ const NavBar: React.FC<NavBarProps> = ({ movePage, curPage }) => {
   const { setCount } = useTriggerChartStore();
 
   const handleClick = () => {
-    movePage(17);
+    movePage(13);
     setCount();
   };
 

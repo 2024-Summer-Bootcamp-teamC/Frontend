@@ -54,14 +54,14 @@ const GreatPageRight: React.FC<GreatPageRightProps> = ({ movePage }) => {
         <div className="text-[1.2rem] m-1">{life}</div>
         <div className="text-[2rem] ">{saying}</div>
         <button
-            className="w-[200px] h-[70px] border-none text-white text-lg text-center bg-cover mb-5 font-semibold mr-5"
+          className="w-[200px] h-[70px] border-none text-white text-lg text-center bg-cover mb-5 font-semibold mr-5"
           style={{ backgroundImage: `url(${RedBtn})` }}
-          onClick={() => handleConversationClick}
+          onClick={handleConversationClick} // Corrected here
         >
           대화하기
         </button>
         <button
-            className="w-[200px] h-[70px] border-none text-white text-lg text-center bg-cover font-semibold ml-5"
+          className="w-[200px] h-[70px] border-none text-white text-lg text-center bg-cover font-semibold ml-5"
           style={{ backgroundImage: `url(${BlueBtn})` }}
           onClick={handleQuiz}
         >

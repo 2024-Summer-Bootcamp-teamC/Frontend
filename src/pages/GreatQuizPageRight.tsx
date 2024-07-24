@@ -26,11 +26,6 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
 
   const currentQuiz = quizzes.length > 0 ? quizzes[currentQuizIndex] : null;
 
-  useEffect(() => {
-    // Reset quiz whenever puzzleCount changes
-    resetQuiz();
-  }, [puzzleCount]);
-
   if (!currentQuiz) {
     return <div>문제를 준비중입니다..</div>;
   }
@@ -52,6 +47,7 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
         if (showPuzzleModal) {
           showPuzzleModal(); // Show the puzzle modal
         }
+        resetQuiz(); // Reset quiz after 5 questions
       }
 
       handleNextQuiz();
@@ -87,17 +83,10 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
     }
   };
 
-  // const handlePreviousQuiz = () => {
-  //   if (currentQuizIndex > 0) {
-  //     setCurrentQuizIndex(currentQuizIndex - 1);
-  //     setSelectedOption(null);
-  //   }
-  // };
-
   const resetQuiz = () => {
-    setCurrentQuizIndex(0); // Reset to the first quiz
+    setCurrentQuizIndex(0); 
     setSelectedOption(null);
-    // Additional state reset logic if needed
+    setCorrectCnt(0); 
   };
 
   const puzzlePieces = [...Array(4)].map((_, index) => (

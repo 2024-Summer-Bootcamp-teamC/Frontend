@@ -176,7 +176,7 @@ const Book = forwardRef((props: BookProps, ref) => {
         </Page>
         <Page number={4}>
           <div className="absolute inset-0 flex items-center justify-center">
-            <FieldPageRight />
+            <FieldPageRight movePage={movePage}/>
           </div>
         </Page>
 
@@ -272,7 +272,9 @@ const Book = forwardRef((props: BookProps, ref) => {
 
       {showModal && (
         <div className="fixed top-0 left-0 z-10 flex items-center justify-center w-full h-full bg-white bg-opacity-70">
-            <PuzzleModal openModal={showModal} movePage={movePage} closeModal={() => setShowModal(false)} showGreatList={handleShowGreatList} />          
+            <PuzzleModal openModal={showModal} movePage={movePage} closeModal={() => setShowModal(false)} showGreatList={handleShowGreatList} resetQuiz={function (): void {
+            throw new Error('Function not implemented.');
+          } } />          
               <button onClick={() => setShowModal(false)} className="absolute text-xl text-white top-5 right-5">
             닫기
           </button>
@@ -303,7 +305,9 @@ const Book = forwardRef((props: BookProps, ref) => {
       {/* PuzzleModal */}
       {puzzleModalOpen && (
         <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-50">
-          <PuzzleModal openModal={puzzleModalOpen} movePage={movePage} closeModal={handlePuzzleModalClose} showGreatList={handleShowGreatList} />
+          <PuzzleModal openModal={puzzleModalOpen} movePage={movePage} closeModal={handlePuzzleModalClose} showGreatList={handleShowGreatList} resetQuiz={function (): void {
+            throw new Error('Function not implemented.');
+          } } />
         </div>
       )}
     </div>

@@ -67,9 +67,9 @@ const PuzzleModal: React.FC<PuzzleModalProps> = ({ openModal, movePage, closeMod
       <div className="relative">
         <img src={PuzzleModalImage} alt="모달두루마리" className={`shadow-lg transition-opacity duration-500 ${openModal ? 'opacity-100' : 'opacity-0'}`} />
         <div className="absolute inset-0 flex flex-col items-center justify-center p-6">
-          <h1 className="mb-6 text-5xl text-center">조각을 하사하노라</h1>
+          <h1 className="mb-6 mr-16 text-5xl">조각을 하사하노라</h1>
           <div className="relative flex justify-center mb-6">
-            <img src={imageSrc} alt="세종대왕" className="my-10" />
+            <img src={imageSrc} alt="세종대왕" className="my-10 mr-14" />
           </div>
           <div className="text-center">
             {isQuizCompleted ? (

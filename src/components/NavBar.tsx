@@ -22,9 +22,9 @@ const NavBar: React.FC<NavBarProps> = ({ movePage, curPage }) => {
   const hideNavBarContent = curPage === 0 ? 'hidden' : '';
 
   return (
-    <div className="fixed left-0 right-0 top-0 w-full z-10" style={{ height: '50px' }}>
+    <div className="fixed top-0 left-0 right-0 z-10 w-full" style={{ height: '50px' }}>
       <nav className={`border-b-[2.5px] border-black h-full ${hideNavBarContent}`}>
-        <div className="container mx-auto relative h-full">
+        <div className="container relative h-full mx-auto">
           <div
             className={`absolute left-[-100px] top-[-7px] flex items-center gap-2.5 cursor-pointer hover:font-bold p-4 ${hideNavBarContent}`}
             style={{ fontSize: '20px' }}

@@ -23,7 +23,8 @@ const GreatPageRight: React.FC<GreatPageRightProps> = ({ movePage }) => {
       const response = await axios.get(`/api/quizzes/${userId}/${greatId}/`);
       const quizzes = response.data;
       useQuizStore.getState().setQuizzes(quizzes);
-      movePage(11);
+      console.log(quizzes);
+      movePage(11); 
     } catch (error) {
       console.error('Error fetching quiz data:', error);
     }
@@ -55,7 +56,7 @@ const GreatPageRight: React.FC<GreatPageRightProps> = ({ movePage }) => {
         <button
           className="w-[200px] h-[70px] border-none text-white text-lg text-center bg-cover mb-5 font-semibold mr-5"
           style={{ backgroundImage: `url(${RedBtn})` }}
-          onClick={() => movePage(9)}
+          onClick={handleConversationClick} // Corrected here
         >
           대화하기
         </button>

@@ -276,7 +276,7 @@ const GreatChatPageRight: React.FC<{ playVideo: () => void; pauseVideo: () => vo
   return (
     <div className="flex-grow max-w-2xl m-4">
       <div className="mt-4 mb-4 text-[20px] text-center">{getCurrentDate()}</div>
-      <div className="mr-2 ml-2">
+      <div className="ml-2 mr-2">
         {loading ? (
           <div className="flex flex-col items-center justify-center h-[550px]">
             <div className="loader">

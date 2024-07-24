@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import RedBtn from '../assets/images/PuzzleCardRedBtn.png';
 import BlueBtn from '../assets/images/PuzzleCardBlueBtn.png';
 import EmptyPuzzle from '../assets/images/EmptyPuzzle.png';
 import FilledPuzzle from '../assets/images/Puzzle.png';
@@ -11,56 +10,58 @@ interface GreatQuizPageRightProps {
   movePage: (pageNumber: number) => void;
   currentPage: number;
   onComplete?: () => void;
-  showPuzzleModal?: () => void; // Add this prop
+  showPuzzleModal?: () => void;
 }
 
 const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, currentPage, onComplete, showPuzzleModal }) => {
   const { quizzes } = useQuizStore();
   const { userId } = useUserIdStore();
-  const { greatId } = useGreatPersonStore();
+  const { greatId, setPuzzleCount } = useGreatPersonStore(); 
   const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentExplanation, setCurrentExplanation] = useState('');
-  const [puzzleCount, setPuzzleCount] = useState(0);
-  const [correctCnt, setCorrectCnt] = useState(0); // New state to track correct answers
+  const [puzzleCount, setPuzzleCountState] = useState(0);
+  const [correctCnt, setCorrectCnt] = useState(0);
 
-  if (quizzes.length === 0) {
+  const currentQuiz = quizzes.length > 0 ? quizzes[currentQuizIndex] : null;
+
+  if (!currentQuiz) {
     return <div>문제를 준비중입니다..</div>;
   }
 
-  const currentQuiz = quizzes[currentQuizIndex];
-
   const handleOptionClick = async (option: string) => {
     setSelectedOption(option);
-  
+
     if (option === currentQuiz.answer) {
       const newCorrectCnt = correctCnt + 1;
-      setCorrectCnt(newCorrectCnt); // Update correct count
-      
+      setCorrectCnt(newCorrectCnt); 
+
       const newPuzzleCount = (currentQuizIndex + 1) % 5 === 0 ? puzzleCount + 1 : puzzleCount;
-      
+
       if ((currentQuizIndex + 1) % 5 === 0) {
+        setPuzzleCountState(newPuzzleCount);
         setPuzzleCount(newPuzzleCount);
-        updatePuzzleCount(newCorrectCnt); // Send correct count to the server
+        updatePuzzleCount(newCorrectCnt);
 
         if (showPuzzleModal) {
-          showPuzzleModal(); // Trigger PuzzleModal
+          showPuzzleModal(); // Show the puzzle modal
         }
+        resetQuiz(); // Reset quiz after 5 questions
       }
-  
+
       handleNextQuiz();
     } else {
       setCurrentExplanation(currentQuiz.explanation);
       setIsModalOpen(true);
     }
   };
-  
+
   const updatePuzzleCount = async (correctCnt: number) => {
     try {
       const response = await axios.put(`/api/quizzes/${greatId}/puzzles/`, {
         user_id: userId,
-        correct_cnt: correctCnt
+        correct_cnt: correctCnt,
       });
       console.log('Updated puzzle count:', response.data);
     } catch (error) {
@@ -72,7 +73,6 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
       }
     }
   };
-  
 
   const handleNextQuiz = () => {
     if (currentQuizIndex < quizzes.length - 1) {
@@ -83,11 +83,10 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
     }
   };
 
-  const handlePreviousQuiz = () => {
-    if (currentQuizIndex > 0) {
-      setCurrentQuizIndex(currentQuizIndex - 1);
-      setSelectedOption(null);
-    }
+  const resetQuiz = () => {
+    setCurrentQuizIndex(0); 
+    setSelectedOption(null);
+    setCorrectCnt(0); 
   };
 
   const puzzlePieces = [...Array(4)].map((_, index) => (
@@ -128,25 +127,7 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
           </div>
         </div>
         <div className="flex justify-center mt-24">
-          {currentQuizIndex > 0 && (
-            <button
-              className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
-              style={{ backgroundImage: `url(${RedBtn})` }}
-              onClick={handlePreviousQuiz}
-            >
-              이전 문제
-            </button>
-          )}
-          {currentPage === 12 || currentPage === 14 ? (
-            <button
-              className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
-              style={{ backgroundImage: `url(${BlueBtn})` }}
-              onClick={handleNextQuiz}
-            >
-              다음 문제
-            </button>
-          ) : null}
-          {currentPage === 16 ? (
+          {/* {currentPage === 12 ? (
             <button
               className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
               style={{ backgroundImage: `url(${BlueBtn})` }}
@@ -154,13 +135,14 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
             >
               완료
             </button>
-          ) : null}
+          ) : null} */}
         </div>
       </div>
       <ExplanationModal
         isOpen={isModalOpen}
         explanation={currentExplanation}
         onClose={() => setIsModalOpen(false)}
+        onNextQuiz={handleNextQuiz}
       />
     </div>
   );

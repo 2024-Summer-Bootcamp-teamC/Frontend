@@ -55,7 +55,10 @@ const GreatListModal: React.FC<CardProps> = ({ movePage, closeModal }) => {
   }, [param, userId]); // 의존성 배열에 param과 userId 추가
 
   const handleFlip = (index: number) => {
-    if (!isClickable) return; // 클릭 불가 시 아무 작업도 하지 않음
+    if (!isClickable) {
+      return; // 클릭 불가 시 아무 작업도 하지 않음
+    }
+
     setIsFlipped((prevState) => {
       const newFlipped = [...prevState];
       newFlipped[index] = !newFlipped[index];
@@ -65,6 +68,7 @@ const GreatListModal: React.FC<CardProps> = ({ movePage, closeModal }) => {
 
   const handleCardClick = (person: GreatPerson) => {
     if (!isClickable) return; // 클릭 불가 시 아무 작업도 하지 않음
+
     closeModal();
     setGreat(person);
 

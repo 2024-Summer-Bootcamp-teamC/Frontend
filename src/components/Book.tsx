@@ -63,7 +63,7 @@ const Book = forwardRef((props: BookProps, ref) => {
   const someStyle: React.CSSProperties = {}; // htmlFlip 에러 없앨라고 추가
   const [showModal, setShowModal] = useState(false); // 모달 상태 추가
   const [showGreatListModal, setShowGreatListModal] = useState(false); // GreatList 모달 상태 추가
-  const { showGreatList } = useGreatListStore();
+  const { showGreatList, setShowGreatList } = useGreatListStore();
   const { showVideoModal, setShowVideoModal } = useVideoModalStore();
 
   useImperativeHandle(ref, () => ({
@@ -129,6 +129,7 @@ const Book = forwardRef((props: BookProps, ref) => {
   return (
     <div className="relative flex flex-col items-center justify-center mt-[100px]">
       <HTMLFlipBook
+        style={someStyle}
         width={600}
         height={700}
         size="stretch"
@@ -289,17 +290,11 @@ const Book = forwardRef((props: BookProps, ref) => {
       {showGreatListModal && (
         <div className="fixed top-0 left-0 z-10 flex items-center justify-center w-full h-full bg-white bg-opacity-0">
           <GreatListPage movePage={handleCardClick} closeModal={() => setShowGreatListModal(false)} />
-          <button onClick={() => setShowGreatListModal(false)} className="absolute text-xl text-white top-5 right-5">
-            닫기
-          </button>
         </div>
       )}
       {showGreatList && (
         <div className="fixed top-0 left-0 z-10 flex items-center justify-center w-full h-full bg-white bg-opacity-0">
-          <GreatListModal movePage={handleCardClick} closeModal={() => setShowGreatListModal(false)} />
-          <button onClick={() => setShowGreatListModal(false)} className="absolute text-xl text-white top-5 right-5">
-            닫기
-          </button>
+          <GreatListModal movePage={handleCardClick} closeModal={() => setShowGreatList(false)} />
         </div>
       )}
 

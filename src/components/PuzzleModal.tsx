@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import imageSrc from '../assets/images/sejong.png';
 import RedBtn from '../assets/images/PuzzleCardRedBtn.png';
 import BlueBtn from '../assets/images/PuzzleCardBlueBtn.png';
@@ -29,7 +29,9 @@ const PuzzleModal: React.FC<PuzzleModalProps> = ({ openModal, movePage, closeMod
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className={`bg-white p-6 rounded-lg shadow-lg transition-opacity duration-500 ${openModal ? 'opacity-100' : 'opacity-0'}`}>
+      <div
+        className={`bg-white p-6 rounded-lg shadow-lg transition-opacity duration-500 ${openModal ? 'opacity-100' : 'opacity-0'}`}
+      >
         <h1 className="mb-6 text-5xl text-center">퍼즐 획득!</h1>
         <div className="relative flex justify-center mb-6">
           <img src={imageSrc} alt="세종대왕" className="my-10" />

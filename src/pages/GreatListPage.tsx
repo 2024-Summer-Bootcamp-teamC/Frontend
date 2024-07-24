@@ -43,6 +43,7 @@ const GreatListPage: React.FC<CardProps> = ({ movePage, closeModal }) => {
 
   const handleFlip = (index: number) => {
     if (!isClickable) return; // 클릭 불가 시 아무 작업도 하지 않음
+
     setIsFlipped((prevState) => {
       const newFlipped = [...prevState];
       newFlipped[index] = !newFlipped[index];

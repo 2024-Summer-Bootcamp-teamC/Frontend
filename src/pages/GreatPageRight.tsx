@@ -23,6 +23,7 @@ const GreatPageRight: React.FC<GreatPageRightProps> = ({ movePage }) => {
       const response = await axios.get(`/api/quizzes/${userId}/${greatId}/`);
       const quizzes = response.data;
       useQuizStore.getState().setQuizzes(quizzes);
+      console.log(quizzes);
       movePage(11); 
     } catch (error) {
       console.error('Error fetching quiz data:', error);

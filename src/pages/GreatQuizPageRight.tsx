@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import RedBtn from '../assets/images/PuzzleCardRedBtn.png';
+// import RedBtn from '../assets/images/PuzzleCardRedBtn.png';
 import BlueBtn from '../assets/images/PuzzleCardBlueBtn.png';
 import EmptyPuzzle from '../assets/images/EmptyPuzzle.png';
 import FilledPuzzle from '../assets/images/Puzzle.png';
@@ -24,7 +24,6 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
   const [currentExplanation, setCurrentExplanation] = useState('');
   const [puzzleCount, setPuzzleCountState] = useState(0);
   const [correctCnt, setCorrectCnt] = useState(0);
-  const [isPuzzleModalOpen, setPuzzleModalOpen] = useState(false);
   
   if (quizzes.length === 0) {
     return <div>문제를 준비중입니다..</div>;
@@ -84,17 +83,16 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
     }
   };
 
-  const handlePreviousQuiz = () => {
-    if (currentQuizIndex > 0) {
-      setCurrentQuizIndex(currentQuizIndex - 1);
-      setSelectedOption(null);
-    }
-  };
+  // const handlePreviousQuiz = () => {
+  //   if (currentQuizIndex > 0) {
+  //     setCurrentQuizIndex(currentQuizIndex - 1);
+  //     setSelectedOption(null);
+  //   }
+  // };
 
   const resetQuiz = () => {
     setCurrentQuizIndex(0); // Reset to the first quiz
     setSelectedOption(null);
-    setPuzzleModalOpen(false); // Close the modal after reset
     // Additional state reset logic if needed
   };
 

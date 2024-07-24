@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import imageSrc from '../assets/images/sejong.png';
 import RedBtn from '../assets/images/PuzzleCardRedBtn.png';
 import BlueBtn from '../assets/images/PuzzleCardBlueBtn.png';
+import axios from 'axios';
+import { useUserIdStore, useGreatPersonStore, useQuizStore } from '../store';
 
 interface PuzzleModalProps {
   openModal: boolean;
@@ -12,6 +14,9 @@ interface PuzzleModalProps {
 }
 
 const PuzzleModal: React.FC<PuzzleModalProps> = ({ openModal, movePage, closeModal, resetQuiz, showGreatList }) => {
+  const { greatId } = useGreatPersonStore();
+  const { userId } = useUserIdStore();
+
   useEffect(() => {
     if (!openModal) {
       resetQuiz();
@@ -20,10 +25,19 @@ const PuzzleModal: React.FC<PuzzleModalProps> = ({ openModal, movePage, closeMod
 
   if (!openModal) return null;
 
-  const handleAction = (pageNumber: number) => {
+  const handleAction= async(pageNumber: number) => {
     closeModal();
     if (pageNumber === 12) {
-      resetQuiz();
+      // resetQuiz();
+      try {
+        const response = await axios.get(`/api/quizzes/${userId}/${greatId}/`);
+        const quizzes = response.data;
+        useQuizStore.getState().setQuizzes(quizzes);
+        console.log(quizzes);
+        movePage(11); 
+      } catch (error) {
+        console.error('Error fetching quiz data:', error);
+      }
     }
     setTimeout(() => {
       if (pageNumber === 5) {

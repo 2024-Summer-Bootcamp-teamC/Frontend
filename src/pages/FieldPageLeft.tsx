@@ -16,7 +16,6 @@ const FieldPageLeft: React.FC<Props> = ({ movePage }) => {
     console.log(`${section} section clicked`);
     setParam({ field: section });
     setField(true);
-    // React Router를 사용하여 페이지 전환 로직을 추가할 수 있습니다.
     movePage(5);
     setShowGreatList(true);
   };

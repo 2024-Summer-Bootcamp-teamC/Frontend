@@ -174,12 +174,12 @@ const Book = forwardRef((props: BookProps, ref) => {
         {/* 분야 */}
         <Page number={3}>
           <div className="absolute inset-0 flex items-center justify-center">
-            <FieldPageLeft />
+            <FieldPageLeft movePage={movePage} />
           </div>
         </Page>
         <Page number={4}>
           <div className="absolute inset-0 flex items-center justify-center">
-            <FieldPageRight />
+            <FieldPageRight movePage={movePage} />
           </div>
         </Page>
 

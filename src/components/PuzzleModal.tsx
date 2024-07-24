@@ -27,7 +27,6 @@ const PuzzleModal: React.FC<PuzzleModalProps> = ({ openModal, movePage, closeMod
   }, [openModal]);
 
   useEffect(() => {
-    // 퀴즈 20개가 다 풀렸는지 확인하는 로직 (quizzes의 개수로 예시)
     if (quizzes.length >= 20) {
       setIsQuizCompleted(true);
     } else {
@@ -58,9 +57,10 @@ const PuzzleModal: React.FC<PuzzleModalProps> = ({ openModal, movePage, closeMod
   };
 
   const handleComplete = () => {
+    console.log('Complete button pressed');
     closeModal();
-    movePage(6);
-  };
+    movePage(7);
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-// import RedBtn from '../assets/images/PuzzleCardRedBtn.png';
 import BlueBtn from '../assets/images/PuzzleCardBlueBtn.png';
 import EmptyPuzzle from '../assets/images/EmptyPuzzle.png';
 import FilledPuzzle from '../assets/images/Puzzle.png';
@@ -24,12 +23,17 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
   const [currentExplanation, setCurrentExplanation] = useState('');
   const [puzzleCount, setPuzzleCountState] = useState(0);
   const [correctCnt, setCorrectCnt] = useState(0);
-  
-  if (quizzes.length === 0) {
+
+  const currentQuiz = quizzes.length > 0 ? quizzes[currentQuizIndex] : null;
+
+  useEffect(() => {
+    // Reset quiz whenever puzzleCount changes
+    resetQuiz();
+  }, [puzzleCount]);
+
+  if (!currentQuiz) {
     return <div>문제를 준비중입니다..</div>;
   }
-
-  const currentQuiz = quizzes[currentQuizIndex];
 
   const handleOptionClick = async (option: string) => {
     setSelectedOption(option);
@@ -95,11 +99,6 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
     setSelectedOption(null);
     // Additional state reset logic if needed
   };
-
-  useEffect(() => {
-    // Reset quiz whenever puzzleCount changes
-    resetQuiz();
-  }, [puzzleCount]);
 
   const puzzlePieces = [...Array(4)].map((_, index) => (
     <img

@@ -127,7 +127,7 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
           </div>
         </div>
         <div className="flex justify-center mt-24">
-          {currentPage === 16 ? (
+          {/* {currentPage === 12 ? (
             <button
               className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
               style={{ backgroundImage: `url(${BlueBtn})` }}
@@ -135,7 +135,7 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
             >
               완료
             </button>
-          ) : null}
+          ) : null} */}
         </div>
       </div>
       <ExplanationModal

@@ -15,7 +15,7 @@ interface PuzzleModalProps {
 }
 
 const PuzzleModal: React.FC<PuzzleModalProps> = ({ openModal, movePage, closeModal, resetQuiz, showGreatList }) => {
-  const { greatId } = useGreatPersonStore();
+  const { greatId, puzzle_cnt } = useGreatPersonStore();
   const { userId } = useUserIdStore();
   const quizzes = useQuizStore(state => state.quizzes);
   const [isQuizCompleted, setIsQuizCompleted] = useState(false);
@@ -72,7 +72,7 @@ const PuzzleModal: React.FC<PuzzleModalProps> = ({ openModal, movePage, closeMod
             <img src={imageSrc} alt="세종대왕" className="my-10 mr-14" />
           </div>
           <div className="text-center">
-            {isQuizCompleted ? (
+            {puzzle_cnt===4 ? (
               <button
                 className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
                 style={{ backgroundImage: `url(${RedBtn})` }}

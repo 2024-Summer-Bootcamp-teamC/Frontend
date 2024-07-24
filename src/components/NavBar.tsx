@@ -17,6 +17,7 @@ const NavBar: React.FC<NavBarProps> = ({ movePage, curPage, closeGreatListModal 
   const { setShowGreatList } = useGreatListStore();
 
   const handleClick = () => {
+    movePage(13);
     closeGreatListModal();
     setShowGreatList(false);
     movePage(13);

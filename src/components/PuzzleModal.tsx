@@ -56,12 +56,6 @@ const PuzzleModal: React.FC<PuzzleModalProps> = ({ openModal, movePage, closeMod
     }, 500);
   };
 
-  const handleComplete = () => {
-    console.log('Complete button pressed');
-    closeModal();
-    movePage(7);
-  };
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div className="relative">

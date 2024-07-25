@@ -23,7 +23,7 @@ const GreatPageRight: React.FC<GreatPageRightProps> = ({ movePage }) => {
 
   const handleQuiz = async () => {
     if (puzzle_cnt === 4) {
-      setExplanation('You have collected all 4 puzzles!');
+      setExplanation('퍼즐을 다 모으셨습니다. 다시 푸시겠습니까?');
       setIsModalOpen(true);
     } else {
       try {
@@ -46,6 +46,11 @@ const GreatPageRight: React.FC<GreatPageRightProps> = ({ movePage }) => {
     } catch (error) {
       console.error('Failed to update access count', error);
     }
+  };
+
+  const handleConfirm = () => {
+    setIsModalOpen(false);
+    // 여기에 추가적인 동작이 필요하면 작성
   };
 
   return (
@@ -81,6 +86,8 @@ const GreatPageRight: React.FC<GreatPageRightProps> = ({ movePage }) => {
         explanation={explanation}
         onClose={() => setIsModalOpen(false)}
         onNextQuiz={() => movePage(11)}
+        onConfirm={handleConfirm} // 추가된 prop
+        showConfirmButton={true} // 버튼을 표시하도록 설정
       />
     </>
   );

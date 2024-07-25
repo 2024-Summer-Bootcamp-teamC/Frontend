@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import imageSrc from '../assets/images/sejong.png';
 import RedBtn from '../assets/images/PuzzleCardRedBtn.png';
 import BlueBtn from '../assets/images/PuzzleCardBlueBtn.png';
@@ -17,8 +17,8 @@ interface PuzzleModalProps {
 const PuzzleModal: React.FC<PuzzleModalProps> = ({ openModal, movePage, closeModal, resetQuiz, showGreatList }) => {
   const { greatId, puzzle_cnt } = useGreatPersonStore();
   const { userId } = useUserIdStore();
-  const quizzes = useQuizStore(state => state.quizzes);
-  const [isQuizCompleted, setIsQuizCompleted] = useState(false);
+  // const quizzes = useQuizStore(state => state.quizzes);
+  // const [isQuizCompleted, setIsQuizCompleted] = useState(false);
 
   useEffect(() => {
     if (!openModal) {
@@ -26,13 +26,13 @@ const PuzzleModal: React.FC<PuzzleModalProps> = ({ openModal, movePage, closeMod
     }
   }, [openModal]);
 
-  useEffect(() => {
-    if (quizzes.length >= 20) {
-      setIsQuizCompleted(true);
-    } else {
-      setIsQuizCompleted(false);
-    }
-  }, [quizzes]);
+  // useEffect(() => {
+  //   if (quizzes.length >= 20) {
+  //     setIsQuizCompleted(true);
+  //   } else {
+  //     setIsQuizCompleted(false);
+  //   }
+  // }, [quizzes]);
 
   if (!openModal) return null;
 

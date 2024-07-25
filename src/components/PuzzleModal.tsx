@@ -112,13 +112,6 @@ const PuzzleModal: React.FC<PuzzleModalProps> = ({ openModal, movePage, closeMod
               >
                 Next Stage
               </button>
-              <button
-                className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
-                style={{ backgroundImage: `url(${BlueBtn})` }}
-                onClick={() => handleAction(5)}
-                >
-                카드 보러가기
-              </button>
             </>
           )}
         </div>

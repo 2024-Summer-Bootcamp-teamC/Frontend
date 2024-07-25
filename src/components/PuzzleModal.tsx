@@ -36,7 +36,7 @@ const PuzzleModal: React.FC<PuzzleModalProps> = ({ openModal, movePage, closeMod
 
   if (!openModal) return null;
 
-  const handleAction= async(pageNumber: number) => {
+  const handleAction = async (pageNumber: number) => {
     closeModal();
     try {
       const response = await axios.get(`/api/quizzes/${userId}/${greatId}/`);
@@ -60,45 +60,67 @@ const PuzzleModal: React.FC<PuzzleModalProps> = ({ openModal, movePage, closeMod
     console.log('Complete button pressed');
     closeModal();
     movePage(7);
-  }
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div className="relative">
         <img src={PuzzleModalImage} alt="모달두루마리" className={`shadow-lg transition-opacity duration-500 ${openModal ? 'opacity-100' : 'opacity-0'}`} />
         <div className="absolute inset-0 flex flex-col items-center justify-center p-6">
-          <h1 className="mb-6 mr-16 text-5xl">조각을 하사하노라</h1>
-          <div className="relative flex justify-center mb-6">
-            <img src={imageSrc} alt="세종대왕" className="my-10 mr-14" />
-          </div>
-          <div className="text-center">
-            {puzzle_cnt===4 ? (
+          {puzzle_cnt <= 4 ? (
+            <>
+              <h1 className="mb-6 mr-16 text-5xl">조각을 하사하노라</h1>
+              <div className="relative flex justify-center mb-6">
+                <img src={imageSrc} alt="세종대왕" className="my-10 mr-14" />
+              </div>
+              <div className="text-center">
+                {puzzle_cnt === 4 ? (
+                  <button
+                    className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
+                    style={{ backgroundImage: `url(${RedBtn})` }}
+                    onClick={handleComplete}
+                  >
+                    완료
+                  </button>
+                ) : (
+                  <>
+                    <button
+                      className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
+                      style={{ backgroundImage: `url(${RedBtn})` }}
+                      onClick={() => handleAction(12)}
+                    >
+                      이어서 풀기
+                    </button>
+                    <button
+                      className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
+                      style={{ backgroundImage: `url(${BlueBtn})` }}
+                      onClick={() => handleAction(5)}
+                    >
+                      카드 보러가기
+                    </button>
+                  </>
+                )}
+              </div>
+            </>
+          ) : (
+            <>
+              <h1 className="mb-6 text-5xl">Next Stage</h1>
+              <button
+                className="h-20 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
+                style={{ backgroundImage: `url(${RedBtn})` }}
+                onClick={() => handleAction(12)}
+              >
+                Next Stage
+              </button>
               <button
                 className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
-                style={{ backgroundImage: `url(${RedBtn})` }}
-                onClick={handleComplete}
-              >
-                완료
+                style={{ backgroundImage: `url(${BlueBtn})` }}
+                onClick={() => handleAction(5)}
+                >
+                카드 보러가기
               </button>
-            ) : (
-              <>
-                <button
-                  className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
-                  style={{ backgroundImage: `url(${RedBtn})` }}
-                  onClick={() => handleAction(12)}
-                >
-                  이어서 풀기
-                </button>
-                <button
-                  className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
-                  style={{ backgroundImage: `url(${BlueBtn})` }}
-                  onClick={() => handleAction(5)}
-                >
-                  카드 보러가기
-                </button>
-              </>
-            )}
-          </div>
+            </>
+          )}
         </div>
       </div>
     </div>

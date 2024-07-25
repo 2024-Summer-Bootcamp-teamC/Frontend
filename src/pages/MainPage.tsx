@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useUserIdStore } from '../store';
 import backgroundImage from '../assets/Bookmark.png';
 import { useTriggerChartStore } from '../store';
+import { useCardStore } from '../store';
 
 interface MainPageProps {
   next: () => void;
@@ -16,6 +17,17 @@ const MainPage: React.FC<MainPageProps> = (props) => {
   const [year, setYear] = useState('');
   const { setCount } = useTriggerChartStore();
   const [fadeOut, setFadeOut] = useState(false);
+  const { setCards } = useCardStore();
+
+  const fetchGreatPersons = async (userId: number) => {
+    try {
+      const response = await axios.get(`/api/greats/${userId}/`);
+      // 카드 분리
+      setCards(response.data);
+    } catch (error) {
+      console.error('위대한 인물 정보를 가져오는 중 오류 발생:', error);
+    }
+  };
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setName(e.target.value);
@@ -41,6 +53,7 @@ const MainPage: React.FC<MainPageProps> = (props) => {
       .then((response) => {
         console.log('Response:', response.data);
         setUserId(response.data.userID);
+        fetchGreatPersons(response.data.userID);
         setFadeOut(true);
         // 성공적으로 요청이 처리된 경우의 추가 작업
       })

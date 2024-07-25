@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import BlueBtn from '../assets/images/PuzzleCardBlueBtn.png';
 import EmptyPuzzle from '../assets/images/EmptyPuzzle.png';
 import FilledPuzzle from '../assets/images/Puzzle.png';
 import ExplanationModal from '../components/ExplanationModal';
@@ -13,16 +12,16 @@ interface GreatQuizPageRightProps {
   showPuzzleModal?: () => void;
 }
 
-const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, currentPage, onComplete, showPuzzleModal }) => {
+const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, showPuzzleModal }) => {
   const { quizzes } = useQuizStore();
   const { userId } = useUserIdStore();
-  const { greatId, setPuzzleCount } = useGreatPersonStore(); 
+  const { greatId, setPuzzleCount, puzzle_cnt } = useGreatPersonStore(); 
   const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentExplanation, setCurrentExplanation] = useState('');
-  const [puzzleCount, setPuzzleCountState] = useState(0);
   const [correctCnt, setCorrectCnt] = useState(0);
+  const [isLastQuiz, setIsLastQuiz] = useState(false);
 
   const currentQuiz = quizzes.length > 0 ? quizzes[currentQuizIndex] : null;
 
@@ -35,25 +34,27 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
 
     if (option === currentQuiz.answer) {
       const newCorrectCnt = correctCnt + 1;
-      setCorrectCnt(newCorrectCnt); 
+      setCorrectCnt(newCorrectCnt);
 
-      const newPuzzleCount = (currentQuizIndex + 1) % 5 === 0 ? puzzleCount + 1 : puzzleCount;
+      const newPuzzleCount = (currentQuizIndex + 1) % 5 === 0 ? puzzle_cnt + 1 : puzzle_cnt;
 
       if ((currentQuizIndex + 1) % 5 === 0) {
-        setPuzzleCountState(newPuzzleCount);
-        setPuzzleCount(newPuzzleCount);
+        setPuzzleCount(newPuzzleCount); // 퍼즐 개수 업데이트
         updatePuzzleCount(newCorrectCnt);
 
         if (showPuzzleModal) {
-          showPuzzleModal(); // Show the puzzle modal
+          showPuzzleModal();
         }
-        resetQuiz(); // Reset quiz after 5 questions
+        resetQuiz();
+      } else {
+        handleNextQuiz();
       }
-
-      handleNextQuiz();
     } else {
       setCurrentExplanation(currentQuiz.explanation);
       setIsModalOpen(true);
+      if ((currentQuizIndex + 1) % 5 === 0) {
+        setIsLastQuiz(true); 
+      }
     }
   };
 
@@ -84,15 +85,31 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
   };
 
   const resetQuiz = () => {
-    setCurrentQuizIndex(0); 
+    setCurrentQuizIndex(0);
     setSelectedOption(null);
-    setCorrectCnt(0); 
+    setCorrectCnt(0);
+  };
+
+  const handleCloseExplanationModal = () => {
+    setIsModalOpen(false);
+    if (isLastQuiz) {
+      const newPuzzleCount = puzzle_cnt + 1;
+      setPuzzleCount(newPuzzleCount); // 퍼즐 개수 업데이트
+      updatePuzzleCount(correctCnt);
+      if (showPuzzleModal) {
+        showPuzzleModal();
+      }
+      resetQuiz(); 
+      setIsLastQuiz(false);
+    } else {
+      handleNextQuiz();
+    }
   };
 
   const puzzlePieces = [...Array(4)].map((_, index) => (
     <img
       key={index}
-      src={index < puzzleCount ? FilledPuzzle : EmptyPuzzle}
+      src={index < puzzle_cnt ? FilledPuzzle : EmptyPuzzle}
       className="w-10 h-10 mx-1"
       alt="퍼즐 조각"
     />
@@ -127,21 +144,12 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
           </div>
         </div>
         <div className="flex justify-center mt-24">
-          {/* {currentPage === 12 ? (
-            <button
-              className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
-              style={{ backgroundImage: `url(${BlueBtn})` }}
-              onClick={onComplete}
-            >
-              완료
-            </button>
-          ) : null} */}
         </div>
       </div>
       <ExplanationModal
         isOpen={isModalOpen}
         explanation={currentExplanation}
-        onClose={() => setIsModalOpen(false)}
+        onClose={handleCloseExplanationModal}
         onNextQuiz={handleNextQuiz}
       />
     </div>

@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import BlueBtn from '../assets/images/PuzzleCardBlueBtn.png';
 import EmptyPuzzle from '../assets/images/EmptyPuzzle.png';
 import FilledPuzzle from '../assets/images/Puzzle.png';
 import ExplanationModal from '../components/ExplanationModal';
@@ -13,7 +12,7 @@ interface GreatQuizPageRightProps {
   showPuzzleModal?: () => void;
 }
 
-const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, currentPage, onComplete, showPuzzleModal }) => {
+const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, showPuzzleModal }) => {
   const { quizzes } = useQuizStore();
   const { userId } = useUserIdStore();
   const { greatId, setPuzzleCount } = useGreatPersonStore(); 
@@ -23,6 +22,7 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
   const [currentExplanation, setCurrentExplanation] = useState('');
   const [puzzleCount, setPuzzleCountState] = useState(0);
   const [correctCnt, setCorrectCnt] = useState(0);
+  const [isLastQuiz, setIsLastQuiz] = useState(false); // 5번째 문제를 확인하기 위한 상태
 
   const currentQuiz = quizzes.length > 0 ? quizzes[currentQuizIndex] : null;
 
@@ -35,7 +35,7 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
 
     if (option === currentQuiz.answer) {
       const newCorrectCnt = correctCnt + 1;
-      setCorrectCnt(newCorrectCnt); 
+      setCorrectCnt(newCorrectCnt);
 
       const newPuzzleCount = (currentQuizIndex + 1) % 5 === 0 ? puzzleCount + 1 : puzzleCount;
 
@@ -45,15 +45,18 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
         updatePuzzleCount(newCorrectCnt);
 
         if (showPuzzleModal) {
-          showPuzzleModal(); // Show the puzzle modal
+          showPuzzleModal(); // 퍼즐 모달 표시
         }
-        resetQuiz(); // Reset quiz after 5 questions
+        resetQuiz(); // 5번째 문제 후 퀴즈 초기화
+      } else {
+        handleNextQuiz();
       }
-
-      handleNextQuiz();
     } else {
       setCurrentExplanation(currentQuiz.explanation);
       setIsModalOpen(true);
+      if ((currentQuizIndex + 1) % 5 === 0) {
+        setIsLastQuiz(true); // 5번째 문제 틀렸을 때 상태 설정
+      }
     }
   };
 
@@ -84,9 +87,26 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
   };
 
   const resetQuiz = () => {
-    setCurrentQuizIndex(0); 
+    setCurrentQuizIndex(0);
     setSelectedOption(null);
-    setCorrectCnt(0); 
+    setCorrectCnt(0);
+  };
+
+  const handleCloseExplanationModal = () => {
+    setIsModalOpen(false);
+    if (isLastQuiz) {
+      const newPuzzleCount = puzzleCount + 1;
+      setPuzzleCountState(newPuzzleCount);
+      setPuzzleCount(newPuzzleCount);
+      updatePuzzleCount(correctCnt);
+      if (showPuzzleModal) {
+        showPuzzleModal(); // 퍼즐 모달 표시
+      }
+      resetQuiz(); // 퀴즈 초기화
+      setIsLastQuiz(false); // 상태 초기화
+    } else {
+      handleNextQuiz();
+    }
   };
 
   const puzzlePieces = [...Array(4)].map((_, index) => (
@@ -127,21 +147,12 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, curre
           </div>
         </div>
         <div className="flex justify-center mt-24">
-          {/* {currentPage === 12 ? (
-            <button
-              className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
-              style={{ backgroundImage: `url(${BlueBtn})` }}
-              onClick={onComplete}
-            >
-              완료
-            </button>
-          ) : null} */}
         </div>
       </div>
       <ExplanationModal
         isOpen={isModalOpen}
         explanation={currentExplanation}
-        onClose={() => setIsModalOpen(false)}
+        onClose={handleCloseExplanationModal} // 설명 모달 닫기 핸들러 수정
         onNextQuiz={handleNextQuiz}
       />
     </div>

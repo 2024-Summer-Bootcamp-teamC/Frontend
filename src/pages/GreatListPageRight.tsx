@@ -38,7 +38,7 @@ const GreatListPageRight: React.FC<CardProps> = ({ movePage }) => {
     }, 300);
     setIsFlipped(new Array(rightCards.length).fill(false));
     return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 클리어
-  }, [userId, setCards]);
+  }, [userId, rightCards]);
 
   const handleFlip = (index: number) => {
     if (!isClickable) return; // 클릭 불가 시 아무 작업도 하지 않음
@@ -85,7 +85,7 @@ const GreatListPageRight: React.FC<CardProps> = ({ movePage }) => {
   // 오른쪽 카드 필터링
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full p-4 space-y-4 scale-90">
+    <div className="flex flex-col items-center w-full h-full p-4 space-y-4 scale-90">
       <div
         className="grid grid-cols-2 gap-4 animate-card-enter"
         style={{ pointerEvents: isClickable ? 'auto' : 'none' }}

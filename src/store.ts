@@ -155,3 +155,21 @@ export const useTriggerChartStore = create<TriggerChartState>((set) => ({
   count: 0,
   setCount: () => set((state) => ({ count: state.count + 1 })),
 }));
+
+interface CardStore {
+  leftCards: GreatPerson[];
+  rightCards: GreatPerson[];
+  setCards: (cards: GreatPerson[]) => void;
+  resetCards: () => void;
+}
+
+export const useCardStore = create<CardStore>((set) => ({
+  leftCards: [],
+  rightCards: [],
+  setCards: (cards: GreatPerson[]) => {
+    const leftCards = cards.filter((_, index) => index % 4 < 2);
+    const rightCards = cards.filter((_, index) => index % 4 >= 2);
+    set({ leftCards, rightCards });
+  },
+  resetCards: () => set({ leftCards: [], rightCards: [] }),
+}));

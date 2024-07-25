@@ -1,6 +1,7 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps';
-import { useGreatListStore, useParamStore } from '../store';
+import { useGreatListStore, useParamStore, useUserIdStore, useCardStore } from '../store';
+import axios from 'axios';
 
 const geoUrl = '../../public/features.json';
 
@@ -32,7 +33,8 @@ const MapPage: React.FC<MapPageProps> = ({ part, move }) => {
   const { setParam, setField } = useParamStore();
   const { setShowGreatList } = useGreatListStore();
   const [rectWidth, setRectWidth] = useState<number>(0);
-
+  const { userId } = useUserIdStore();
+  const { setCards } = useCardStore();
   const textRef = useRef<SVGTextElement | null>(null);
 
   useEffect(() => {
@@ -45,9 +47,15 @@ const MapPage: React.FC<MapPageProps> = ({ part, move }) => {
 
   const handleMarkerClick = useCallback(
     (markerName: string) => {
-      setParam({ nation: markerName });
-      setField(false);
-      setShowGreatList(true);
+      const fetchData = async () => {
+        const response = await axios.get(`/api/greats/${userId}/`, {
+          params: { nation: markerName },
+        });
+
+        setCards(response.data);
+      };
+      fetchData();
+
       console.log(markerName);
       setTimeout(() => {
         move(5);

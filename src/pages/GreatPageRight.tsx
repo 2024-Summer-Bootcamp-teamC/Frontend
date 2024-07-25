@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import RedBtn from '../assets/images/GreatPageRedBtn.png';
 import BlueBtn from '../assets/images/GreatPageBlueBtn.png';
 import VerticalBtn from '../assets/images/GreatPageVerticalBtn.png';
+import ExplanationModal from '../components/ExplanationModal';
 import { useUserIdStore, useGreatPersonStore, useVideoModalStore, useQuizStore } from '../store';
 
 interface GreatPageRightProps {
@@ -10,23 +11,30 @@ interface GreatPageRightProps {
 }
 
 const GreatPageRight: React.FC<GreatPageRightProps> = ({ movePage }) => {
-  const { name, saying, life, greatId } = useGreatPersonStore();
+  const { name, saying, life, greatId, puzzle_cnt } = useGreatPersonStore();
   const { userId } = useUserIdStore();
   const { setShowVideoModal } = useVideoModalStore();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [explanation, setExplanation] = useState('');
 
   const handleLearnMore = () => {
     setShowVideoModal(true);
   };
 
   const handleQuiz = async () => {
-    try {
-      const response = await axios.get(`/api/quizzes/${userId}/${greatId}/`);
-      const quizzes = response.data;
-      useQuizStore.getState().setQuizzes(quizzes);
-      console.log(quizzes);
-      movePage(11); 
-    } catch (error) {
-      console.error('Error fetching quiz data:', error);
+    if (puzzle_cnt === 4) {
+      setExplanation('You have collected all 4 puzzles!');
+      setIsModalOpen(true);
+    } else {
+      try {
+        const response = await axios.get(`/api/quizzes/${userId}/${greatId}/`);
+        const quizzes = response.data;
+        useQuizStore.getState().setQuizzes(quizzes);
+        console.log(quizzes);
+        movePage(11);
+      } catch (error) {
+        console.error('Error fetching quiz data:', error);
+      }
     }
   };
 
@@ -56,7 +64,7 @@ const GreatPageRight: React.FC<GreatPageRightProps> = ({ movePage }) => {
         <button
           className="w-[200px] h-[70px] border-none text-white text-lg text-center bg-cover mb-5 font-semibold mr-5"
           style={{ backgroundImage: `url(${RedBtn})` }}
-          onClick={handleConversationClick} // Corrected here
+          onClick={handleConversationClick}
         >
           대화하기
         </button>
@@ -68,6 +76,12 @@ const GreatPageRight: React.FC<GreatPageRightProps> = ({ movePage }) => {
           퀴즈풀기
         </button>
       </div>
+      <ExplanationModal
+        isOpen={isModalOpen}
+        explanation={explanation}
+        onClose={() => setIsModalOpen(false)}
+        onNextQuiz={() => movePage(11)}
+      />
     </>
   );
 };

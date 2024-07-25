@@ -56,12 +56,6 @@ const PuzzleModal: React.FC<PuzzleModalProps> = ({ openModal, movePage, closeMod
     }, 500);
   };
 
-  const handleComplete = () => {
-    console.log('Complete button pressed');
-    closeModal();
-    movePage(7);
-  };
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div className="relative">
@@ -78,8 +72,8 @@ const PuzzleModal: React.FC<PuzzleModalProps> = ({ openModal, movePage, closeMod
                   <button
                     className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
                     style={{ backgroundImage: `url(${RedBtn})` }}
-                    onClick={handleComplete}
-                  >
+                    onClick={() => handleAction(7)}
+                    >
                     완료
                   </button>
                 ) : (

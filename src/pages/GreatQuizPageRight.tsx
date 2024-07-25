@@ -22,7 +22,7 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, showP
   const [currentExplanation, setCurrentExplanation] = useState('');
   const [puzzleCount, setPuzzleCountState] = useState(0);
   const [correctCnt, setCorrectCnt] = useState(0);
-  const [isLastQuiz, setIsLastQuiz] = useState(false); // 5번째 문제를 확인하기 위한 상태
+  const [isLastQuiz, setIsLastQuiz] = useState(false);
 
   const currentQuiz = quizzes.length > 0 ? quizzes[currentQuizIndex] : null;
 
@@ -45,9 +45,9 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, showP
         updatePuzzleCount(newCorrectCnt);
 
         if (showPuzzleModal) {
-          showPuzzleModal(); // 퍼즐 모달 표시
+          showPuzzleModal();
         }
-        resetQuiz(); // 5번째 문제 후 퀴즈 초기화
+        resetQuiz();
       } else {
         handleNextQuiz();
       }
@@ -55,7 +55,7 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, showP
       setCurrentExplanation(currentQuiz.explanation);
       setIsModalOpen(true);
       if ((currentQuizIndex + 1) % 5 === 0) {
-        setIsLastQuiz(true); // 5번째 문제 틀렸을 때 상태 설정
+        setIsLastQuiz(true); 
       }
     }
   };
@@ -100,10 +100,10 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, showP
       setPuzzleCount(newPuzzleCount);
       updatePuzzleCount(correctCnt);
       if (showPuzzleModal) {
-        showPuzzleModal(); // 퍼즐 모달 표시
+        showPuzzleModal();
       }
-      resetQuiz(); // 퀴즈 초기화
-      setIsLastQuiz(false); // 상태 초기화
+      resetQuiz(); 
+      setIsLastQuiz(false);
     } else {
       handleNextQuiz();
     }
@@ -152,7 +152,7 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, showP
       <ExplanationModal
         isOpen={isModalOpen}
         explanation={currentExplanation}
-        onClose={handleCloseExplanationModal} // 설명 모달 닫기 핸들러 수정
+        onClose={handleCloseExplanationModal}
         onNextQuiz={handleNextQuiz}
       />
     </div>

@@ -60,13 +60,10 @@ const Book = forwardRef((props: BookProps, ref) => {
   const bookRef = useRef<React.ElementRef<typeof HTMLFlipBook>>(null);
   const leftPageRef = useRef<{ playVideo: () => void; pauseVideo: () => void }>(null);
   const [curPage, setCurPage] = useState(0);
-  const [greatPersons, setGreatPersons] = useState<any[]>([]);
-  const [isFlipped, setIsFlipped] = useState<boolean[]>([]);
   const [puzzleModalOpen, setPuzzleModalOpen] = useState(false);
   const [chatPageKey, setChatPageKey] = useState(0); // 대화창을 새로고침하기 위한 key
   const someStyle: React.CSSProperties = {}; // htmlFlip 에러 없앨라고 추가
   const [showModal, setShowModal] = useState(false); // 모달 상태 추가
-  const [showGreatListModal, setShowGreatListModal] = useState(false); // GreatList 모달 상태 추가
   const { showVideoModal, setShowVideoModal } = useVideoModalStore();
   const { userId } = useUserIdStore();
   const { setCards } = useCardStore();
@@ -104,17 +101,27 @@ const Book = forwardRef((props: BookProps, ref) => {
     setShowModal(true);
   };
 
+  const fetchGreatPersons = async (userId: number) => {
+    try {
+      const response = await axios.get(`/api/greats/${userId}/`);
+      // 카드 분리
+      setCards(response.data);
+    } catch (error) {
+      console.error('위대한 인물 정보를 가져오는 중 오류 발생:', error);
+    }
+  };
+
   const handleShowGreatList = () => {
-    movePage(5);
+    fetchGreatPersons(userId);
+    setTimeout(() => movePage(5), 1000);
   };
 
   const handleCardClick = () => {
-    setShowGreatListModal(false);
     movePage(7);
+    fetchGreatPersons(userId);
   };
 
   const handleCloseModalAndMovePage = (pageNumber: number) => {
-    setShowGreatListModal(false);
     setTimeout(() => {
       movePage(pageNumber);
     }, 500);
@@ -301,6 +308,7 @@ const Book = forwardRef((props: BookProps, ref) => {
           </button>
         </div>
       )}
+
       {/* {showGreatListModal && (
         <div className="fixed top-0 left-0 z-10 flex items-center justify-center w-full h-full bg-white bg-opacity-0">
           <GreatListPage movePage={handleCardClick} closeModal={() => setShowGreatListModal(false)} />

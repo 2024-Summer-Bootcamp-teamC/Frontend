@@ -15,6 +15,9 @@ const GreatPageLeft: React.FC = () => {
     const totalPieces = 4; // 전체 퍼즐 조각 수
     const piecesToFill = Number(puzzle_cnt); // 채워진 퍼즐 조각 수
     const calc = (piecesToFill / totalPieces) * 100;
+    console.log('puzzle_cnt', puzzle_cnt);
+    console.log('piecesToFill:', piecesToFill);
+    console.log('calc', calc);
     setProgress(calc);
     setPuzzle(piecesToFill + 1);
     setKey(Date.now());

@@ -30,8 +30,6 @@ interface MapPageProps {
 
 const MapPage: React.FC<MapPageProps> = ({ part, move }) => {
   const [hoveredMarker, setHoveredMarker] = useState<string | null>(null);
-  const { setParam, setField } = useParamStore();
-  const { setShowGreatList } = useGreatListStore();
   const [rectWidth, setRectWidth] = useState<number>(0);
   const { userId } = useUserIdStore();
   const { setCards } = useCardStore();
@@ -59,9 +57,9 @@ const MapPage: React.FC<MapPageProps> = ({ part, move }) => {
       console.log(markerName);
       setTimeout(() => {
         move(5);
-      }, 100);
+      }, 1000);
     },
-    [move, setParam, setField, setShowGreatList],
+    [move],
   );
 
   const handleMarkerMouseEnter = (markerName: string) => setHoveredMarker(markerName);

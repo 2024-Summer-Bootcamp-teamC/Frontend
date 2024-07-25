@@ -20,10 +20,10 @@ body {
 
 @layer components {
     .modal-visible {
-      @apply animate-fadeIn visible;
+      @apply visible animate-fadeIn;
     }
     .modal-hidden {
-      @apply animate-fadeOut invisible;
+      @apply invisible animate-fadeOut;
     }
   }
   @keyframes cardEnter {

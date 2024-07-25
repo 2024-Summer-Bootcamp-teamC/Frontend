@@ -25,7 +25,7 @@ const GreatListPageLeft: React.FC<CardProps> = ({ movePage }) => {
     }, 300);
     setIsFlipped(new Array(leftCards.length).fill(false));
     return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 클리어
-  }, [userId, leftCards]);
+  }, [userId]);
 
   const handleFlip = (index: number) => {
     if (!isClickable) return; // 클릭 불가 시 아무 작업도 하지 않음

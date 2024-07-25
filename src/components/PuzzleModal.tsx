@@ -78,8 +78,8 @@ const PuzzleModal: React.FC<PuzzleModalProps> = ({ openModal, movePage, closeMod
                   <button
                     className="h-20 mx-4 text-2xl font-bold text-white bg-center bg-no-repeat bg-cover w-52"
                     style={{ backgroundImage: `url(${RedBtn})` }}
-                    onClick={handleComplete}
-                  >
+                    onClick={() => handleAction(7)}
+                    >
                     완료
                   </button>
                 ) : (

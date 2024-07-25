@@ -1,58 +1,111 @@
-import React, { useEffect, useState } from 'react';
-import ProgressBar from '@ramonak/react-progress-bar';
-import Puzzle from '../assets/images/Puzzle.png';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import CardFront from '../components/CardFront';
+import CardBack from '../components/CardBack';
+import ReactCardFlip from 'react-card-flip';
+import { useUserIdStore, useGreatPersonStore, useCardStore } from '../store';
+import '../index.css'; // CSS 파일을 추가하여 애니메이션 효과를 적용
+import { GreatPerson } from '../types';
 
-import { useGreatPersonStore } from '../store';
+interface CardProps {
+  movePage: (pageNumber: number) => void;
+}
 
-const GreatPageLeft: React.FC = () => {
-  const [progress, setProgress] = useState<number>(0);
-  const [puzzle, setPuzzle] = useState<number>(0);
-  const [key, setKey] = useState<number>(Date.now());
-  const { greatId, front_url, puzzle_cnt } = useGreatPersonStore();
+const GreatListPageLeft: React.FC<CardProps> = ({ movePage }) => {
+  const [isFlipped, setIsFlipped] = useState<boolean[]>([]);
+  const { userId } = useUserIdStore();
+  const { setGreat, setLife, setVideo_url, setInfo } = useGreatPersonStore();
+  const [isClickable, setIsClickable] = useState(false); // 클릭 가능 여부 상태 추가
+  const { leftCards, setCards } = useCardStore(); // 카드 스토어 사용
 
   useEffect(() => {
-    // 진행 상태 계산
-    const totalPieces = 4; // 전체 퍼즐 조각 수
-    const piecesToFill = Number(puzzle_cnt); // 채워진 퍼즐 조각 수
-    const calc = (piecesToFill / totalPieces) * 100;
-    setProgress(calc);
-    setPuzzle(piecesToFill + 1);
-    setKey(Date.now());
-  }, [greatId, puzzle_cnt]); // Listen for changes to puzzle_cnt
+    // 모달이 뜬 후 2초 동안 클릭 불가
+    const timer = setTimeout(() => {
+      setIsClickable(true);
+    }, 300);
+    setIsFlipped(new Array(leftCards.length).fill(false));
+    return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 클리어
+  }, [userId, leftCards]);
+
+  const handleFlip = (index: number) => {
+    if (!isClickable) return; // 클릭 불가 시 아무 작업도 하지 않음
+    setIsFlipped((prevState) => {
+      const newFlipped = [...prevState];
+      newFlipped[index] = !newFlipped[index];
+      return newFlipped;
+    });
+  };
+
+  const handleCardClick = (person: GreatPerson) => {
+    if (!isClickable) return; // 클릭 불가 시 아무 작업도 하지 않음
+
+    setGreat(person);
+
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`/api/greats/${userId}/${person.greatId}/`);
+
+        setLife(response.data.life);
+        setVideo_url(response.data.video_url);
+        setInfo(response.data.information_url);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+    movePage(7);
+    const fetchData2 = async () => {
+      try {
+        const response2 = await axios.get(`/api/greats/${userId}/`);
+        setCards(response2.data);
+      } catch {
+        console.error('카드세팅에러');
+      }
+    };
+
+    setTimeout(() => {
+      fetchData2();
+    }, 1000);
+  };
+
+  // 왼쪽 카드 필터링
 
   return (
-    <>
-      <div className="flex flex-col items-center justify-center w-[80%]">
-        {/* 이미지 */}
-        <img src={front_url} className="mb-[6rem] w-[60%]" alt="위인 사진" />
-        <div className="w-[80%]">
-          {/* 프로그레스 바 */}
-          <div className="w-[100%] grid" style={{ gridTemplateColumns: 'repeat(5, 25%)' }}>
-            <div style={{ gridColumn: `${puzzle}` }} className="relative">
-              {/* 퍼즐 이미지 */}
-              <img
-                src={Puzzle} // Puzzle 이미지 대신 greatPerson.quote에 해당하는 이미지 URL 사용
-                alt="퍼즐 이미지"
-                key={key}
-                className="absolute left-[-1.5rem] top-[-4rem] transition-opacity duration-[5000ms] opacity-0"
-                style={{ opacity: 1 }}
-              />
+    <div className="flex flex-col items-center w-full h-full p-4 space-y-4 scale-90">
+      <div
+        className="grid grid-cols-2 gap-4 animate-card-enter"
+        style={{ pointerEvents: isClickable ? 'auto' : 'none' }}
+      >
+        {leftCards.map((person, index) => (
+          <div
+            key={person.greatId}
+            className={`flex justify-center delay-${index}`}
+            onMouseEnter={() => handleFlip(index)}
+            onMouseLeave={() => handleFlip(index)}
+            onClick={() => handleCardClick(person)}
+          >
+            <div className="card-container max-w-[200px] max-h-[300px]">
+              <ReactCardFlip isFlipped={isFlipped[index]} flipDirection="horizontal">
+                <div className="card-size">
+                  <CardFront key={`front${person.greatId}`} name={person.name} image={person.front_url} />
+                </div>
+                <div className="card-size">
+                  <CardBack
+                    key={`back${person.greatId}`}
+                    name={person.name}
+                    saying_url={person.saying_url}
+                    category={`${person.nation}/${person.field}`}
+                    image={person.back_url}
+                  />
+                </div>
+              </ReactCardFlip>
             </div>
           </div>
-          {/* 프로그레스 바 */}
-          <ProgressBar completed={progress} bgColor="white" height="5px" baseBgColor="#88634A" />
-          {/* 프로그레스 바 라벨 */}
-          <div className="flex text-[#88634A] text-[20px] justify-between mt-4">
-            <span>0</span>
-            <span>1</span>
-            <span>2</span>
-            <span>3</span>
-            <span>4</span>
-          </div>
-        </div>
+        ))}
       </div>
-    </>
+    </div>
   );
 };
 
-export default GreatPageLeft;
+export default GreatListPageLeft;

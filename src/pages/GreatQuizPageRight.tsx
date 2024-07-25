@@ -15,12 +15,11 @@ interface GreatQuizPageRightProps {
 const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, showPuzzleModal }) => {
   const { quizzes } = useQuizStore();
   const { userId } = useUserIdStore();
-  const { greatId, setPuzzleCount } = useGreatPersonStore(); 
+  const { greatId, setPuzzleCount, puzzle_cnt } = useGreatPersonStore(); 
   const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentExplanation, setCurrentExplanation] = useState('');
-  const [puzzleCount, setPuzzleCountState] = useState(0);
   const [correctCnt, setCorrectCnt] = useState(0);
   const [isLastQuiz, setIsLastQuiz] = useState(false);
 
@@ -37,11 +36,10 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, showP
       const newCorrectCnt = correctCnt + 1;
       setCorrectCnt(newCorrectCnt);
 
-      const newPuzzleCount = (currentQuizIndex + 1) % 5 === 0 ? puzzleCount + 1 : puzzleCount;
+      const newPuzzleCount = (currentQuizIndex + 1) % 5 === 0 ? puzzle_cnt + 1 : puzzle_cnt;
 
       if ((currentQuizIndex + 1) % 5 === 0) {
-        setPuzzleCountState(newPuzzleCount);
-        setPuzzleCount(newPuzzleCount);
+        setPuzzleCount(newPuzzleCount); // 퍼즐 개수 업데이트
         updatePuzzleCount(newCorrectCnt);
 
         if (showPuzzleModal) {
@@ -95,9 +93,8 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, showP
   const handleCloseExplanationModal = () => {
     setIsModalOpen(false);
     if (isLastQuiz) {
-      const newPuzzleCount = puzzleCount + 1;
-      setPuzzleCountState(newPuzzleCount);
-      setPuzzleCount(newPuzzleCount);
+      const newPuzzleCount = puzzle_cnt + 1;
+      setPuzzleCount(newPuzzleCount); // 퍼즐 개수 업데이트
       updatePuzzleCount(correctCnt);
       if (showPuzzleModal) {
         showPuzzleModal();
@@ -112,7 +109,7 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, showP
   const puzzlePieces = [...Array(4)].map((_, index) => (
     <img
       key={index}
-      src={index < puzzleCount ? FilledPuzzle : EmptyPuzzle}
+      src={index < puzzle_cnt ? FilledPuzzle : EmptyPuzzle}
       className="w-10 h-10 mx-1"
       alt="퍼즐 조각"
     />

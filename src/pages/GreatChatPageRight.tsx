@@ -102,12 +102,14 @@ const MessageComponent: React.FC<{
             <div>{message.text}</div>
           </div>
         </div>
-        <img
-          src={currentSoundImage}
-          alt="스피커 버튼"
-          className="w-[16px] h-[16px] self-end ml-[10px] mb-[25px] cursor-pointer object-contain"
-          onClick={handleAudioPlay}
-        />
+        {message.sender !== '' && (
+          <img
+            src={currentSoundImage}
+            alt="스피커 버튼"
+            className="w-[16px] h-[16px] self-end ml-[10px] mb-[25px] cursor-pointer object-containf"
+            onClick={handleAudioPlay}
+          />
+        )}
       </div>
     </div>
   );
@@ -312,8 +314,8 @@ const GreatChatPageRight: React.FC<{ playVideo: () => void; pauseVideo: () => vo
             onCompositionStart={() => setIsComposing(true)}
             onCompositionEnd={() => setIsComposing(false)}
             onChange={(e) => setInput(e.target.value)}
-            className="border border-black rounded-md w-[400px] h-[40px] mb-[15px]"
-            placeholder="   메시지를 입력하세요."
+            className="border border-black rounded-md w-[400px] h-[40px] mb-[15px] pl-4"
+            placeholder="메시지를 입력하세요."
           />
           <button
             onClick={() => handleSendMessage(input)}

@@ -85,22 +85,23 @@ const MainPage: React.FC<MainPageProps> = (props) => {
             value={username}
             onChange={handleNameChange}
             placeholder="이름을 입력해주세요."
-            className="w-[100%] px-3 py-1 mx-auto text-lg transform border border-gray-300 rounded mb-10 text-center placeholder-black"
+            className="w-[100%] px-3 py-1 mx-auto text-lg transform border border-gray-300 rounded mb-10 text-center placeholder-gray-500"
           />
           <select
             id="age"
             value={year}
             onChange={handleYearChange}
-            className="w-[90%] px-3 py-1 mx-auto text-lg transform border border-gray-300 rounded text-center appearance-none"
+            className={`w-[90%] px-3 py-1 mx-auto text-lg transform border border-gray-300 rounded text-center appearance-none ${
+              year === '' ? 'text-gray-500' : 'text-black'
+            }`}
           >
-            <option className="m-10">출생년도를 선택해주세요.</option>
+            <option value="" className="text-gray-500">출생년도를 선택해주세요.</option>
             {years.map((year) => (
               <option key={year} value={year}>
                 {year}
               </option>
             ))}
           </select>
-
           <button
             className="text-black bg-cover w-[80%] h-[3rem] mt-10"
             onClick={handleClick}

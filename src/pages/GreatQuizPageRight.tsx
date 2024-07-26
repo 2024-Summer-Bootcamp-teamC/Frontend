@@ -117,11 +117,11 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, showP
 
   return (
     <div className="relative h-[700px]">
-      <div className="absolute top-0 left-1/2 transform -translate-x-1/2 mt-[40px]">
-        <div className="flex justify-center mb-3">{puzzlePieces}</div>
+      <div className="absolute top-3 left-1/2 transform -translate-x-1/2 mt-[40px]">
+        <div className="flex justify-center mb-4">{puzzlePieces}</div>
         <div className="w-[500px] h-[1px] bg-black"></div>
       </div>
-      <div className="flex flex-col items-center mt-[100px] h-[calc(100%-100px)] overflow-y-auto">
+      <div className="flex flex-col justify-center mt-24 h-[calc(100%-100px)] overflow-y-auto">
         <div className="text-[25px] flex flex-col mb-8 leading-tight max-w-md break-words text-center">
           <span>{currentQuiz.question}</span>
         </div>

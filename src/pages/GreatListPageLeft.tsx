@@ -6,6 +6,11 @@ import ReactCardFlip from 'react-card-flip';
 import { useUserIdStore, useGreatPersonStore, useCardStore } from '../store';
 import '../index.css'; // CSS 파일을 추가하여 애니메이션 효과를 적용
 import { GreatPerson } from '../types';
+import LssBlack from '../assets/images/LssBlack.png';
+import Lss1 from '../assets/images/Lss1.png';
+import Lss2 from '../assets/images/Lss2.png';
+import Lss3 from '../assets/images/Lss3.png';
+import Lss4 from '../assets/images/Lss4.png';
 
 interface CardProps {
   movePage: (pageNumber: number) => void;
@@ -14,7 +19,7 @@ interface CardProps {
 const GreatListPageLeft: React.FC<CardProps> = ({ movePage }) => {
   const [isFlipped, setIsFlipped] = useState<boolean[]>([]);
   const { userId } = useUserIdStore();
-  const { setGreat, setLife, setVideo_url, setInfo } = useGreatPersonStore();
+  const { setGreat, setLife, setVideo_url, setInfo, puzzle_cnt } = useGreatPersonStore();
   const [isClickable, setIsClickable] = useState(false); // 클릭 가능 여부 상태 추가
   const { leftCards, setCards } = useCardStore(); // 카드 스토어 사용
 
@@ -88,7 +93,25 @@ const GreatListPageLeft: React.FC<CardProps> = ({ movePage }) => {
             <div className="card-container max-w-[200px] max-h-[300px]">
               <ReactCardFlip isFlipped={isFlipped[index]} flipDirection="horizontal">
                 <div className="card-size">
-                  <CardFront key={`front${person.greatId}`} name={person.name} image={person.front_url} />
+                {person.name === "이순신" ? (
+                  <>
+                    <CardFront key={`front${person.greatId}`} name={person.name} image={LssBlack} />
+                    {puzzle_cnt >= 1 && (
+                      <CardFront key={`front${person.greatId}`} name={person.name} image={Lss1} />
+                    )}
+                    {puzzle_cnt >= 2 && (
+                      <CardFront key={`front${person.greatId}`} name={person.name} image={Lss2} />
+                    )}
+                    {puzzle_cnt >= 3 && (
+                      <CardFront key={`front${person.greatId}`} name={person.name} image={Lss3} />
+                    )}
+                    {puzzle_cnt >= 4 && (
+                      <CardFront key={`front${person.greatId}`} name={person.name} image={Lss4} />
+                    )}
+                    </>
+                  ) : (
+                    <CardFront key={`front${person.greatId}`} name={person.name} image={person.front_url} />
+                  )}
                 </div>
                 <div className="card-size">
                   <CardBack

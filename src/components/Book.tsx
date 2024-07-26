@@ -10,7 +10,6 @@ import MapPage from '../pages/MapPage';
 import MainPage from '../pages/MainPage';
 import FieldPageLeft from '../pages/FieldPageLeft';
 import FieldPageRight from '../pages/FieldPageRight';
-import GreatListPage from '../pages/GreatListPage';
 import ChartPageLeft from '../pages/ChartPageLeft';
 import ChartPageRight from '../pages/ChartPageRight';
 import PuzzleModal from '../components/PuzzleModal';
@@ -18,8 +17,6 @@ import { useVideoModalStore } from '../store';
 import VideoModal from './VideoModal';
 import GreatListPageLetf from '../pages/GreatListPageLeft';
 import GreatListPageRight from '../pages/GreatListPageRight';
-import { useUserIdStore, useCardStore } from '../store';
-import axios from 'axios';
 
 interface PageCoverProps {
   children?: React.ReactNode;
@@ -60,17 +57,13 @@ const Book = forwardRef((props: BookProps, ref) => {
   const bookRef = useRef<React.ElementRef<typeof HTMLFlipBook>>(null);
   const leftPageRef = useRef<{ playVideo: () => void; pauseVideo: () => void }>(null);
   const [curPage, setCurPage] = useState(0);
-  const [greatPersons, setGreatPersons] = useState<any[]>([]);
-  const [isFlipped, setIsFlipped] = useState<boolean[]>([]);
   const [puzzleModalOpen, setPuzzleModalOpen] = useState(false);
   const [chatPageKey, setChatPageKey] = useState(0); // 대화창을 새로고침하기 위한 key
   const someStyle: React.CSSProperties = {}; // htmlFlip 에러 없앨라고 추가
   const [showModal, setShowModal] = useState(false); // 모달 상태 추가
   const [showGreatListModal, setShowGreatListModal] = useState(false); // GreatList 모달 상태 추가
   const { showVideoModal, setShowVideoModal } = useVideoModalStore();
-  const { userId } = useUserIdStore();
-  const { setCards } = useCardStore();
-
+  
   useImperativeHandle(ref, () => ({
     movePage(pageNumber: number) {
       if (bookRef.current) {
@@ -94,23 +87,12 @@ const Book = forwardRef((props: BookProps, ref) => {
     }
   };
 
-  const prevPage = () => {
-    if (bookRef.current) {
-      bookRef.current.pageFlip().flipPrev('top');
-    }
-  };
-
   const handleComplete = () => {
     setShowModal(true);
   };
 
   const handleShowGreatList = () => {
     movePage(5);
-  };
-
-  const handleCardClick = () => {
-    setShowGreatListModal(false);
-    movePage(7);
   };
 
   const handleCloseModalAndMovePage = (pageNumber: number) => {
@@ -280,10 +262,10 @@ const Book = forwardRef((props: BookProps, ref) => {
           </button>
         </div>
       )}
-      <div className="z-10">
+      {/* <div className="z-10">
         <button onClick={prevPage}>이전 페이지</button>
         <button onClick={nextPage}>다음 페이지</button>
-      </div>
+      </div> */}
 
       {showModal && (
         <div className="fixed top-0 left-0 z-10 flex items-center justify-center w-full h-full bg-white bg-opacity-70">
@@ -301,14 +283,6 @@ const Book = forwardRef((props: BookProps, ref) => {
           </button>
         </div>
       )}
-      {/* {showGreatListModal && (
-        <div className="fixed top-0 left-0 z-10 flex items-center justify-center w-full h-full bg-white bg-opacity-0">
-          <GreatListPage movePage={handleCardClick} closeModal={() => setShowGreatListModal(false)} />
-          <button onClick={() => setShowGreatListModal(false)} className="absolute text-xl text-white top-5 right-5">
-            닫기
-          </button>
-        </div>
-      )} */}
 
       {showVideoModal && (
         <div className="fixed top-0 left-0 z-[1000] flex items-center justify-center w-full h-full bg-white bg-opacity-70">

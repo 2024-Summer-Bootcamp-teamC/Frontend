@@ -49,6 +49,7 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, showP
       } else {
         handleNextQuiz();
       }
+      
     } else {
       setCurrentExplanation(currentQuiz.explanation);
       setIsModalOpen(true);

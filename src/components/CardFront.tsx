@@ -1,6 +1,6 @@
 import React from 'react';
 import CardFrontImage from '../assets/images/CardFrontImage.png';
-import FrontSejong from '../assets/images/FrontSejong.png';
+
 interface CardFrontProps {
   name: string;
   image: string;

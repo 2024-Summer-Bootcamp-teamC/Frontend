@@ -16,7 +16,6 @@ interface GreatPersonState {
   name: string;
   nation: string;
   field: string;
-  silhouette_url: string;
   front_url: string;
   back_url: string;
   saying_url: string;
@@ -37,7 +36,6 @@ export const useGreatPersonStore = create<GreatPersonState>((set) => ({
   name: '',
   nation: '',
   field: '',
-  silhouette_url: '',
   front_url: '',
   back_url: '',
   saying_url: '',
@@ -64,7 +62,6 @@ export const useGreatPersonStore = create<GreatPersonState>((set) => ({
       name: great.name,
       nation: great.nation,
       field: great.field,
-      silhouette_url: great.silhouette_url,
       front_url: great.front_url,
       back_url: great.back_url,
       saying: great.saying,

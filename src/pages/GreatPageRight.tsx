@@ -35,7 +35,7 @@ const GreatPageRight: React.FC<GreatPageRightProps> = ({ movePage }) => {
         movePage(11);
         console.log(movePage);
       } catch (error) {
-        console.error('Error fetching quiz data:', error);
+        console.error('퀴즈 데이터를 가져오는 중 오류가 발생했습니다:', error);
       }
     }
   };
@@ -44,9 +44,9 @@ const GreatPageRight: React.FC<GreatPageRightProps> = ({ movePage }) => {
     try {
       await axios.put(`/api/greats/${greatId}/talk/`, { access_cnt: true });
       movePage(9);
-      console.log('good');
+      console.log('성공적으로 업데이트되었습니다.');
     } catch (error) {
-      console.error('Failed to update access count', error);
+      console.error('접근 횟수 업데이트 실패', error);
     }
   };
 
@@ -65,9 +65,9 @@ const GreatPageRight: React.FC<GreatPageRightProps> = ({ movePage }) => {
         >
           더 알아보기
         </button>
-        <div className="text-[6rem] mt-[10rem]">{name}</div>
-        <div className="text-[1.2rem] m-1">{life}</div>
-        <div className="text-[2rem] ">{saying}</div>
+        <div className="text-[6rem] mt-[10rem] mx-5">{name}</div>
+        <div className="text-[1.2rem] m-1 mx-5">{life}</div>
+        <div className="text-[1.8rem] mx-5 whitespace-pre-line">{saying.replace(/\./g, '.\n')}</div>
         <button
           className="w-[200px] h-[70px] border-none text-white text-lg text-center bg-cover mb-5 font-semibold mr-5"
           style={{ backgroundImage: `url(${RedBtn})` }}

@@ -24,7 +24,7 @@ const CardFront: React.FC<CardFrontProps> = ({ name, image, overlayImages }) => 
           {overlayImages && overlayImages.map((overlayImage, index) => (
             <img
               key={index}
-              className={`absolute w-[65px] h-[85px] object-cover rounded-lg ${
+              className={`absolute w-[65px] h-[85px] object-cover ${
                 index === 0 ? 'top-0 left-0' : // 첫 번째 오버레이 이미지 위치 조정
                 index === 1 ? 'top-0 right-0' : // 두 번째 오버레이 이미지 위치 조정
                 index === 2 ? 'bottom-0 left-0' : // 세 번째 오버레이 이미지 위치 조정

@@ -84,17 +84,19 @@ const ChartPageLeft: React.FC = () => {
     const fetchData = async () => {
       try {
         const response1 = await axios.get('/api/dashboard/date-visits/');
-        const categories = response1.data.map((item: any) => item.date);
-        const data = response1.data.map((item: any) => parseInt(item.visit_total));
+        const filteredData = response1.data.filter((item: any) => item.date !== null && item.visit_total !== null);
+        const categories = filteredData.map((item: any) => item.date);
+        const data = filteredData.map((item: any) => parseInt(item.visit_total));
         setCategories(categories);
         setData(data);
 
         const response2 = await axios.get('/api/dashboard/chat-visits/');
         const colors = ['#F4C2C2', '#B8E0D2', '#D3B0E0', '#FDFD96', '#FFB7C5', '#C8A2C8', '#FFDAC1', '#FFB347'];
-        const pieData = response2.data.map((item: any, index: number) => ({
+        const filteredPieData = response2.data.filter((item: any) => item.name !== null && item.access_cnt !== null);
+        const pieData = filteredPieData.map((item: any, index: number) => ({
           name: item.name,
           y: parseInt(item.access_cnt),
-          color: colors[index % colors.length], // Assigning colors cyclically
+          color: colors[index % colors.length], // 색상을 순환하며 할당
         }));
         setPieData(pieData);
       } catch (error) {

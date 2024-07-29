@@ -87,8 +87,11 @@ const ChartPageRight: React.FC = () => {
     const fetchData = async () => {
       try {
         const response2 = await axios.get('/api/dashboard/correct-rate/');
-        setCorrectRateData(response2.data);
-        console.log(correctRateData);
+        const filteredData = response2.data.filter(
+          (item: CorrectRateData) => item.name !== null && item.correct_rate !== null,
+        );
+        setCorrectRateData(filteredData);
+        console.log(filteredData);
       } catch (error) {
         console.error(error);
       }

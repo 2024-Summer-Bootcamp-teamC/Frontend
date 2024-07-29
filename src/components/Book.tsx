@@ -40,11 +40,22 @@ interface PageProps {
 }
 
 const Page = forwardRef<HTMLDivElement, PageProps>((props, ref) => {
+  // 이미지의 소스 결정
   const imageSource = props.number % 2 === 0 ? 'images/tmpRight.png' : 'images/tmpLeft.png';
 
+  // 페이지의 왼쪽인지 오른쪽인지 결정
+  const isLeftPage = props.number % 2 !== 0;
+
+  // 조건에 따라 그림자 방향과 스타일을 설정
+  const shadowClass = isLeftPage ? 'shadow-[10px_0_20px_rgba(0,0,0,0.5)]' : 'shadow-[-10px_0_20px_rgba(0,0,0,0.5)]';
+
   return (
-    <div className="bg-gray-100" ref={ref}>
-      <img src={imageSource} alt="" className="w-[600px] h-[700px] fixed -z-10 rounded-l-sm rounded-r-sm" />
+    <div className="relative flex items-center justify-center bg-gray-100" ref={ref} style={{ height: '100vh' }}>
+      <img
+        src={imageSource}
+        alt=""
+        className={`w-[600px] h-[700px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -z-10 rounded-l-sm rounded-r-sm ${shadowClass}`}
+      />
       <div className="z-10">{props.children}</div>
     </div>
   );
@@ -262,31 +273,24 @@ const Book = forwardRef((props: BookProps, ref) => {
         <div className="fixed flex flex-col left-[5%] top-[15%] animate-slideInFromLeft z-50">
           <button
             onClick={() => handleCloseModalAndMovePage(1)}
-            className={`bg-cover w-[100px] h-[40px] mb-3 ${
-              (curPage === 1 || curPage === 2) ? 'bg-[url("assets/images/CountryIndex.png")]' : 'bg-[url("assets/images/FiledIndex.png")]'
-            }`}
+            className="bg-[url('assets/images/CountryIndex.png')] bg-cover w-[100px] h-[40px] mb-3"
           >
             나라별
           </button>
           <button
             onClick={() => handleCloseModalAndMovePage(3)}
-            className={`bg-cover w-[100px] h-[40px] mb-3 ${
-              (curPage === 3 || curPage === 4) ? 'bg-[url("assets/images/CountryIndex.png")]' : 'bg-[url("assets/images/FiledIndex.png")]'
-            }`}
+            className="bg-[url('assets/images/FiledIndex.png')] bg-cover w-[100px] h-[40px] mb-3"
           >
             분야별
           </button>
           <button
-            onClick={handleShowGreatList}
-            className={`bg-cover w-[100px] h-[40px] ${
-              (curPage === 5 || curPage === 6) ? 'bg-[url("assets/images/CountryIndex.png")]' : 'bg-[url("assets/images/FiledIndex.png")]'
-            }`}
+            onClick={handleShowGreatList} // 버튼 클릭 시 페이지 이동 후 모달 표시
+            className="bg-[url('assets/images/FiledIndex.png')] bg-cover w-[100px] h-[40px]"
           >
             전체
           </button>
         </div>
       )}
-
       {/* <div className="z-10">
         <button onClick={prevPage}>이전 페이지</button>
         <button onClick={nextPage}>다음 페이지</button>

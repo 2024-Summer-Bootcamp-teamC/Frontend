@@ -3,7 +3,7 @@ import Sejong from '../assets/images/MiniSejong.png';
 import Sound1 from '../assets/images/Sound1.png';
 import Sound2 from '../assets/images/Sound2.png';
 import Sound3 from '../assets/images/Sound3.png';
-import { useGreatPersonStore } from '../store';
+import { useGreatPersonStore, useTriggerChatStore } from '../store';
 import '../index.css'; // CSS 파일에서 애니메이션 정의를 추가합니다.
 import useDidMountEffect from '../hooks/useDidMountEffect';
 
@@ -127,6 +127,7 @@ const GreatChatPageRight: React.FC<{ playVideo: () => void; pauseVideo: () => vo
   const socketRef = useRef<WebSocket | null>(null);
   const recognitionRef = useRef<any>(null);
   const { greatId, name } = useGreatPersonStore();
+  const { count } = useTriggerChatStore();
 
   // WebSocket 연결 설정
   useDidMountEffect(() => {
@@ -144,7 +145,7 @@ const GreatChatPageRight: React.FC<{ playVideo: () => void; pauseVideo: () => vo
         }
       };
     }
-  }, [greatId, name]);
+  }, [count]);
 
   const fetchTTSUrl = async (message: string): Promise<string | null> => {
     try {

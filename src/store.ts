@@ -170,3 +170,13 @@ export const useCardStore = create<CardStore>((set) => ({
   },
   resetCards: () => set({ leftCards: [], rightCards: [] }),
 }));
+
+interface TriggerChatState {
+  count: number;
+  setCount: () => void;
+}
+
+export const useTriggerChatStore = create<TriggerChatState>((set) => ({
+  count: 0,
+  setCount: () => set((state) => ({ count: state.count + 1 })),
+}));

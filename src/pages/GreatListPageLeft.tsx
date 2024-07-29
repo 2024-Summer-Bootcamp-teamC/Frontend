@@ -93,29 +93,29 @@ const GreatListPageLeft: React.FC<CardProps> = ({ movePage }) => {
             <div className="card-container max-w-[200px] max-h-[300px]">
               <ReactCardFlip isFlipped={isFlipped[index]} flipDirection="horizontal">
                 <div className="card-size">
-                {person.name === "이순신" ? (
-                  <>
-                    <CardFront key={`front${person.greatId}`} name={person.name} image={LssBlack} />
-                    {puzzle_cnt >= 1 && (
-                      <CardFront key={`front${person.greatId}`} name={person.name} image={Lss1} />
-                    )}
-                    {puzzle_cnt >= 2 && (
-                      <CardFront key={`front${person.greatId}`} name={person.name} image={Lss2} />
-                    )}
-                    {puzzle_cnt >= 3 && (
-                      <CardFront key={`front${person.greatId}`} name={person.name} image={Lss3} />
-                    )}
-                    {puzzle_cnt >= 4 && (
-                      <CardFront key={`front${person.greatId}`} name={person.name} image={Lss4} />
-                    )}
+                  {person.name === '이순신' ? (
+                    <>
+                      <CardFront key={`front-${person.greatId}-0`} name={person.name} image={LssBlack} />
+                      {puzzle_cnt >= 1 && (
+                        <CardFront key={`front-${person.greatId}-1`} name={person.name} image={Lss1} />
+                      )}
+                      {puzzle_cnt >= 2 && (
+                        <CardFront key={`front-${person.greatId}-2`} name={person.name} image={Lss2} />
+                      )}
+                      {puzzle_cnt >= 3 && (
+                        <CardFront key={`front-${person.greatId}-3`} name={person.name} image={Lss3} />
+                      )}
+                      {puzzle_cnt >= 4 && (
+                        <CardFront key={`front-${person.greatId}-4`} name={person.name} image={Lss4} />
+                      )}
                     </>
                   ) : (
-                    <CardFront key={`front${person.greatId}`} name={person.name} image={person.front_url} />
+                    <CardFront key={`front-${person.greatId}`} name={person.name} image={person.front_url} />
                   )}
                 </div>
                 <div className="card-size">
                   <CardBack
-                    key={`back${person.greatId}`}
+                    key={`back-${person.greatId}`}
                     name={person.name}
                     saying_url={person.saying_url}
                     category={`${person.nation}/${person.field}`}

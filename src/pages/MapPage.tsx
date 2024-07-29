@@ -39,14 +39,16 @@ const MapPage: React.FC<MapPageProps> = ({ part, move }) => {
 
   useEffect(() => {
     if (textRef.current) {
-      // 텍스트의 너비를 측정하고 사각형의 너비를 설정
       const bbox = textRef.current.getBBox();
       setRectWidth(bbox.width + 20); // 여백을 추가하여 너비 조정
     }
   }, [hoveredMarker]);
 
   const handleMarkerClick = useCallback(
-    (markerName: string) => {
+    (e: React.MouseEvent<SVGElement, MouseEvent>, markerName: string) => {
+      e.preventDefault(); // 브라우저 기본 동작 방지
+      e.stopPropagation(); // 이벤트 전파 방지
+
       const fetchData = async () => {
         const response = await axios.get(`/api/greats/${userId}/`, {
           params: { nation: markerName },
@@ -61,7 +63,7 @@ const MapPage: React.FC<MapPageProps> = ({ part, move }) => {
         move(5);
       }, 100);
     },
-    [move, setParam, setField, setShowGreatList],
+    [move, setParam, setField, setShowGreatList, userId, setCards],
   );
 
   const handleMarkerMouseEnter = (markerName: string) => setHoveredMarker(markerName);
@@ -77,15 +79,33 @@ const MapPage: React.FC<MapPageProps> = ({ part, move }) => {
     translate: '-[8.5%]',
   };
 
+  const preventDefault = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
   return (
-    <div className="flex items-center justify-center" style={containerStyle}>
+    <div className="flex items-center justify-center" style={containerStyle} onClick={preventDefault}>
       <ComposableMap
         projection="geoMercator"
         projectionConfig={{ scale: 110 }}
-        style={{ width: '100%', height: '100vh' }}
+        style={{ width: '100%', height: '100vh', userSelect: 'none' }} // 텍스트 선택 방지 스타일 추가
       >
         <Geographies geography={geoUrl}>
-          {({ geographies }) => geographies.map((geo) => <Geography key={geo.rsmKey} geography={geo} fill="#594637" />)}
+          {({ geographies }) =>
+            geographies.map((geo) => (
+              <Geography
+                key={geo.rsmKey}
+                geography={geo}
+                className="outline-none hover:outline-none active:outline-none"
+                style={{
+                  default: { fill: '#594637', outline: 'none' },
+                  hover: { fill: '#594637', outline: 'none' }, // hover 상태에서도 기본 색상 유지
+                  pressed: { fill: '#594637', outline: 'none' },
+                }}
+              />
+            ))
+          }
         </Geographies>
         {markers.map(({ name, coordinates, markerOffset }) => (
           <Marker
@@ -93,7 +113,7 @@ const MapPage: React.FC<MapPageProps> = ({ part, move }) => {
             coordinates={coordinates}
             onMouseEnter={() => handleMarkerMouseEnter(name)}
             onMouseLeave={handleMarkerMouseLeave}
-            onClick={() => handleMarkerClick(name)}
+            onClick={(e) => handleMarkerClick(e, name)}
           >
             <g
               fill="rgba(255,0,0,0.3)"

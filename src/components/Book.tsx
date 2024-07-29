@@ -75,6 +75,7 @@ const Book = forwardRef((props: BookProps, ref) => {
     },
   }));
 
+  
   const movePage = (pageNumber: number) => {
     if (pageNumber === 9) {
       setChatPageKey((prevKey) => prevKey + 1); // 대화창으로 이동할 때 key 변경
@@ -337,6 +338,7 @@ const Book = forwardRef((props: BookProps, ref) => {
           />
         </div>
       )}
+      
     </div>
   );
 });

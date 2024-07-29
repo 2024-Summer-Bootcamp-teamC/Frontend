@@ -49,7 +49,7 @@ const GreatListPageLeft: React.FC<CardProps> = ({ movePage }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`/api/greats/${userId}/${person.greatId}/`);
-
+        console.log(response.data.life);
         setLife(response.data.life);
         setVideo_url(response.data.video_url);
         setInfo(response.data.information_url);
@@ -93,18 +93,22 @@ const GreatListPageLeft: React.FC<CardProps> = ({ movePage }) => {
             <div className="card-container max-w-[200px] max-h-[300px]">
               <ReactCardFlip isFlipped={isFlipped[index]} flipDirection="horizontal">
                 <div className="card-size">
-                  {person.name === "이순신" ? (
-                    <CardFront 
-                      key={`front${person.greatId}`} 
-                      name={person.name} 
-                      image={LssBlack} 
+                  {person.name === '이순신' ? (
+                    <CardFront
+                      key={`front${person.greatId}`}
+                      name={person.name}
+                      image={LssBlack}
                       overlayImages={
-                        puzzle_cnt === 1 ? [Lss1] : 
-                        puzzle_cnt === 2 ? [Lss1, Lss2] : 
-                        puzzle_cnt === 3 ? [Lss1, Lss2, Lss3] : 
-                        puzzle_cnt === 4 ? [Lss1, Lss2, Lss3, Lss4] : 
-                        []
-                      } 
+                        puzzle_cnt === 1
+                          ? [Lss1]
+                          : puzzle_cnt === 2
+                            ? [Lss1, Lss2]
+                            : puzzle_cnt === 3
+                              ? [Lss1, Lss2, Lss3]
+                              : puzzle_cnt === 4
+                                ? [Lss1, Lss2, Lss3, Lss4]
+                                : []
+                      }
                     />
                   ) : (
                     <CardFront key={`front${person.greatId}`} name={person.name} image={person.front_url} />

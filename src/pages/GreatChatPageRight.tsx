@@ -183,7 +183,9 @@ const GreatChatPageRight: React.FC<{ playVideo: () => void; pauseVideo: () => vo
 
   const handleNewMessage = async (sender: string, text: string) => {
     if (loading) {
-      setLoading(false); // 첫 번째 메시지가 오면 로딩 상태를 false로 설정
+      setTimeout(() => {
+        setLoading(false); // 첫 번째 메시지가 오면 로딩 상태를 false로 설정
+      }, 1000);
     }
     const newMessage: Message = { id: Date.now(), sender, text, isTtsReady: false };
     setMessages((prevMessages) => [...prevMessages, newMessage]);

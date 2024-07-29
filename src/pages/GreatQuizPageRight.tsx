@@ -3,6 +3,7 @@ import axios from 'axios';
 import EmptyPuzzle from '../assets/images/EmptyPuzzle.png';
 import FilledPuzzle from '../assets/images/Puzzle.png';
 import ExplanationModal from '../components/ExplanationModal';
+import QuizCheckModal from '../components/QuizCheckModal'; // Import QuizCheckModal
 import { useQuizStore, useUserIdStore, useGreatPersonStore } from '../store';
 
 interface GreatQuizPageRightProps {
@@ -22,6 +23,8 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, showP
   const [currentExplanation, setCurrentExplanation] = useState('');
   const [correctCnt, setCorrectCnt] = useState(0);
   const [isLastQuiz, setIsLastQuiz] = useState(false);
+  const [isQuizCheckModalOpen, setIsQuizCheckModalOpen] = useState(false); 
+  const [isCorrectAnswer, setIsCorrectAnswer] = useState(false); // Add state for answer correctness
 
   const currentQuiz = quizzes.length > 0 ? quizzes[currentQuizIndex] : null;
 
@@ -31,33 +34,35 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, showP
 
   const handleOptionClick = async (option: string) => {
     setSelectedOption(option);
-
+  
     if (option === currentQuiz.answer) {
       const newCorrectCnt = correctCnt + 1;
       setCorrectCnt(newCorrectCnt);
-
+      setIsCorrectAnswer(true); // 정답으로 표시
+  
       const newPuzzleCount = (currentQuizIndex + 1) % 5 === 0 ? puzzle_cnt + 1 : puzzle_cnt;
-
+  
       if ((currentQuizIndex + 1) % 5 === 0) {
-        setPuzzleCount(newPuzzleCount); // 퍼즐 개수 업데이트
+        setPuzzleCount(newPuzzleCount);
         updatePuzzleCount(newCorrectCnt);
-
+  
         if (showPuzzleModal) {
           showPuzzleModal();
         }
         resetQuiz();
-      } else {
-        handleNextQuiz();
       }
-      
     } else {
       setCurrentExplanation(currentQuiz.explanation);
-      setIsModalOpen(true);
+      setIsCorrectAnswer(false); // 오답으로 표시
       if ((currentQuizIndex + 1) % 5 === 0) {
-        setIsLastQuiz(true); 
+        setIsLastQuiz(true);
       }
     }
+  
+    // 정답이든 오답이든 QuizCheckModal을 열도록 수정
+    setIsQuizCheckModalOpen(true);
   };
+  
 
   const updatePuzzleCount = async (correctCnt: number) => {
     try {
@@ -95,7 +100,7 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, showP
     setIsModalOpen(false);
     if (isLastQuiz) {
       const newPuzzleCount = puzzle_cnt + 1;
-      setPuzzleCount(newPuzzleCount); // 퍼즐 개수 업데이트
+      setPuzzleCount(newPuzzleCount);
       updatePuzzleCount(correctCnt);
       if (showPuzzleModal) {
         showPuzzleModal();
@@ -107,6 +112,16 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, showP
     }
   };
 
+  const handleQuizCheckModalClose = () => {
+    setIsQuizCheckModalOpen(false);
+    if (isCorrectAnswer) {
+      handleNextQuiz(); // 정답인 경우 다음 퀴즈로 이동
+    } else {
+      setIsModalOpen(true); // 오답인 경우 ExplanationModal 열기
+    }
+  };
+  
+  
   const puzzlePieces = [...Array(4)].map((_, index) => (
     <img
       key={index}
@@ -153,6 +168,16 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, showP
         onClose={handleCloseExplanationModal}
         onNextQuiz={handleNextQuiz}
       />
+
+
+      {isQuizCheckModalOpen && (
+        <QuizCheckModal
+          isOpen={isQuizCheckModalOpen}
+          isCorrect={isCorrectAnswer} // 정답 여부를 QuizCheckModal에 전달
+          onClose={handleQuizCheckModalClose} // QuizCheckModal이 닫힐 때 호출할 함수
+          onNextQuiz={() => {}} // 현재는 빈 함수로 설정
+        />
+      )}
     </div>
   );
 };

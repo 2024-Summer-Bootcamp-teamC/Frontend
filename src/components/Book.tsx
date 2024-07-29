@@ -13,10 +13,11 @@ import FieldPageRight from '../pages/FieldPageRight';
 import ChartPageLeft from '../pages/ChartPageLeft';
 import ChartPageRight from '../pages/ChartPageRight';
 import PuzzleModal from '../components/PuzzleModal';
-import { useVideoModalStore } from '../store';
+import { useVideoModalStore, useCardStore, useUserIdStore } from '../store';
 import VideoModal from './VideoModal';
 import GreatListPageLetf from '../pages/GreatListPageLeft';
 import GreatListPageRight from '../pages/GreatListPageRight';
+import axios from 'axios';
 
 interface PageCoverProps {
   children?: React.ReactNode;
@@ -63,7 +64,9 @@ const Book = forwardRef((props: BookProps, ref) => {
   const [showModal, setShowModal] = useState(false); // 모달 상태 추가
   const [showGreatListModal, setShowGreatListModal] = useState(false); // GreatList 모달 상태 추가
   const { showVideoModal, setShowVideoModal } = useVideoModalStore();
-  
+  const { setCards } = useCardStore();
+  const { userId } = useUserIdStore();
+
   useImperativeHandle(ref, () => ({
     movePage(pageNumber: number) {
       if (bookRef.current) {
@@ -92,11 +95,26 @@ const Book = forwardRef((props: BookProps, ref) => {
   };
 
   const handleShowGreatList = () => {
-    movePage(5);
+    const fetchGreatPersons = async (userId: number) => {
+      try {
+        const response = await axios.get(`/api/greats/${userId}/`);
+        // 카드 분리
+        setCards(response.data);
+      } catch (error) {
+        console.error('위대한 인물 정보를 가져오는 중 오류 발생:', error);
+      }
+    };
+
+    fetchGreatPersons(userId);
+
+    setTimeout(() => {
+      movePage(5);
+    }, 500);
   };
 
   const handleCloseModalAndMovePage = (pageNumber: number) => {
     setShowGreatListModal(false);
+
     setTimeout(() => {
       movePage(pageNumber);
     }, 500);

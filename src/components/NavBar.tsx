@@ -34,7 +34,7 @@ const NavBar: React.FC<NavBarProps> = ({ movePage, curPage }) => {
           >
             {isHoveredLogout ? <span>로그아웃</span> : <img src={Power} alt="Profile" className="w-[30px] h-[30px]" />}
           </div>
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center cursor-pointer" onClick={() => movePage(5)} >
             <div className="text-[20px] font-bold">We in</div>
             <img src="images/jeon.png" className="w-[57px] h-[45px]" alt="Logo" />
           </div>

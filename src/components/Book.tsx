@@ -262,24 +262,31 @@ const Book = forwardRef((props: BookProps, ref) => {
         <div className="fixed flex flex-col left-[5%] top-[15%] animate-slideInFromLeft z-50">
           <button
             onClick={() => handleCloseModalAndMovePage(1)}
-            className="bg-[url('assets/images/CountryIndex.png')] bg-cover w-[100px] h-[40px] mb-3"
+            className={`bg-cover w-[100px] h-[40px] mb-3 ${
+              (curPage === 1 || curPage === 2) ? 'bg-[url("assets/images/CountryIndex.png")]' : 'bg-[url("assets/images/FiledIndex.png")]'
+            }`}
           >
             나라별
           </button>
           <button
             onClick={() => handleCloseModalAndMovePage(3)}
-            className="bg-[url('assets/images/FiledIndex.png')] bg-cover w-[100px] h-[40px] mb-3"
+            className={`bg-cover w-[100px] h-[40px] mb-3 ${
+              (curPage === 3 || curPage === 4) ? 'bg-[url("assets/images/CountryIndex.png")]' : 'bg-[url("assets/images/FiledIndex.png")]'
+            }`}
           >
             분야별
           </button>
           <button
-            onClick={handleShowGreatList} // 버튼 클릭 시 페이지 이동 후 모달 표시
-            className="bg-[url('assets/images/FiledIndex.png')] bg-cover w-[100px] h-[40px]"
+            onClick={handleShowGreatList}
+            className={`bg-cover w-[100px] h-[40px] ${
+              (curPage === 5 || curPage === 6) ? 'bg-[url("assets/images/CountryIndex.png")]' : 'bg-[url("assets/images/FiledIndex.png")]'
+            }`}
           >
             전체
           </button>
         </div>
       )}
+
       {/* <div className="z-10">
         <button onClick={prevPage}>이전 페이지</button>
         <button onClick={nextPage}>다음 페이지</button>

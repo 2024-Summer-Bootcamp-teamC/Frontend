@@ -13,14 +13,14 @@ interface MarkerType {
 
 const markers: MarkerType[] = [
   {
-    markerOffset: -35,
+    markerOffset: -45,
     name: '한국',
     coordinates: [126.978, 37.5665],
   },
-  { markerOffset: -35, name: '미국', coordinates: [-100.0369, 38.9072] },
-  { markerOffset: -15, name: '프랑스', coordinates: [5, 45] },
-  { markerOffset: -50, name: '네덜란드', coordinates: [5.3, 52.15] },
-  { markerOffset: -15, name: '독일', coordinates: [13.405, 52.52] },
+  { markerOffset: -45, name: '미국', coordinates: [-100.0369, 38.9072] },
+  { markerOffset: -5, name: '프랑스', coordinates: [5, 45] },
+  { markerOffset: -45, name: '네덜란드', coordinates: [5.3, 52.15] },
+  { markerOffset: -45, name: '독일', coordinates: [13.405, 52.52] },
 ];
 
 interface MapPageProps {
@@ -130,7 +130,7 @@ const MapPage: React.FC<MapPageProps> = ({ part, move }) => {
             {hoveredMarker === name && (
               <g>
                 <rect
-                  x={15} // 사각형의 x 좌표를 마커의 오른쪽으로 이동
+                  x={1} // 사각형의 x 좌표를 마커의 오른쪽으로 이동
                   y={markerOffset} // 사각형의 y 위치 조정
                   width={rectWidth} // 동적으로 조정된 너비
                   height="20" // 사각형의 높이
@@ -141,7 +141,7 @@ const MapPage: React.FC<MapPageProps> = ({ part, move }) => {
                 <text
                   ref={textRef} // 텍스트 요소의 참조 설정
                   textAnchor="start" // 텍스트를 왼쪽에 배치
-                  x={25} // 텍스트의 x 좌표를 사각형의 오른쪽으로 이동
+                  x={10} // 텍스트의 x 좌표를 사각형의 오른쪽으로 이동
                   y={markerOffset + 15} // 텍스트의 y 좌표, 사각형의 중앙에 맞추기
                   style={{ fontFamily: 'font-songmyung', fill: '#000000', fontSize: '0.8rem', fontWeight: 'bold' }}
                 >

@@ -68,7 +68,7 @@ const GreatPageRight: React.FC<GreatPageRightProps> = ({ movePage }) => {
         </button>
         <div className="text-[6rem] mt-[10rem] mx-5">{name}</div>
         <div className="text-[1.2rem] m-1 mx-5">{life}</div>
-        <div className="text-[1.8rem] mx-5 whitespace-pre-line">{saying.replace(/\./g, '.\n')}</div>
+        <div className="text-[1.8rem] mx-10 whitespace-pre-line">{saying.replace(/\./g, '.\n')}</div>
         <button
           className="w-[200px] h-[70px] border-none text-white text-lg text-center bg-cover mb-5 font-semibold mr-5"
           style={{ backgroundImage: `url(${RedBtn})` }}

@@ -5,6 +5,11 @@ import BlueBtn from '../assets/images/PuzzleCardBlueBtn.png';
 import PuzzleModalImage from '../assets/images/PuzzleModalImage.png';
 import axios from 'axios';
 import { useUserIdStore, useGreatPersonStore, useQuizStore } from '../store';
+import lss1 from '../assets/images/Lss1.png';
+import lss2 from '../assets/images/Lss2.png';
+import lss3 from '../assets/images/Lss3.png';
+import lss4 from '../assets/images/Lss4.png';
+
 
 interface PuzzleModalProps {
   openModal: boolean;
@@ -15,7 +20,7 @@ interface PuzzleModalProps {
 }
 
 const PuzzleModal: React.FC<PuzzleModalProps> = ({ openModal, movePage, closeModal, resetQuiz, showGreatList }) => {
-  const { greatId, puzzle_cnt } = useGreatPersonStore();
+  const { greatId, puzzle_cnt, name } = useGreatPersonStore();
   const { userId } = useUserIdStore();
   // const quizzes = useQuizStore(state => state.quizzes);
   // const [isQuizCompleted, setIsQuizCompleted] = useState(false);
@@ -56,6 +61,25 @@ const PuzzleModal: React.FC<PuzzleModalProps> = ({ openModal, movePage, closeMod
     }, 500);
   };
 
+  const getImageSrc = () => {
+    if (name === "이순신") {
+      switch (puzzle_cnt) {
+        case 1:
+          return lss1;
+        case 2:
+          return lss2;
+        case 3:
+          return lss3;
+        case 4:
+          return lss4;
+        default:
+          return imageSrc;
+      }
+    }
+    return imageSrc;
+  };
+
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div className="relative">
@@ -65,7 +89,7 @@ const PuzzleModal: React.FC<PuzzleModalProps> = ({ openModal, movePage, closeMod
             <>
               <h1 className="mb-6 mr-16 text-5xl">조각을 하사하노라</h1>
               <div className="relative flex justify-center mb-6">
-                <img src={imageSrc} alt="세종대왕" className="my-10 mr-14" />
+                <img src={getImageSrc()} alt="세종대왕" className="w-48 my-10 -rotate-12 mr-14" />
               </div>
               <div className="text-center">
                 {puzzle_cnt === 4 ? (

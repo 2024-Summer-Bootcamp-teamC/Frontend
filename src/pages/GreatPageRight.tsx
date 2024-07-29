@@ -31,7 +31,9 @@ const GreatPageRight: React.FC<GreatPageRightProps> = ({ movePage }) => {
         const quizzes = response.data;
         useQuizStore.getState().setQuizzes(quizzes);
         console.log(quizzes);
+        console.log(movePage);
         movePage(11);
+        console.log(movePage);
       } catch (error) {
         console.error('Error fetching quiz data:', error);
       }

@@ -60,29 +60,31 @@ const GreatPageRight: React.FC<GreatPageRightProps> = ({ movePage }) => {
     <>
       <div className="flex flex-col items-center mb-[150px]">
         <button
-          className="fixed w-[50px] h-[150px] border-none text-white text-[16px] text-center bg-cover right-[100px] top-[-10px]"
+          className="fixed w-[50px] h-[150px] border-none text-white text-[17px] text-center bg-cover right-[100px] top-[-10px]"
           style={{ backgroundImage: `url(${VerticalBtn})`, writingMode: 'vertical-lr' }}
           onClick={handleLearnMore}
         >
           더 알아보기
         </button>
-        <div className="text-[6rem] mt-[10rem] mx-5">{name}</div>
-        <div className="text-[1.2rem] m-1 mx-5">{life}</div>
-        <div className="text-[1.8rem] mx-10 whitespace-pre-line">{saying.replace(/\./g, '.\n')}</div>
-        <button
-          className="w-[200px] h-[70px] border-none text-white text-lg text-center bg-cover mb-5 font-semibold mr-5"
-          style={{ backgroundImage: `url(${RedBtn})` }}
-          onClick={handleConversationClick}
-        >
-          대화하기
-        </button>
-        <button
-          className="w-[200px] h-[70px] border-none text-white text-lg text-center bg-cover font-semibold ml-5"
-          style={{ backgroundImage: `url(${BlueBtn})` }}
-          onClick={handleQuiz}
-        >
-          퀴즈풀기
-        </button>
+        <div className="text-[70px] mt-[10rem] mx-5 my-5">{name}</div>
+        <div className="text-[30px] mx-5 my-5">{life}</div>
+        <div className="text-[25px] mx-10 my-5 whitespace-pre-line">{saying.replace(/\./g, '.\n')}</div>
+        <div className="my-5">
+          <button
+            className="w-[200px] h-[70px] border-none text-white text-[20px] text-center bg-cover mb-5 font-semibold mr-5"
+            style={{ backgroundImage: `url(${RedBtn})` }}
+            onClick={handleConversationClick}
+          >
+            대화하기
+          </button>
+          <button
+            className="w-[200px] h-[70px] border-none text-white text-[20px] text-center bg-cover font-semibold ml-5"
+            style={{ backgroundImage: `url(${BlueBtn})` }}
+            onClick={handleQuiz}
+          >
+            퀴즈풀기
+          </button>
+        </div>
       </div>
       <ExplanationModal
         isOpen={isModalOpen}

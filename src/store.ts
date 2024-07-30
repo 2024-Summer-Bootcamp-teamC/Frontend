@@ -28,7 +28,7 @@ interface GreatPersonState {
   setInfo: (info: string) => void;
   setVideo_url: (url: string) => void;
   setGreat: (great: GreatPerson) => void;
-  setPuzzleCount: (count: number) => void; // Add this method
+  setPuzzleCount: (count: number) => void;
 }
 
 export const useGreatPersonStore = create<GreatPersonState>((set) => ({
@@ -66,6 +66,9 @@ export const useGreatPersonStore = create<GreatPersonState>((set) => ({
       back_url: great.back_url,
       saying: great.saying,
       puzzle_cnt: great.puzzle_cnt,
+      video_url: great.video_url,
+      information_url: great.information_url,
+      life: great.life,
     })),
   setPuzzleCount: (count: number) =>
     set(() => ({

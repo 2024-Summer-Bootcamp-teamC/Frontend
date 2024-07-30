@@ -9,4 +9,7 @@ export interface GreatPerson {
   saying_url: string;
   saying: string;
   puzzle_cnt: number;
+  video_url: string;
+  information_url: string;
+  life: string;
 }

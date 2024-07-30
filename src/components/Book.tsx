@@ -315,7 +315,7 @@ const Book = forwardRef((props: BookProps, ref) => {
 
       {showVideoModal && (
         <div className="fixed top-0 left-0 z-[1000] flex items-center justify-center w-full h-full bg-white bg-opacity-70">
-          <div className="bg-[#c4814e] p-[70px] rounded-lg">
+          <div className="bg-[#7e4e2a] p-[70px] rounded-lg">
             <VideoModal />
             <button
               onClick={() => setShowVideoModal(false)}

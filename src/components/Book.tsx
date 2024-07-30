@@ -86,7 +86,6 @@ const Book = forwardRef((props: BookProps, ref) => {
     },
   }));
 
-  
   const movePage = (pageNumber: number) => {
     if (pageNumber === 9) {
       setChatPageKey((prevKey) => prevKey + 1); // 대화창으로 이동할 때 key 변경
@@ -316,11 +315,11 @@ const Book = forwardRef((props: BookProps, ref) => {
 
       {showVideoModal && (
         <div className="fixed top-0 left-0 z-[1000] flex items-center justify-center w-full h-full bg-white bg-opacity-70">
-          <div className="bg-[#95a3b4] p-[70px] rounded-lg">
+          <div className="bg-[#7e4e2a] p-[70px] rounded-lg">
             <VideoModal />
             <button
               onClick={() => setShowVideoModal(false)}
-              className="absolute text-xl text-white bg-[#00315a] py-1 px-3 rounded-lg bottom-[23%] left-[48%]"
+              className="absolute text-xl text-white bg-[#952323] py-1 px-3 rounded-lg bottom-[23%] left-[48%]"
             >
               닫기
             </button>
@@ -342,7 +341,6 @@ const Book = forwardRef((props: BookProps, ref) => {
           />
         </div>
       )}
-      
     </div>
   );
 });

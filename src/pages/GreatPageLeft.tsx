@@ -29,26 +29,18 @@ const GreatPageLeft: React.FC = () => {
       <div className="flex flex-col items-center justify-center w-[80%]">
         {/* 이미지 */}
         <div className="relative flex flex-col items-center">
-        {name === "이순신" ? (
-          <div className="relative mb-[6rem] w-[60%]">
-            <img src={LssBlack} alt="이순신 실루엣" className="w-full h-auto" />
-            {puzzle_cnt >= 1 && (
-              <img src={Lss1} alt="이순신조각1" className="absolute top-0 left-0 w-1/2" />
-            )}
-            {puzzle_cnt >= 2 && (
-              <img src={Lss2} alt="이순신조각2" className="absolute top-0 right-0 w-1/2" />
-            )}
-            {puzzle_cnt >= 3 && (
-              <img src={Lss3} alt="이순신조각3" className="absolute bottom-0 left-0 w-1/2" />
-            )}
-            {puzzle_cnt >= 4 && (
-              <img src={Lss4} alt="이순신조각4" className="absolute bottom-0 right-0 w-1/2" />
-            )}
-          </div>
-        ) : (
-          <img src={front_url} alt="인물 사진" className="mb-[6rem] w-[60%]" />
-        )}
-      </div>
+          {name === '이순신' ? (
+            <div className="relative mb-[6rem] w-[60%]">
+              <img src={LssBlack} alt="이순신 실루엣" className="w-full h-auto" />
+              {puzzle_cnt >= 1 && <img src={Lss1} alt="이순신조각1" className="absolute top-0 left-0 w-1/2" />}
+              {puzzle_cnt >= 2 && <img src={Lss2} alt="이순신조각2" className="absolute top-0 right-0 w-1/2" />}
+              {puzzle_cnt >= 3 && <img src={Lss3} alt="이순신조각3" className="absolute bottom-0 left-0 w-1/2" />}
+              {puzzle_cnt >= 4 && <img src={Lss4} alt="이순신조각4" className="absolute bottom-0 right-0 w-1/2" />}
+            </div>
+          ) : (
+            <img src={front_url} alt="인물 사진" className="mb-[6rem] w-[60%]" />
+          )}
+        </div>
         <div className="w-[80%]">
           {/* 프로그레스 바 */}
           <div className="w-[100%] grid" style={{ gridTemplateColumns: 'repeat(5, 25%)' }}>
@@ -66,7 +58,7 @@ const GreatPageLeft: React.FC = () => {
           {/* 프로그레스 바 */}
           <ProgressBar completed={progress} bgColor="white" height="5px" baseBgColor="#88634A" />
           {/* 프로그레스 바 라벨 */}
-          <div className="flex text-[#88634A] text-[20px] justify-between mt-4">
+          <div className="flex text-[#88634A] text-[20px] justify-between">
             <span>0</span>
             <span>1</span>
             <span>2</span>

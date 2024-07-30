@@ -98,7 +98,7 @@ const GreatListPageRight: React.FC<CardProps> = ({ movePage }) => {
             onMouseLeave={() => handleFlip(index)}
             onClick={() => handleCardClick(person)}
           >
-            <div className="card-container max-w-[200px] max-h-[300px]">
+            <div className="card-container max-w-[200px] max-h-[300px] cursor-pointer">
               <ReactCardFlip isFlipped={isFlipped[index]} flipDirection="horizontal">
                 <div className="card-size">
                   <CardFront key={`front${person.greatId}`} name={person.name} image={person.front_url} />

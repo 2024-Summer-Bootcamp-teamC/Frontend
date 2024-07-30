@@ -90,7 +90,7 @@ const GreatListPageLeft: React.FC<CardProps> = ({ movePage }) => {
             onMouseLeave={() => handleFlip(index)}
             onClick={() => handleCardClick(person)}
           >
-            <div className="card-container max-w-[200px] max-h-[300px]">
+            <div className="card-container max-w-[200px] max-h-[300px] cursor-pointer">
               <ReactCardFlip isFlipped={isFlipped[index]} flipDirection="horizontal">
                 <div className="card-size">
                   {person.name === '이순신' ? (

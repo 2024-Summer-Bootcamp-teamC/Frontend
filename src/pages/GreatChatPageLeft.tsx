@@ -1,8 +1,7 @@
-import { forwardRef, useImperativeHandle, useRef } from 'react';
+import { forwardRef, useImperativeHandle, useRef, useEffect } from 'react';
 import EmptyPuzzle from '../assets/images/EmptyPuzzle.png';
 import FilledPuzzle from '../assets/images/Puzzle.png';
 import ArrowBack from '../assets/arrow_back.png';
-import Talking from '../assets/videos/talking.mp4';
 import { useGreatPersonStore } from '../store';
 
 interface GreatChatProps {
@@ -11,7 +10,7 @@ interface GreatChatProps {
 
 const GreatChatPageLeft = forwardRef<{ playVideo: () => void; pauseVideo: () => void }, GreatChatProps>(
   ({ movePage }, ref) => {
-    const { name, puzzle_cnt, front_url } = useGreatPersonStore();
+    const { name, puzzle_cnt, front_url, video_url } = useGreatPersonStore();
     const videoRef = useRef<HTMLVideoElement>(null);
 
     useImperativeHandle(ref, () => ({
@@ -26,6 +25,13 @@ const GreatChatPageLeft = forwardRef<{ playVideo: () => void; pauseVideo: () => 
         }
       },
     }));
+
+    useEffect(() => {
+      console.log('Current video URL:', video_url); // 상태 확인
+      if (videoRef.current) {
+        videoRef.current.load(); // 비디오 소스 새로고침
+      }
+    }, [video_url]);
 
     return (
       <>
@@ -48,16 +54,11 @@ const GreatChatPageLeft = forwardRef<{ playVideo: () => void; pauseVideo: () => 
               />
             ))}
           </div>
-          {name==="이순신" ? (
-              <video ref={videoRef} className="mb-1 w-[300px] h-[399.5px]  border-amber-800" loop muted>
-              <source src={Talking} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-            ): (
-              <img src={front_url} className="mb-1 w-[300px] h-[399.5px]" alt="위인 사진" />
-            )
-          }
-         <div className="text-[26px] mt-2">{name}</div>
+          <video ref={videoRef} className="mb-1 w-[300px] h-[399.5px] border-amber-800" loop muted>
+            <source src={video_url} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          <div className="text-[26px] mt-2">{name}</div>
         </div>
       </>
     );

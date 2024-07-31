@@ -275,13 +275,13 @@ const Book = forwardRef((props: BookProps, ref) => {
             onClick={() => handleCloseModalAndMovePage(1)}
             className="bg-[url('assets/images/CountryIndex.png')] bg-cover w-[100px] h-[40px] mb-3"
           >
-            나라별
+            나라
           </button>
           <button
             onClick={() => handleCloseModalAndMovePage(3)}
             className="bg-[url('assets/images/FiledIndex.png')] bg-cover w-[100px] h-[40px] mb-3"
           >
-            분야별
+            분야
           </button>
           <button
             onClick={handleShowGreatList} // 버튼 클릭 시 페이지 이동 후 모달 표시

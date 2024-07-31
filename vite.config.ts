@@ -18,9 +18,9 @@ export default defineConfig({
         ws: true,
       },
     },
-  },
-  hmr: {
-    protocol: 'wss',
-    host: 'weinjeon.com',
+    hmr: {
+      protocol: 'wss',
+      host: 'weinjeon.com',
+    },
   },
 });

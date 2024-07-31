@@ -15,7 +15,7 @@ import ChartPageRight from '../pages/ChartPageRight';
 import PuzzleModal from '../components/PuzzleModal';
 import { useVideoModalStore, useCardStore, useUserIdStore } from '../store';
 import VideoModal from './VideoModal';
-import GreatListPageLetf from '../pages/GreatListPageLeft';
+import GreatListPageLeft from '../pages/GreatListPageLeft';
 import GreatListPageRight from '../pages/GreatListPageRight';
 import axios from 'axios';
 
@@ -40,13 +40,8 @@ interface PageProps {
 }
 
 const Page = forwardRef<HTMLDivElement, PageProps>((props, ref) => {
-  // 이미지의 소스 결정
   const imageSource = props.number % 2 === 0 ? 'images/tmpRight.png' : 'images/tmpLeft.png';
-
-  // 페이지의 왼쪽인지 오른쪽인지 결정
   const isLeftPage = props.number % 2 !== 0;
-
-  // 조건에 따라 그림자 방향과 스타일을 설정
   const shadowClass = isLeftPage ? 'shadow-[10px_0_20px_rgba(0,0,0,0.5)]' : 'shadow-[-10px_0_20px_rgba(0,0,0,0.5)]';
 
   return (
@@ -70,10 +65,10 @@ const Book = forwardRef((props: BookProps, ref) => {
   const leftPageRef = useRef<{ playVideo: () => void; pauseVideo: () => void }>(null);
   const [curPage, setCurPage] = useState(0);
   const [puzzleModalOpen, setPuzzleModalOpen] = useState(false);
-  const [chatPageKey, setChatPageKey] = useState(0); // 대화창을 새로고침하기 위한 key
-  const someStyle: React.CSSProperties = {}; // htmlFlip 에러 없앨라고 추가
-  const [showModal, setShowModal] = useState(false); // 모달 상태 추가
-  const [showGreatListModal, setShowGreatListModal] = useState(false); // GreatList 모달 상태 추가
+  const [chatPageKey, setChatPageKey] = useState(0);
+  const someStyle: React.CSSProperties = {};
+  const [showModal, setShowModal] = useState(false);
+  const [showGreatListModal, setShowGreatListModal] = useState(false);
   const { showVideoModal, setShowVideoModal } = useVideoModalStore();
   const { setCards } = useCardStore();
   const { userId } = useUserIdStore();
@@ -88,7 +83,7 @@ const Book = forwardRef((props: BookProps, ref) => {
 
   const movePage = (pageNumber: number) => {
     if (pageNumber === 9) {
-      setChatPageKey((prevKey) => prevKey + 1); // 대화창으로 이동할 때 key 변경
+      setChatPageKey((prevKey) => prevKey + 1);
     }
     if (bookRef.current) {
       bookRef.current.pageFlip().flip(pageNumber);
@@ -109,7 +104,6 @@ const Book = forwardRef((props: BookProps, ref) => {
     const fetchGreatPersons = async (userId: number) => {
       try {
         const response = await axios.get(`/api/greats/${userId}/`);
-        // 카드 분리
         setCards(response.data);
       } catch (error) {
         console.error('위대한 인물 정보를 가져오는 중 오류 발생:', error);
@@ -125,7 +119,6 @@ const Book = forwardRef((props: BookProps, ref) => {
 
   const handleCloseModalAndMovePage = (pageNumber: number) => {
     setShowGreatListModal(false);
-
     setTimeout(() => {
       movePage(pageNumber);
     }, 500);
@@ -167,7 +160,7 @@ const Book = forwardRef((props: BookProps, ref) => {
         ref={bookRef}
         onFlip={(e) => {
           setCurPage(e.data);
-          props.setCurPage(e.data); // 현재 페이지 상태 업데이트
+          props.setCurPage(e.data);
         }}
         className={''}
       >
@@ -200,7 +193,7 @@ const Book = forwardRef((props: BookProps, ref) => {
         {/* 인물 목록 */}
         <Page number={5}>
           <div className="absolute inset-0 flex items-center justify-center">
-            <GreatListPageLetf movePage={movePage} />
+            <GreatListPageLeft movePage={movePage} />
           </div>
         </Page>
         <Page number={6}>
@@ -212,7 +205,7 @@ const Book = forwardRef((props: BookProps, ref) => {
         {/* 인물 프로필 */}
         <Page number={7}>
           <div className="absolute inset-0 flex items-center justify-center">
-            <GreatPageLeft />
+            <GreatPageLeft movePage={movePage} />
           </div>
         </Page>
         <Page number={8}>
@@ -240,7 +233,7 @@ const Book = forwardRef((props: BookProps, ref) => {
         {/* 인물 퀴즈 페이지 11 ~ 16 */}
         <Page number={11}>
           <div className="absolute inset-0 flex items-center justify-center">
-            <GreatQuizPageLeft />
+            <GreatQuizPageLeft movePage={movePage} /> {/* movePage 전달 */}
           </div>
         </Page>
         <Page number={12}>
@@ -284,17 +277,13 @@ const Book = forwardRef((props: BookProps, ref) => {
             분야
           </button>
           <button
-            onClick={handleShowGreatList} // 버튼 클릭 시 페이지 이동 후 모달 표시
+            onClick={handleShowGreatList}
             className="bg-[url('assets/images/FiledIndex.png')] bg-cover w-[100px] h-[40px]"
           >
             전체
           </button>
         </div>
       )}
-      {/* <div className="z-10">
-        <button onClick={prevPage}>이전 페이지</button>
-        <button onClick={nextPage}>다음 페이지</button>
-      </div> */}
 
       {showModal && (
         <div className="fixed top-0 left-0 z-10 flex items-center justify-center w-full h-full bg-white bg-opacity-70">
@@ -327,7 +316,6 @@ const Book = forwardRef((props: BookProps, ref) => {
         </div>
       )}
 
-      {/* PuzzleModal */}
       {puzzleModalOpen && (
         <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-50">
           <PuzzleModal

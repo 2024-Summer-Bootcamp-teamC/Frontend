@@ -2,8 +2,13 @@ import React, { useEffect, useState } from 'react';
 import ProgressBar from '@ramonak/react-progress-bar';
 import Puzzle from '../assets/images/Puzzle.png';
 import { useGreatPersonStore } from '../store';
+import ArrowBack from '../assets/arrow_back.png';
 
-const GreatPageLeft: React.FC = () => {
+interface GreatPageLeftProps {
+  movePage: (pageNumber: number) => void;
+}
+
+const GreatPageLeft: React.FC<GreatPageLeftProps> = ({ movePage }) => {
   const [progress, setProgress] = useState<number>(0);
   const [puzzle, setPuzzle] = useState<number>(0);
   const [key, setKey] = useState<number>(Date.now());
@@ -30,6 +35,14 @@ const GreatPageLeft: React.FC = () => {
 
   return (
     <>
+      <div
+        className="absolute top-[350px] left-[40px] cursor-pointer z-10"
+        onClick={() => {
+          movePage(5);
+        }}
+      >
+        <img src={ArrowBack} alt="인물 목록으로 돌아가기" className="h-12 w-17" />
+      </div>
       <div className="flex flex-col items-center justify-center w-[80%]">
         {/* 이미지 */}
         <div className="relative flex flex-col items-center">

@@ -6,11 +6,6 @@ import ReactCardFlip from 'react-card-flip';
 import { useUserIdStore, useGreatPersonStore, useCardStore } from '../store';
 import '../index.css'; // CSS 파일을 추가하여 애니메이션 효과를 적용
 import { GreatPerson } from '../types';
-import LssBlack from '../assets/images/LssBlack.png';
-import Lss1 from '../assets/images/Lss1.png';
-import Lss2 from '../assets/images/Lss2.png';
-import Lss3 from '../assets/images/Lss3.png';
-import Lss4 from '../assets/images/Lss4.png';
 
 interface CardProps {
   movePage: (pageNumber: number) => void;
@@ -93,26 +88,12 @@ const GreatListPageLeft: React.FC<CardProps> = ({ movePage }) => {
             <div className="card-container max-w-[200px] max-h-[300px] cursor-pointer">
               <ReactCardFlip isFlipped={isFlipped[index]} flipDirection="horizontal">
                 <div className="card-size">
-                  {person.name === '이순신' ? (
-                    <CardFront
-                      key={`front${person.greatId}`}
-                      name={person.name}
-                      image={LssBlack}
-                      overlayImages={
-                        puzzle_cnt === 1
-                          ? [Lss1]
-                          : puzzle_cnt === 2
-                            ? [Lss1, Lss2]
-                            : puzzle_cnt === 3
-                              ? [Lss1, Lss2, Lss3]
-                              : puzzle_cnt === 4
-                                ? [Lss1, Lss2, Lss3, Lss4]
-                                : []
-                      }
-                    />
-                  ) : (
-                    <CardFront key={`front${person.greatId}`} name={person.name} image={person.front_url} />
-                  )}
+                  <CardFront
+                    key={`front${person.greatId}`}
+                    name={person.name}
+                    image={person.front_url}
+                    puzzleCount={person.puzzle_cnt}
+                  />
                 </div>
                 <div className="card-size">
                   <CardBack

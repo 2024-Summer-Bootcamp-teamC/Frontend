@@ -14,24 +14,12 @@ interface CardProps {
 const GreatListPageRight: React.FC<CardProps> = ({ movePage }) => {
   const [isFlipped, setIsFlipped] = useState<boolean[]>([]);
   const { userId } = useUserIdStore();
-  const { setGreat, setLife, setVideo_url, setInfo } = useGreatPersonStore();
+  const { setGreat, setLife, setVideo_url, setInfo, puzzle_cnt } = useGreatPersonStore();
   const { setCards, rightCards } = useCardStore(); // 카드 스토어 사용
 
   const [isClickable, setIsClickable] = useState(false); // 클릭 가능 여부 상태 추가
 
   useEffect(() => {
-    // const fetchGreatPersons = async () => {
-    //   try {
-    //     const response = await axios.get(`/api/greats/${userId}/`);
-    //     // 카드 분리
-    //     setCards(response.data);
-    //   } catch (error) {
-    //     console.error('위대한 인물 정보를 가져오는 중 오류 발생:', error);
-    //   }
-    // };
-
-    // fetchGreatPersons();
-
     // 모달이 뜬 후 2초 동안 클릭 불가
     const timer = setTimeout(() => {
       setIsClickable(true);
@@ -101,7 +89,12 @@ const GreatListPageRight: React.FC<CardProps> = ({ movePage }) => {
             <div className="card-container max-w-[200px] max-h-[300px] cursor-pointer">
               <ReactCardFlip isFlipped={isFlipped[index]} flipDirection="horizontal">
                 <div className="card-size">
-                  <CardFront key={`front${person.greatId}`} name={person.name} image={person.front_url} />
+                  <CardFront
+                    key={`front${person.greatId}`}
+                    name={person.name}
+                    image={person.front_url}
+                    puzzleCount={person.puzzle_cnt}
+                  />
                 </div>
                 <div className="card-size">
                   <CardBack

@@ -10,9 +10,13 @@ export default defineConfig({
     host: true,
     proxy: {
       '/api': {
-        target: 'http://backend:8000/',
+        target: 'http://backend:8000',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
+        ws: true,
+      },
+      '/ws': {
+        target: 'http://backend:8000',
         ws: true,
       },
     },

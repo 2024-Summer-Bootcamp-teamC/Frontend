@@ -63,6 +63,8 @@ const Book = forwardRef((props: BookProps, ref) => {
   const [showModal, setShowModal] = useState(false); // 모달 상태 추가
   const [showGreatListModal, setShowGreatListModal] = useState(false); // GreatList 모달 상태 추가
   const { showVideoModal, setShowVideoModal } = useVideoModalStore();
+  const [selectedButton, setSelectedButton] = useState<'country' | 'field' | 'all'>('country');
+
   
   useImperativeHandle(ref, () => ({
     movePage(pageNumber: number) {
@@ -81,6 +83,12 @@ const Book = forwardRef((props: BookProps, ref) => {
     }
   };
 
+  const handleMovePage = (pageNumber: number, type: 'country' | 'field' | 'all') => {
+    setSelectedButton(type);
+    movePage(pageNumber);
+  };
+  
+
   const nextPage = () => {
     if (bookRef.current) {
       bookRef.current.pageFlip().flipNext('top');
@@ -92,8 +100,10 @@ const Book = forwardRef((props: BookProps, ref) => {
   };
 
   const handleShowGreatList = () => {
+    setSelectedButton('all');
     movePage(5);
   };
+  
 
   const handleCloseModalAndMovePage = (pageNumber: number) => {
     setShowGreatListModal(false);
@@ -243,17 +253,17 @@ const Book = forwardRef((props: BookProps, ref) => {
       {curPage !== 0 && (
         <div className="fixed flex flex-col left-[5%] top-[15%] animate-slideInFromLeft z-50">
           <button
-            onClick={() => handleCloseModalAndMovePage(1)}
+            onClick={() => handleMovePage(1, 'country')}
             className={`bg-cover w-[100px] h-[40px] mb-3 ${
-              (curPage === 1 || curPage === 2) ? 'bg-[url("assets/images/CountryIndex.png")]' : 'bg-[url("assets/images/FiledIndex.png")]'
+              selectedButton === 'country' ? 'bg-[url("assets/images/CountryIndex.png")]' : 'bg-[url("assets/images/FiledIndex.png")]'
             }`}
           >
             나라별
           </button>
           <button
-            onClick={() => handleCloseModalAndMovePage(3)}
+            onClick={() => handleMovePage(3, 'field')}
             className={`bg-cover w-[100px] h-[40px] mb-3 ${
-              (curPage === 3 || curPage === 4) ? 'bg-[url("assets/images/CountryIndex.png")]' : 'bg-[url("assets/images/FiledIndex.png")]'
+              selectedButton === 'field' ? 'bg-[url("assets/images/CountryIndex.png")]' : 'bg-[url("assets/images/FiledIndex.png")]'
             }`}
           >
             분야별
@@ -261,13 +271,14 @@ const Book = forwardRef((props: BookProps, ref) => {
           <button
             onClick={handleShowGreatList}
             className={`bg-cover w-[100px] h-[40px] ${
-              (curPage === 5 || curPage === 6) ? 'bg-[url("assets/images/CountryIndex.png")]' : 'bg-[url("assets/images/FiledIndex.png")]'
+              selectedButton === 'all' ? 'bg-[url("assets/images/CountryIndex.png")]' : 'bg-[url("assets/images/FiledIndex.png")]'
             }`}
           >
             전체
           </button>
         </div>
       )}
+
 
       {/* <div className="z-10">
         <button onClick={prevPage}>이전 페이지</button>

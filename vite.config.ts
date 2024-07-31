@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 3000, // Vite가 사용하는 포트
+    port: 3000,
     host: '0.0.0.0',
     proxy: {
       '/api': {
@@ -14,12 +14,12 @@ export default defineConfig({
         ws: true,
       },
       '/ws': {
-        target: 'http://backend:8000',
+        target: 'http://frontend:3000',
         ws: true,
       },
     },
     hmr: {
-      protocol: 'ws', // HTTPS와는 별도로 ws 프로토콜 사용
+      protocol: 'wss',
       host: 'weinjeon.com',
     },
   },

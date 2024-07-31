@@ -15,6 +15,7 @@ export default defineConfig({
       },
       '/ws': {
         target: 'http://frontend:3000',
+        changeOrigin: true,
         ws: true,
       },
     },

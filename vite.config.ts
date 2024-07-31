@@ -17,7 +17,6 @@ export default defineConfig({
     hmr: {
       protocol: 'wss',
       host: 'weinjeon.com',
-      port: 443,
     },
   },
 });

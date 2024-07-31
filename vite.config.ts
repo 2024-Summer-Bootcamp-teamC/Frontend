@@ -13,15 +13,11 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api/, ''),
         ws: true,
       },
-      '/ws': {
-        target: 'http://frontend:3000',
-        changeOrigin: true,
-        ws: true,
-      },
     },
     hmr: {
       protocol: 'wss',
       host: 'weinjeon.com',
+      port: 443,
     },
   },
 });

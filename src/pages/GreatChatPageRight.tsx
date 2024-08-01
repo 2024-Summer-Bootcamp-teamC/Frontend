@@ -132,7 +132,7 @@ const GreatChatPageRight: React.FC<{ playVideo: () => void; pauseVideo: () => vo
   // WebSocket 연결 설정
   useDidMountEffect(() => {
     if (greatId) {
-      socketRef.current = new WebSocket(`ws://localhost:8000/ws/chat/${greatId}/`);
+      socketRef.current = new WebSocket(`wss://localhost:8000/ws/chat/${greatId}/`);
 
       socketRef.current.onmessage = (event) => {
         const data = JSON.parse(event.data);

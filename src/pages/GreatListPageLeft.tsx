@@ -74,7 +74,7 @@ const GreatListPageLeft: React.FC<CardProps> = ({ movePage }) => {
   return (
     <div className="flex flex-col items-center w-full h-full p-4 space-y-4 scale-90">
       <div
-        className="grid grid-cols-2 gap-4 animate-card-enter"
+        className="grid grid-cols-2 gap-4"
         style={{ pointerEvents: isClickable ? 'auto' : 'none' }}
       >
         {leftCards.map((person, index) => (

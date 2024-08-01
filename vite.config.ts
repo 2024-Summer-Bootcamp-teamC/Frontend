@@ -5,18 +5,18 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 3000,
-    host: '0.0.0.0',
+    host: true,
     proxy: {
       '/api': {
-        target: 'http://backend:8000',
+        target: 'http://localhost:8000/api',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
-        ws: true,
+        // ws: true,
       },
     },
-    hmr: {
-      protocol: 'wss',
-      host: 'weinjeon.com',
-    },
+    // hmr: {
+    //   protocol: 'wss',
+    //   host: 'weinjeon.com',
+    // },
   },
 });

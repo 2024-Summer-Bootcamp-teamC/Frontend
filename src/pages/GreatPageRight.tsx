@@ -58,7 +58,7 @@ const GreatPageRight: React.FC<GreatPageRightProps> = ({ movePage }) => {
 
   return (
     <>
-      <div className="flex flex-col items-center mb-[150px]">
+      <div className="flex flex-col items-center mb-[150px] mr-[35px]">
         <button
           className="fixed w-[50px] h-[150px] border-none text-white text-[17px] text-center bg-cover right-[100px] top-[-10px]"
           style={{ backgroundImage: `url(${VerticalBtn})`, writingMode: 'vertical-lr' }}

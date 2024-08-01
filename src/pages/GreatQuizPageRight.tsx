@@ -16,14 +16,14 @@ interface GreatQuizPageRightProps {
 const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, showPuzzleModal }) => {
   const { quizzes } = useQuizStore();
   const { userId } = useUserIdStore();
-  const { greatId, setPuzzleCount, puzzle_cnt } = useGreatPersonStore(); 
+  const { greatId, setPuzzleCount, puzzle_cnt } = useGreatPersonStore();
   const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentExplanation, setCurrentExplanation] = useState('');
   const [correctCnt, setCorrectCnt] = useState(0);
   const [isLastQuiz, setIsLastQuiz] = useState(false);
-  const [isQuizCheckModalOpen, setIsQuizCheckModalOpen] = useState(false); 
+  const [isQuizCheckModalOpen, setIsQuizCheckModalOpen] = useState(false);
   const [isCorrectAnswer, setIsCorrectAnswer] = useState(false); // Add state for answer correctness
 
   const currentQuiz = quizzes.length > 0 ? quizzes[currentQuizIndex] : null;
@@ -34,18 +34,18 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, showP
 
   const handleOptionClick = async (option: string) => {
     setSelectedOption(option);
-  
+
     if (option === currentQuiz.answer) {
       const newCorrectCnt = correctCnt + 1;
       setCorrectCnt(newCorrectCnt);
       setIsCorrectAnswer(true); // 정답으로 표시
-  
+
       const newPuzzleCount = (currentQuizIndex + 1) % 5 === 0 ? puzzle_cnt + 1 : puzzle_cnt;
-  
+
       if ((currentQuizIndex + 1) % 5 === 0) {
         setPuzzleCount(newPuzzleCount);
         updatePuzzleCount(newCorrectCnt);
-  
+
         if (showPuzzleModal) {
           showPuzzleModal();
         }
@@ -58,11 +58,10 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, showP
         setIsLastQuiz(true);
       }
     }
-  
+
     // 정답이든 오답이든 QuizCheckModal을 열도록 수정
     setIsQuizCheckModalOpen(true);
   };
-  
 
   const updatePuzzleCount = async (correctCnt: number) => {
     try {
@@ -105,7 +104,7 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, showP
       if (showPuzzleModal) {
         showPuzzleModal();
       }
-      resetQuiz(); 
+      resetQuiz();
       setIsLastQuiz(false);
     } else {
       handleNextQuiz();
@@ -120,22 +119,16 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, showP
       setIsModalOpen(true); // 오답인 경우 ExplanationModal 열기
     }
   };
-  
-  
+
   const puzzlePieces = [...Array(4)].map((_, index) => (
-    <img
-      key={index}
-      src={index < puzzle_cnt ? FilledPuzzle : EmptyPuzzle}
-      className="w-10 h-10 mx-1"
-      alt="퍼즐 조각"
-    />
+    <img key={index} src={index < puzzle_cnt ? FilledPuzzle : EmptyPuzzle} className="w-10 h-10 mx-3" alt="퍼즐 조각" />
   ));
 
   return (
     <div className="relative h-[700px]">
       <div className="absolute top-3 left-1/2 transform -translate-x-1/2 mt-[40px]">
-        <div className="flex justify-center mb-4">{puzzlePieces}</div>
-        <div className="w-[500px] h-[1px] bg-black"></div>
+        <div className="flex justify-center mr-4 mb-4">{puzzlePieces}</div>
+        <div className="w-[565px] h-[2px] bg-black mr-[34px]"></div>
       </div>
       <div className="flex flex-col justify-center mt-24 h-[calc(100%-100px)] overflow-y-auto">
         <div className="text-[25px] flex flex-col mb-8 leading-tight max-w-md break-words text-center">
@@ -159,8 +152,7 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, showP
             X
           </div>
         </div>
-        <div className="flex justify-center mt-24">
-        </div>
+        <div className="flex justify-center mt-24"></div>
       </div>
       <ExplanationModal
         isOpen={isModalOpen}
@@ -168,7 +160,6 @@ const GreatQuizPageRight: React.FC<GreatQuizPageRightProps> = ({ movePage, showP
         onClose={handleCloseExplanationModal}
         onNextQuiz={handleNextQuiz}
       />
-
 
       {isQuizCheckModalOpen && (
         <QuizCheckModal

@@ -63,7 +63,7 @@ const GreatPageLeft: React.FC<GreatPageLeftProps> = ({ movePage }) => {
                 src={Puzzle} // Puzzle 이미지 대신 greatPerson.quote에 해당하는 이미지 URL 사용
                 alt="퍼즐 이미지"
                 key={key}
-                className="absolute left-[-1.5rem] top-[-4rem] transition-opacity duration-[5000ms] opacity-0"
+                className="absolute w-[40px] h-[40px] left-[-1.5rem] top-[-4rem] transition-opacity duration-[5000ms] opacity-0"
                 style={{ opacity: 1 }}
               />
             </div>

@@ -38,7 +38,7 @@ const GreatPageLeft: React.FC<GreatPageLeftProps> = ({ movePage }) => {
       <div
         className="absolute top-[350px] left-[40px] cursor-pointer z-10"
         onClick={() => {
-          movePage(5);
+          movePage(1);
         }}
       >
         <img src={ArrowBack} alt="인물 목록으로 돌아가기" className="h-12 w-17" />
